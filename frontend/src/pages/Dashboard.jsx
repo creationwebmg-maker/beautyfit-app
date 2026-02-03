@@ -123,6 +123,67 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-6">
         
+        {/* 🌙 RAMADAN SPECIAL BANNER */}
+        <Card 
+          className="overflow-hidden cursor-pointer group border-0 shadow-xl"
+          onClick={() => navigate("/courses")}
+          data-testid="ramadan-banner"
+        >
+          <div className="relative aspect-[21/9] md:aspect-[3/1]">
+            <img
+              src="https://images.unsplash.com/photo-1578704311507-15aa141d9a8e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODh8MHwxfHNlYXJjaHwxfHxyYW1hZGFuJTIwZml0bmVzcyUyMHdvcmtvdXQlMjBoZWFsdGh5JTIwd29tYW4lMjBtdXNsaW18ZW58MHx8fHwxNzcwMTI5OTE3fDA&ixlib=rb-4.1.0&q=85"
+              alt="Programme Ramadan"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent" />
+            
+            {/* Decorative elements */}
+            <div className="absolute top-4 right-4 text-4xl md:text-6xl opacity-30">
+              🌙
+            </div>
+            
+            {/* Content */}
+            <div className="absolute inset-0 p-5 md:p-8 flex flex-col justify-center">
+              <div className="max-w-lg space-y-3">
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 w-fit">
+                  <span className="text-amber-400">🌙</span>
+                  <span className="text-amber-300 text-xs md:text-sm font-medium uppercase tracking-wider">
+                    Programme Spécial
+                  </span>
+                </div>
+                
+                {/* Title */}
+                <h2 
+                  className="text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  Programme Ramadan
+                </h2>
+                
+                {/* Subtitle */}
+                <p className="text-lg md:text-xl text-white/90 font-handwritten">
+                  Ne perds pas ton rythme pendant le Ramadan ✨
+                </p>
+                
+                {/* CTA Button */}
+                <Button
+                  className="mt-2 h-12 px-8 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-base transition-all hover:scale-105"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate("/courses");
+                  }}
+                  data-testid="ramadan-cta-btn"
+                >
+                  <Play className="w-5 h-5 mr-2 fill-current" />
+                  Découvrir le programme
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         {/* Progress Widget */}
         <Card className="bg-gradient-to-r from-foreground to-foreground/90 text-background overflow-hidden" data-testid="progress-widget">
           <CardContent className="p-5">
