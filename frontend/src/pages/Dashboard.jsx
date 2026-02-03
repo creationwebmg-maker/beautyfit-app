@@ -242,7 +242,7 @@ const Dashboard = () => {
             <h2 className="text-2xl font-semibold text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
               Nos Programmes
             </h2>
-            <span className="text-sm text-muted-foreground">3 produits</span>
+            <span className="text-sm text-muted-foreground">3 programmes</span>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
