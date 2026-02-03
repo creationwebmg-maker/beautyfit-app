@@ -17,6 +17,7 @@ import Account from "@/pages/Account";
 import Settings from "@/pages/Settings";
 import PaymentSuccess from "@/pages/PaymentSuccess";
 import Admin from "@/pages/Admin";
+import Conseils from "@/pages/Conseils";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
