@@ -277,13 +277,13 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-8">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-gradient-to-r from-black via-neutral-900 to-black border-b border-neutral-800">
+      <header className="sticky top-0 z-50 border-b border-[#65514A]/20" style={{ background: '#332521' }}>
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Left side - Bell for authenticated users */}
             <div className="flex items-center gap-2 w-16">
               {isAuthenticated && (
-                <Button variant="ghost" size="icon" className="relative text-white hover:bg-white/10" onClick={() => navigate("/settings")}>
+                <Button variant="ghost" size="icon" className="relative text-[#E4D3C7] hover:bg-[#65514A]/30" onClick={() => navigate("/settings")}>
                   <Bell className="w-5 h-5" />
                   <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
                 </Button>
@@ -301,9 +301,9 @@ const Dashboard = () => {
 
             {/* Right side - User icon only */}
             <div className="flex items-center justify-end w-16">
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => navigate(isAuthenticated ? "/account" : "/login")}>
-                <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-                  <User className="w-5 h-5 text-white" />
+              <Button variant="ghost" size="icon" className="text-[#E4D3C7] hover:bg-[#65514A]/30" onClick={() => navigate(isAuthenticated ? "/account" : "/login")}>
+                <div className="w-9 h-9 rounded-full bg-[#65514A]/50 flex items-center justify-center">
+                  <User className="w-5 h-5 text-[#E4D3C7]" />
                 </div>
               </Button>
             </div>
