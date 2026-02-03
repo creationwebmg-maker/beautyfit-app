@@ -110,12 +110,15 @@
 
 /* Motivation message */
 .motivation-message {
-    @apply p-6 rounded-2xl bg-accent/20 border border-accent/30;
+    @apply p-6 rounded-2xl;
+    background-color: hsl(var(--accent) / 0.2);
+    border: 1px solid hsl(var(--accent) / 0.3);
     @apply text-center;
 }
 
 .motivation-message p {
-    @apply text-lg font-handwritten text-foreground/80;
+    @apply text-lg text-foreground/80;
+    font-family: 'Caveat', cursive;
 }
 
 /* Dashboard grid */
