@@ -150,6 +150,50 @@ class ProfileUpdate(BaseModel):
     first_name: Optional[str] = None
     fitness_goal: Optional[str] = None
 
+# ==================== SITE CONTENT MODELS ====================
+
+class ProgramContent(BaseModel):
+    id: str
+    title: str
+    subtitle: Optional[str] = None
+    price: float
+    image_url: str
+    badge: Optional[str] = None
+    badge_icon: Optional[str] = None
+    order: int = 0
+
+class HeroContent(BaseModel):
+    title: str
+    subtitle: Optional[str] = None
+    button_text: str
+    image_url: str
+
+class MarqueeContent(BaseModel):
+    texts: List[str]
+    separator: str = "✦"
+
+class ColorTheme(BaseModel):
+    linen: str = "#F7F5F2"
+    sky: str = "#D2DDE7"
+    berry: str = "#D5A0A8"
+    sunrise: str = "#EE9F80"
+    watermelon: str = "#E37E7F"
+
+class SiteContent(BaseModel):
+    hero: HeroContent
+    programs: List[ProgramContent]
+    marquee: MarqueeContent
+    colors: ColorTheme
+    logo_url: str
+    updated_at: Optional[str] = None
+
+class SiteContentUpdate(BaseModel):
+    hero: Optional[HeroContent] = None
+    programs: Optional[List[ProgramContent]] = None
+    marquee: Optional[MarqueeContent] = None
+    colors: Optional[ColorTheme] = None
+    logo_url: Optional[str] = None
+
 # ==================== HELPERS ====================
 
 def hash_password(password: str) -> str:
