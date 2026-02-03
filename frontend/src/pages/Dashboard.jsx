@@ -22,7 +22,12 @@ import {
   Moon,
   Heart,
   Star,
-  Quote
+  Quote,
+  Mountain,
+  MapPin,
+  Users,
+  Calendar,
+  Sun
 } from "lucide-react";
 
 // Activity Calendar Component
