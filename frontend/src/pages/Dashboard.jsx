@@ -404,56 +404,58 @@ const Dashboard = () => {
           </div>
         </Card>
 
-        {/* Progress Widget */}
-        <Card className="bg-gradient-to-r from-foreground to-foreground/90 text-background overflow-hidden" data-testid="progress-widget">
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                <span className="font-semibold">Progression de la semaine</span>
-              </div>
-              <span className="text-sm opacity-80">
-                🔥 {progressData.streak} jours
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              {/* Sessions */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="opacity-80">Séances</span>
-                  <span className="font-bold">{progressData.sessionsCompleted}/{progressData.sessionsGoal}</span>
+        {/* Progress Widget - Only for authenticated users */}
+        {isAuthenticated && (
+          <Card className="bg-gradient-to-r from-foreground to-foreground/90 text-background overflow-hidden" data-testid="progress-widget">
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5" />
+                  <span className="font-semibold">Progression de la semaine</span>
                 </div>
-                <Progress value={progressPercentage} className="h-2 bg-background/20" />
+                <span className="text-sm opacity-80">
+                  🔥 {progressData.streak} jours
+                </span>
               </div>
               
-              {/* Calories */}
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-background/20 flex items-center justify-center">
-                  <Flame className="w-5 h-5" />
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                {/* Sessions */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="opacity-80">Séances</span>
+                    <span className="font-bold">{progressData.sessionsCompleted}/{progressData.sessionsGoal}</span>
+                  </div>
+                  <Progress value={progressPercentage} className="h-2 bg-background/20" />
                 </div>
-                <div>
-                  <p className="text-2xl font-bold">{progressData.caloriesBurned.toLocaleString()}</p>
-                  <p className="text-xs opacity-80">kcal brûlées</p>
+                
+                {/* Calories */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-background/20 flex items-center justify-center">
+                    <Flame className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold">{progressData.caloriesBurned.toLocaleString()}</p>
+                    <p className="text-xs opacity-80">kcal brûlées</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <Button
-              variant="secondary"
-              size="sm"
-              className="w-full bg-background/20 hover:bg-background/30 text-background border-0 rounded-full"
-              onClick={() => navigate("/account")}
-              data-testid="view-stats-btn"
-            >
-              Voir mes statistiques complètes
-              <ChevronRight className="w-4 h-4 ml-1" />
-            </Button>
-          </CardContent>
-        </Card>
+              
+              <Button
+                variant="secondary"
+                size="sm"
+                className="w-full bg-background/20 hover:bg-background/30 text-background border-0 rounded-full"
+                onClick={() => navigate("/account")}
+                data-testid="view-stats-btn"
+              >
+                Voir mes statistiques complètes
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
-        {/* Activity Calendar - Like Basic Fit */}
-        <ActivityCalendar activeDays={activeDays} />
+        {/* Activity Calendar - Only for authenticated users */}
+        {isAuthenticated && <ActivityCalendar activeDays={activeDays} />}
 
         {/* Today's Session - Main Hero */}
         {todayCourse && (
