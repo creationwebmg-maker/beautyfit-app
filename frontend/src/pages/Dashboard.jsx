@@ -870,24 +870,53 @@ const Dashboard = () => {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border/50 md:hidden">
-        <div className="flex items-center justify-around h-16 px-2">
-          {[
-            { path: "/courses", label: "Entraînements", icon: Dumbbell },
-            { path: "/conseils", label: "Conseils", icon: Target },
-            { path: isAuthenticated ? "/account" : "/login", label: "Mon espace", icon: User },
-          ].map((item) => (
-            <button
-              key={item.path}
-              onClick={() => navigate(item.path)}
-              className="flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all text-muted-foreground"
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
+        {/* Auth buttons row - only for non-authenticated users */}
+        {!isAuthenticated && (
+          <div className="flex items-center justify-center gap-4 py-2 bg-background border-t border-border/50">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => navigate("/login")}
+              className="text-foreground"
             >
-              <div className="p-2 rounded-full bg-transparent">
-                <item.icon className="w-5 h-5" />
-              </div>
-              <span className="text-xs font-medium">{item.label}</span>
+              <User className="w-5 h-5" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => navigate("/register")}
+              className="text-foreground"
+            >
+              <Heart className="w-5 h-5" />
+            </Button>
+          </div>
+        )}
+        
+        {/* Main navigation - black background */}
+        <div className="bg-black">
+          <div className="flex items-center justify-around h-16 px-2">
+            <button
+              onClick={() => navigate("/courses")}
+              className="flex flex-col items-center justify-center gap-1 px-4 py-2"
+            >
+              <Dumbbell className="w-6 h-6 text-white" />
+              <span className="text-xs font-medium text-white">Entraînements</span>
             </button>
-          ))}
+            <button
+              onClick={() => navigate("/conseils")}
+              className="flex flex-col items-center justify-center gap-1 px-4 py-2"
+            >
+              <Target className="w-6 h-6 text-white" />
+              <span className="text-xs font-medium text-white">Conseils</span>
+            </button>
+            <button
+              onClick={() => navigate(isAuthenticated ? "/account" : "/login")}
+              className="flex flex-col items-center justify-center gap-1 px-4 py-2"
+            >
+              <User className="w-6 h-6 text-white" />
+            </button>
+          </div>
         </div>
       </nav>
 
