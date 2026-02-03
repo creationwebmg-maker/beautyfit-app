@@ -397,9 +397,10 @@ const Dashboard = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <p className="text-xs text-white/70 uppercase tracking-wider mb-1">Programme</p>
-                  <h3 className="text-lg font-bold text-white leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <h3 className="text-lg font-bold text-white leading-tight mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                     ÉLIMINER LES EXCÈS DE L'ÉTÉ !
                   </h3>
+                  <p className="text-lg font-bold" style={{ color: '#EE9F80' }}>€35,00 EUR</p>
                 </div>
               </div>
             </Card>
