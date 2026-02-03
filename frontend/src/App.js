@@ -90,6 +90,12 @@ function AppRoutes() {
       {/* Admin Route */}
       <Route path="/admin" element={<Admin />} />
       
+      {/* Legal Pages */}
+      <Route path="/mentions-legales" element={<LegalMentions />} />
+      <Route path="/confidentialite" element={<PrivacyPolicy />} />
+      <Route path="/conditions-generales" element={<TermsOfService />} />
+      <Route path="/remboursement" element={<RefundPolicy />} />
+      
       {/* Catch all */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
