@@ -60,8 +60,11 @@ const PublicRoute = ({ children }) => {
 function AppRoutes() {
   return (
     <Routes>
+      {/* Splash Screen */}
+      <Route path="/" element={<SplashScreen />} />
+      
       {/* Public Routes */}
-      <Route path="/" element={<Dashboard />} />
+      <Route path="/home" element={<Dashboard />} />
       <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
       <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
