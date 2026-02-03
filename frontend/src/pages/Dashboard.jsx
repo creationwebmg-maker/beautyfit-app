@@ -243,7 +243,7 @@ const Dashboard = () => {
       <section className="relative h-[70vh] md:h-[80vh] overflow-hidden" data-testid="hero-banner">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1200&q=80"
+            src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/re8f9wte_IMG_7767.jpeg"
             alt="Fitness coaching"
             className="w-full h-full object-cover"
           />
