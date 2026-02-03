@@ -245,7 +245,7 @@ const Dashboard = () => {
             >
               <div className="relative aspect-[3/4]">
                 <img
-                  src="https://images.pexels.com/photos/5132092/pexels-photo-5132092.jpeg"
+                  src="https://images.unsplash.com/photo-1683848644075-82eb557b8623?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwxfHxmaXRuZXNzJTIwd29tYW4lMjBwb255dGFpbCUyMHdvcmtvdXQlMjBneW0lMjBhdGhsZXRpYyUyMG1pZGRsZSUyMGVhc3Rlcm58ZW58MHx8fHwxNzcwMTMxMjQxfDA&ixlib=rb-4.1.0&q=85"
                   alt="Programme Éliminer les excès de l'été"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -266,7 +266,7 @@ const Dashboard = () => {
             >
               <div className="relative aspect-[3/4]">
                 <img
-                  src="https://images.unsplash.com/photo-1645810798586-08e892108d67?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1OTV8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGZpdG5lc3MlMjBncmV5JTIwc3dlYXRwYW50cyUyMGF0aGxldGljJTIwY2FzdWFsfGVufDB8fHx8MTc3MDEzMDQ1OHww&ixlib=rb-4.1.0&q=85"
+                  src="https://images.unsplash.com/photo-1683848644078-f339179c4ff6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwzfHxmaXRuZXNzJTIwd29tYW4lMjBwb255dGFpbCUyMHdvcmtvdXQlMjBneW0lMjBhdGhsZXRpYyUyMG1pZGRsZSUyMGVhc3Rlcm58ZW58MHx8fHwxNzcwMTMxMjQxfDA&ixlib=rb-4.1.0&q=85"
                   alt="Programme Ramadan"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -290,7 +290,7 @@ const Dashboard = () => {
             >
               <div className="relative aspect-[3/4]">
                 <img
-                  src="https://images.unsplash.com/photo-1517574394752-94986fc2c084?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHwyfHxtaW5pbWFsaXN0JTIwcmFtYWRhbiUyMGFyY2hlcyUyMG1vcm9jY2FuJTIwd2hpdGUlMjBnb2xkJTIwZWxlZ2FudHxlbnwwfHx8fDE3NzAxMzA0NjJ8MA&ixlib=rb-4.1.0&q=85"
+                  src="https://images.unsplash.com/photo-1628258113926-b8d725bbffe9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwyfHxhcmFiJTIwd29tYW4lMjBmaXRuZXNzJTIwcG9ueXRhaWwlMjBzcG9ydHMlMjBhdGhsZXRpYyUyMGRhcmslMjBoYWlyfGVufDB8fHx8MTc3MDEzMTI1OHww&ixlib=rb-4.1.0&q=85"
                   alt="Ramadan Minimaliste"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
