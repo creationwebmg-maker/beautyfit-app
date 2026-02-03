@@ -319,21 +319,19 @@ const Dashboard = () => {
             alt="Fitness coaching"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#E37E7F]/30 via-transparent to-[#D5A0A8]/40" />
         </div>
         
-        <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
+        <div className="relative h-full flex flex-col items-center justify-end text-center px-6 pb-16">
           <h1 
-            className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 max-w-4xl"
+            className="text-2xl md:text-4xl font-bold text-white leading-tight mb-4"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Découvre comment atteindre tes objectifs plus durablement.
+            Atteins tes objectifs
           </h1>
-          <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl">
-            Une approche complète de coaching pour de meilleurs résultats.
-          </p>
           <Button
-            className="rounded-full bg-white text-foreground hover:bg-gray-100 font-semibold px-6 py-2 text-sm shadow-lg"
+            className="rounded-full font-semibold px-6 py-2 text-sm shadow-lg"
+            style={{ background: '#EE9F80', color: 'white' }}
             onClick={() => navigate("/courses")}
           >
             VOIR LES PROGRAMMES
@@ -343,21 +341,27 @@ const Dashboard = () => {
       </section>
 
       {/* Brand Marquee */}
-      <div style={{ background: '#65514A' }} className="py-2 overflow-hidden">
+      <div style={{ background: 'linear-gradient(90deg, #D5A0A8, #EE9F80, #E37E7F)' }} className="py-2 overflow-hidden">
         <div className="animate-marquee-fast whitespace-nowrap flex">
           {[
             "BEAUTYFIT",
-            "•",
+            "✦",
             "TRANSFORME TOI",
-            "•",
+            "✦",
             "DÉPASSE TES LIMITES",
-            "•",
-            "DEVIENS LA MEILLEURE VERSION DE TOI",
-            "•",
+            "✦",
             "BEAUTYFIT",
-            "•",
+            "✦",
             "TRANSFORME TOI",
-            "•",
+            "✦",
+            "DÉPASSE TES LIMITES",
+            "✦",
+            "BEAUTYFIT",
+            "✦",
+            "TRANSFORME TOI",
+            "✦",
+            "DÉPASSE TES LIMITES",
+            "✦",
             "DÉPASSE TES LIMITES",
             "•",
             "DEVIENS LA MEILLEURE VERSION DE TOI",
