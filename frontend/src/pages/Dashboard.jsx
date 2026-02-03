@@ -247,7 +247,7 @@ const Dashboard = () => {
             alt="Fitness coaching"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-rose-500/60 via-pink-500/50 to-fuchsia-600/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
         </div>
         
         <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
@@ -261,12 +261,11 @@ const Dashboard = () => {
             Une approche complète de coaching pour de meilleurs résultats.
           </p>
           <Button
-            size="lg"
-            className="rounded-full bg-white text-rose-600 hover:bg-rose-50 font-semibold px-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all"
+            className="rounded-full bg-white text-foreground hover:bg-gray-100 font-semibold px-6 py-2 text-sm shadow-lg"
             onClick={() => navigate("/courses")}
           >
             VOIR LES PROGRAMMES
-            <ChevronRight className="w-5 h-5 ml-2" />
+            <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
         </div>
       </section>
