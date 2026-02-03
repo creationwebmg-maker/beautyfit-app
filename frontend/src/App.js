@@ -70,6 +70,7 @@ function AppRoutes() {
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/courses" element={<Courses />} />
       <Route path="/courses/:courseId" element={<CourseDetail />} />
+      <Route path="/conseils" element={<ProtectedRoute><Conseils /></ProtectedRoute>} />
       <Route path="/watch/:courseId" element={<ProtectedRoute><VideoPlayer /></ProtectedRoute>} />
       <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
