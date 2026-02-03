@@ -342,8 +342,8 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {/* Pink Marquee - Fast */}
-      <div className="bg-gradient-to-r from-rose-500 to-pink-500 py-2 overflow-hidden">
+      {/* Brand Marquee */}
+      <div style={{ background: '#65514A' }} className="py-2 overflow-hidden">
         <div className="animate-marquee-fast whitespace-nowrap flex">
           {[
             "BEAUTYFIT",
@@ -371,7 +371,7 @@ const Dashboard = () => {
             "DEVIENS LA MEILLEURE VERSION DE TOI",
             "•",
           ].map((text, index) => (
-            <span key={index} className="mx-4 text-white font-bold text-xs uppercase tracking-widest">
+            <span key={index} className="mx-4 text-[#E4D3C7] font-bold text-xs uppercase tracking-widest">
               {text}
             </span>
           ))}
