@@ -16,6 +16,7 @@ import VideoPlayer from "@/pages/VideoPlayer";
 import Account from "@/pages/Account";
 import Settings from "@/pages/Settings";
 import PaymentSuccess from "@/pages/PaymentSuccess";
+import Admin from "@/pages/Admin";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
