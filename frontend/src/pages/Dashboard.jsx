@@ -976,29 +976,29 @@ const Dashboard = () => {
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-        {/* Main navigation - black background */}
-        <div className="bg-black">
+        {/* Main navigation - brand dark background */}
+        <div style={{ background: '#332521' }}>
           <div className="flex items-center justify-around h-16 px-2">
             <button
               onClick={() => navigate("/courses")}
               className="flex flex-col items-center justify-center gap-1 px-4 py-2"
             >
-              <Dumbbell className="w-6 h-6 text-white" />
-              <span className="text-xs font-medium text-white">Entraînements</span>
+              <Dumbbell className="w-6 h-6 text-[#E4D3C7]" />
+              <span className="text-xs font-medium text-[#E4D3C7]">Entraînements</span>
             </button>
             <button
               onClick={() => navigate("/conseils")}
               className="flex flex-col items-center justify-center gap-1 px-4 py-2"
             >
-              <Target className="w-6 h-6 text-white" />
-              <span className="text-xs font-medium text-white">Conseils</span>
+              <Target className="w-6 h-6 text-[#E4D3C7]" />
+              <span className="text-xs font-medium text-[#E4D3C7]">Conseils</span>
             </button>
             <button
               onClick={() => navigate(isAuthenticated ? "/account" : "/login")}
               className="flex flex-col items-center justify-center gap-1 px-4 py-2"
             >
-              <User className="w-6 h-6 text-white" />
-              <span className="text-xs font-medium text-white">Mon compte</span>
+              <User className="w-6 h-6 text-[#E4D3C7]" />
+              <span className="text-xs font-medium text-[#E4D3C7]">Mon compte</span>
             </button>
           </div>
         </div>
