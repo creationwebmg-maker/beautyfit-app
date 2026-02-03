@@ -27,7 +27,8 @@ import {
   MapPin,
   Users,
   Calendar,
-  Sun
+  Sun,
+  Timer
 } from "lucide-react";
 
 // Activity Calendar Component
