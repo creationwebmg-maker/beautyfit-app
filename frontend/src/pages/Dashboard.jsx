@@ -356,6 +356,63 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
+        {/* Programme Marche Poussette - Free Access */}
+        <Card 
+          className="overflow-hidden cursor-pointer group border-0 shadow-xl bg-gradient-to-r from-rose-500 to-pink-600"
+          onClick={() => navigate("/programme/marche-poussette")}
+          data-testid="programme-marche-poussette"
+        >
+          <CardContent className="p-0">
+            <div className="flex flex-col md:flex-row">
+              <div className="relative md:w-1/3 aspect-video md:aspect-auto min-h-[150px]">
+                <img 
+                  src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80"
+                  alt="Programme Marche Poussette"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-rose-500/80 hidden md:block" />
+                <div className="absolute top-3 left-3 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                  GRATUIT
+                </div>
+              </div>
+              <div className="p-5 md:p-6 flex-1 flex flex-col justify-center text-white">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-3xl">👶</span>
+                  <span className="bg-white/20 backdrop-blur-sm text-xs px-3 py-1 rounded-full">Post-partum</span>
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Programme Marche Poussette
+                </h3>
+                <p className="text-white/80 text-sm mb-4 leading-relaxed">
+                  9 mois de programme progressif avec timer interactif et vibrations intelligentes. 
+                  Reprends le sport en douceur avec bébé !
+                </p>
+                <div className="flex flex-wrap gap-3 text-sm mb-4">
+                  <div className="flex items-center gap-1 bg-white/20 px-3 py-1 rounded-full">
+                    <Timer className="w-4 h-4" />
+                    <span>25-60 min</span>
+                  </div>
+                  <div className="flex items-center gap-1 bg-white/20 px-3 py-1 rounded-full">
+                    <Target className="w-4 h-4" />
+                    <span>9 mois</span>
+                  </div>
+                  <div className="flex items-center gap-1 bg-white/20 px-3 py-1 rounded-full">
+                    <Bell className="w-4 h-4" />
+                    <span>Vibrations</span>
+                  </div>
+                </div>
+                <Button
+                  className="rounded-full bg-white text-rose-600 hover:bg-rose-50 font-semibold px-6 w-fit"
+                  onClick={(e) => { e.stopPropagation(); navigate("/programme/marche-poussette"); }}
+                >
+                  <Play className="w-4 h-4 mr-2 fill-current" />
+                  Commencer maintenant
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Upcoming Events Section */}
         {!isAuthenticated && (
           <div data-testid="upcoming-events-section">
