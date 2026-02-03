@@ -374,7 +374,7 @@ const Dashboard = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {/* Main Event - Randonnée */}
-              <Card className="lg:col-span-2 overflow-hidden border-0 shadow-xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white" data-testid="main-event-card">
+              <Card className="lg:col-span-2 overflow-hidden border-0 shadow-xl bg-gradient-to-br from-neutral-900 to-neutral-800 text-white" data-testid="main-event-card">
                 <CardContent className="p-0">
                   <div className="flex flex-col md:flex-row">
                     <div className="relative md:w-2/5 aspect-video md:aspect-auto">
