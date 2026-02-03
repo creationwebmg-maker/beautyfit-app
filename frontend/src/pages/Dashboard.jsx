@@ -277,33 +277,33 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-8">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-[#65514A]/20" style={{ background: '#332521' }}>
+      <header className="sticky top-0 z-50 border-b border-[#D2DDE7]" style={{ background: '#F7F5F2' }}>
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Left side - Bell for authenticated users */}
             <div className="flex items-center gap-2 w-16">
               {isAuthenticated && (
-                <Button variant="ghost" size="icon" className="relative text-[#E4D3C7] hover:bg-[#65514A]/30" onClick={() => navigate("/settings")}>
+                <Button variant="ghost" size="icon" className="relative text-[#E37E7F] hover:bg-[#D5A0A8]/20" onClick={() => navigate("/settings")}>
                   <Bell className="w-5 h-5" />
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-[#E37E7F] rounded-full" />
                 </Button>
               )}
             </div>
 
-            {/* Center - Logo in white */}
+            {/* Center - Logo */}
             <div className="flex flex-col items-center">
               <img 
                 src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
                 alt="Beauty Fit by Amel" 
-                className="h-20 w-20 md:h-24 md:w-24 object-contain brightness-0 invert"
+                className="h-16 w-16 md:h-20 md:w-20 object-contain"
               />
             </div>
 
             {/* Right side - User icon only */}
             <div className="flex items-center justify-end w-16">
-              <Button variant="ghost" size="icon" className="text-[#E4D3C7] hover:bg-[#65514A]/30" onClick={() => navigate(isAuthenticated ? "/account" : "/login")}>
-                <div className="w-9 h-9 rounded-full bg-[#65514A]/50 flex items-center justify-center">
-                  <User className="w-5 h-5 text-[#E4D3C7]" />
+              <Button variant="ghost" size="icon" className="hover:bg-[#D5A0A8]/20" onClick={() => navigate(isAuthenticated ? "/account" : "/login")}>
+                <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: '#D5A0A8' }}>
+                  <User className="w-5 h-5 text-white" />
                 </div>
               </Button>
             </div>
