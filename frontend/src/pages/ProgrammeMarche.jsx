@@ -131,29 +131,65 @@ const ProgrammeMarche = () => {
     setStepCount(0);
     triggerVibration([300, 100, 300]);
     playBeep(1000, 300);
+    
+    // Request motion permission for iOS
+    if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+      DeviceMotionEvent.requestPermission()
+        .then(response => {
+          if (response === 'granted') {
+            setMotionPermission(true);
+          }
+        })
+        .catch(console.error);
+    } else {
+      setMotionPermission(true);
+    }
   };
 
-  // Step vibration effect - vibrates at each step
+  // Real step detection using accelerometer
   useEffect(() => {
-    if (isRunning && !isPaused && !sessionComplete) {
-      // Faster steps during "fast" phase, slower during "slow" phase
-      const stepInterval = currentPhase === "fast" ? 500 : 900;
+    if (!isRunning || isPaused || sessionComplete || !motionPermission) return;
+
+    const handleMotion = (event) => {
+      const { accelerationIncludingGravity } = event;
+      if (!accelerationIncludingGravity) return;
+
+      const { x, y, z } = accelerationIncludingGravity;
+      const lastAccel = lastAccelRef.current;
       
-      stepIntervalRef.current = setInterval(() => {
-        // Vibration pattern: stronger for fast walk, gentler for recovery
-        if (currentPhase === "fast") {
-          triggerVibration([80]); // Short strong pulse for each fast step
-        } else {
-          triggerVibration([40]); // Gentle pulse for recovery steps
-        }
+      // Calculate acceleration change (delta)
+      const deltaX = Math.abs(x - lastAccel.x);
+      const deltaY = Math.abs(y - lastAccel.y);
+      const deltaZ = Math.abs(z - lastAccel.z);
+      const totalDelta = deltaX + deltaY + deltaZ;
+
+      // Update last acceleration
+      lastAccelRef.current = { x, y, z };
+
+      // Detect step if acceleration change exceeds threshold
+      const now = Date.now();
+      const timeSinceLastStep = now - lastStepTimeRef.current;
+      
+      // Minimum 250ms between steps to avoid double counting
+      if (totalDelta > stepThreshold && timeSinceLastStep > 250) {
+        lastStepTimeRef.current = now;
         setStepCount(prev => prev + 1);
-      }, stepInterval);
-    }
+        
+        // Vibrate on each detected step
+        if (currentPhase === "fast") {
+          triggerVibration([60]);
+        } else {
+          triggerVibration([30]);
+        }
+      }
+    };
+
+    window.addEventListener('devicemotion', handleMotion);
     
     return () => {
-      if (stepIntervalRef.current) clearInterval(stepIntervalRef.current);
+      window.removeEventListener('devicemotion', handleMotion);
     };
-  }, [isRunning, isPaused, sessionComplete, currentPhase, triggerVibration]);
+  }, [isRunning, isPaused, sessionComplete, motionPermission, currentPhase, triggerVibration]);
 
   useEffect(() => {
     if (isRunning && !isPaused && selectedMonth) {
