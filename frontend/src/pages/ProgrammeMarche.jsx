@@ -75,10 +75,13 @@ const ProgrammeMarche = () => {
   const [vibrationEnabled, setVibrationEnabled] = useState(true);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [stepCount, setStepCount] = useState(0);
+  const [motionPermission, setMotionPermission] = useState(false);
   
   const intervalRef = useRef(null);
-  const stepIntervalRef = useRef(null);
   const audioContextRef = useRef(null);
+  const lastAccelRef = useRef({ x: 0, y: 0, z: 0 });
+  const stepThreshold = 12; // Sensitivity for step detection
+  const lastStepTimeRef = useRef(0);
 
   useEffect(() => {
     audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
