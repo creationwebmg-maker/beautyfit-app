@@ -362,20 +362,8 @@ const Dashboard = () => {
             "✦",
             "DÉPASSE TES LIMITES",
             "✦",
-            "DÉPASSE TES LIMITES",
-            "•",
-            "DEVIENS LA MEILLEURE VERSION DE TOI",
-            "•",
-            "BEAUTYFIT",
-            "•",
-            "TRANSFORME TOI",
-            "•",
-            "DÉPASSE TES LIMITES",
-            "•",
-            "DEVIENS LA MEILLEURE VERSION DE TOI",
-            "•",
           ].map((text, index) => (
-            <span key={index} className="mx-4 text-[#E4D3C7] font-bold text-xs uppercase tracking-widest">
+            <span key={index} className="mx-4 text-white font-bold text-xs uppercase tracking-widest">
               {text}
             </span>
           ))}
