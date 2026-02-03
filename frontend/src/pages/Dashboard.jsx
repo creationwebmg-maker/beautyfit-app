@@ -338,25 +338,6 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-      </header>}
-                data-testid="notifications-btn"
-              >
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => navigate("/account")}
-                data-testid="profile-btn"
-              >
-                <div className="w-8 h-8 rounded-full bg-accent/50 flex items-center justify-center">
-                  <User className="w-4 h-4" />
-                </div>
-              </Button>
-            </div>
-          </div>
-        </div>
       </header>
 
       {/* Main Content */}
