@@ -560,8 +560,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Purchased Courses / Continue Training */}
-        {purchasedCourses.length > 0 && (
+        {/* Purchased Courses / Continue Training - Only for authenticated users */}
+        {isAuthenticated && purchasedCourses.length > 0 && (
           <div data-testid="my-courses-section">
             <div className="flex items-center justify-between mb-4">
               <h2 
