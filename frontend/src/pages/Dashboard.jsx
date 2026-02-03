@@ -4,23 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/context/AuthContext";
-import { api, formatPrice, formatDuration, getLevelColor } from "@/lib/utils";
-import { toast } from "sonner";
+import { api } from "@/lib/utils";
 import { 
   Bell, 
   User,
   Play, 
-  Clock, 
   Flame,
   Target,
   ChevronRight,
   Dumbbell,
-  Heart,
-  Leaf,
-  Users,
-  Zap,
   TrendingUp,
-  Calendar,
   Check,
   ChevronLeft
 } from "lucide-react";
