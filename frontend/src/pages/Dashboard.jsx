@@ -235,6 +235,20 @@ const ActivityCalendar = ({ activeDays = [] }) => {
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, token } = useAuth();
+  const [showNotification, setShowNotification] = useState(false);
+
+  // Show iOS notification after 1 minute (60 seconds)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowNotification(true);
+      // Try to vibrate if supported
+      if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 100]);
+      }
+    }, 60000); // 60 seconds = 1 minute
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const [activeDays] = useState(() => {
     const today = new Date();
