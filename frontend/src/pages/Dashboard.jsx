@@ -239,6 +239,38 @@ const Dashboard = () => {
         </div>
       </header>
 
+      {/* Hero Banner */}
+      <section className="relative h-[70vh] md:h-[80vh] overflow-hidden" data-testid="hero-banner">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1200&q=80"
+            alt="Fitness coaching"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-teal-900/70 via-teal-800/60 to-teal-900/80" />
+        </div>
+        
+        <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
+          <h1 
+            className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 max-w-4xl"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Découvre comment atteindre tes objectifs plus durablement.
+          </h1>
+          <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl">
+            Une approche complète de coaching pour de meilleurs résultats.
+          </p>
+          <Button
+            size="lg"
+            className="rounded-full bg-white text-teal-700 hover:bg-teal-50 font-semibold px-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all"
+            onClick={() => navigate("/courses")}
+          >
+            VOIR LES PROGRAMMES
+            <ChevronRight className="w-5 h-5 ml-2" />
+          </Button>
+        </div>
+      </section>
+
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-6">
         
