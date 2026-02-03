@@ -210,34 +210,16 @@ const Dashboard = () => {
     streak: 5
   });
 
-  const categories = [
-    { id: "musculation", name: "Musculation", icon: Dumbbell, color: "bg-rose-100 text-rose-700" },
-    { id: "cardio", name: "Cardio", icon: Heart, color: "bg-red-100 text-red-700" },
-    { id: "yoga", name: "Yoga & Étirements", icon: Leaf, color: "bg-green-100 text-green-700" },
-    { id: "collectifs", name: "Cours Collectifs", icon: Users, color: "bg-purple-100 text-purple-700" },
-  ];
-
   const isAuthenticated = !!token;
 
   useEffect(() => {
-    fetchData();
-  }, [token]);
+    // Mark today as active day if authenticated
+    if (isAuthenticated) {
+      // This would normally be tracked in backend
+    }
+  }, [isAuthenticated]);
 
-  const fetchData = async () => {
-    try {
-      const allCourses = await api.get("/courses");
-      setCourses(allCourses);
-      
-      // Only fetch user courses if authenticated
-      if (token) {
-        try {
-          const userCourses = await api.get("/user/courses", token);
-          setPurchasedCourses(userCourses);
-        } catch (e) {
-          console.log("User courses not available");
-        }
-      }
-      
+  const progressPercentage = (progressData.sessionsCompleted / progressData.sessionsGoal) * 100;
       // Set a random course as "today's session"
       if (allCourses.length > 0) {
         const randomIndex = Math.floor(Math.random() * allCourses.length);
