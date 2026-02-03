@@ -74,8 +74,10 @@ const ProgrammeMarche = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [vibrationEnabled, setVibrationEnabled] = useState(true);
   const [sessionComplete, setSessionComplete] = useState(false);
+  const [stepCount, setStepCount] = useState(0);
   
   const intervalRef = useRef(null);
+  const stepIntervalRef = useRef(null);
   const audioContextRef = useRef(null);
 
   useEffect(() => {
