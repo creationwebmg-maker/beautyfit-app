@@ -421,8 +421,12 @@ const Dashboard = () => {
                 </div>
                 <div className="p-4">
                   <div className="flex gap-4">
-                    <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center flex-shrink-0">
-                      <Salad className="w-10 h-10 text-emerald-600" />
+                    <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                      <img 
+                        src="https://images.unsplash.com/photo-1636044990022-97492e89a143?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwzfHxtZWRpdGVycmFuZWFuJTIwc2FsYWQlMjBxdWlub2ElMjBjaGlja2VuJTIwaGVhbHRoeSUyMG1lYWx8ZW58MHx8fHwxNzcwMTMyMTM0fDA&ixlib=rb-4.1.0&q=85"
+                        alt="Salade Méditerranéenne"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="flex-1">
                       <h4 className="font-semibold text-foreground mb-1">Salade Méditerranéenne</h4>
