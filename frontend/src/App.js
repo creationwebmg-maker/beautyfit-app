@@ -19,6 +19,12 @@ import PaymentSuccess from "@/pages/PaymentSuccess";
 import Admin from "@/pages/Admin";
 import Conseils from "@/pages/Conseils";
 
+// Legal Pages
+import LegalMentions from "@/pages/LegalMentions";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService";
+import RefundPolicy from "@/pages/RefundPolicy";
+
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
