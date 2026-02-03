@@ -32,8 +32,23 @@ JWT_EXPIRATION_HOURS = 24
 # Stripe Config
 STRIPE_API_KEY = os.environ.get('STRIPE_API_KEY', 'sk_test_emergent')
 
+# Admin password (simple auth for admin)
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'amel2024admin')
+
+# Upload directories
+UPLOAD_DIR = ROOT_DIR / "uploads"
+VIDEOS_DIR = UPLOAD_DIR / "videos"
+THUMBNAILS_DIR = UPLOAD_DIR / "thumbnails"
+
+# Ensure directories exist
+VIDEOS_DIR.mkdir(parents=True, exist_ok=True)
+THUMBNAILS_DIR.mkdir(parents=True, exist_ok=True)
+
 # Create the main app
 app = FastAPI(title="Amel Fit Coach API")
+
+# Mount static files for uploads
+app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
