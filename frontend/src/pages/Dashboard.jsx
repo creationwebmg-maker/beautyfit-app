@@ -195,48 +195,32 @@ const Dashboard = () => {
       <header className="sticky top-0 z-50 glass border-b border-border/50">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Left side - Auth buttons for authenticated users or empty space */}
-            <div className="flex items-center gap-2 w-32">
+            {/* Left side - Bell for authenticated users */}
+            <div className="flex items-center gap-2 w-16">
               {isAuthenticated && (
-                <>
-                  <Button variant="ghost" size="icon" className="relative" onClick={() => navigate("/settings")}>
-                    <Bell className="w-5 h-5" />
-                    <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-                  </Button>
-                </>
+                <Button variant="ghost" size="icon" className="relative" onClick={() => navigate("/settings")}>
+                  <Bell className="w-5 h-5" />
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+                </Button>
               )}
             </div>
 
-            {/* Center - Logo */}
+            {/* Center - Logo bigger */}
             <div className="flex flex-col items-center">
               <img 
                 src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
                 alt="Beauty Fit by Amel" 
-                className="h-14 w-14 md:h-16 md:w-16 object-contain"
+                className="h-20 w-20 md:h-24 md:w-24 object-contain"
               />
-              {isAuthenticated && (
-                <p className="text-xs text-muted-foreground hidden md:block">Salut, {user?.first_name} ! 👋</p>
-              )}
             </div>
 
-            {/* Right side - Auth buttons */}
-            <div className="flex items-center justify-end gap-2 w-32">
-              {isAuthenticated ? (
-                <Button variant="ghost" size="icon" onClick={() => navigate("/account")}>
-                  <div className="w-8 h-8 rounded-full bg-accent/50 flex items-center justify-center">
-                    <User className="w-4 h-4" />
-                  </div>
-                </Button>
-              ) : (
-                <>
-                  <Button variant="ghost" onClick={() => navigate("/login")} className="text-sm">
-                    Connexion
-                  </Button>
-                  <Button onClick={() => navigate("/register")} className="rounded-full bg-foreground text-background text-sm">
-                    S'inscrire
-                  </Button>
-                </>
-              )}
+            {/* Right side - User icon only */}
+            <div className="flex items-center justify-end w-16">
+              <Button variant="ghost" size="icon" onClick={() => navigate(isAuthenticated ? "/account" : "/login")}>
+                <div className="w-9 h-9 rounded-full bg-accent/50 flex items-center justify-center">
+                  <User className="w-5 h-5" />
+                </div>
+              </Button>
             </div>
           </div>
         </div>
