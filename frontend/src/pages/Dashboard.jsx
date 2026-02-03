@@ -679,15 +679,49 @@ const Dashboard = () => {
             )}
           </div>
         </div>
+
+        {/* CTA for non-authenticated users */}
+        {!isAuthenticated && (
+          <Card className="bg-accent/20 border-accent/30">
+            <CardContent className="p-6 text-center">
+              <h3 
+                className="text-xl font-semibold text-foreground mb-2"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Rejoins Amel Fit Coach
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                Inscris-toi pour suivre ta progression et accéder à tous les cours
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button
+                  onClick={() => navigate("/register")}
+                  className="rounded-full bg-foreground text-background"
+                  data-testid="cta-register-btn"
+                >
+                  Créer mon compte gratuit
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => navigate("/login")}
+                  className="rounded-full"
+                  data-testid="cta-login-btn"
+                >
+                  J'ai déjà un compte
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </main>
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border/50 md:hidden">
         <div className="flex items-center justify-around h-16 px-2">
           {[
-            { path: "/courses", label: "Entraînements", icon: Dumbbell, active: false },
-            { path: "/conseils", label: "Conseils", icon: Target, active: false },
-            { path: "/account", label: "Mon espace", icon: User, active: false },
+            { path: "/courses", label: "Entraînements", icon: Dumbbell },
+            { path: "/conseils", label: "Conseils", icon: Target },
+            { path: isAuthenticated ? "/account" : "/login", label: "Mon espace", icon: User },
           ].map((item) => (
             <button
               key={item.path}
