@@ -247,7 +247,7 @@ const Dashboard = () => {
             alt="Fitness coaching"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-teal-900/70 via-teal-800/60 to-teal-900/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-rose-500/60 via-pink-500/50 to-fuchsia-600/70" />
         </div>
         
         <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
@@ -262,7 +262,7 @@ const Dashboard = () => {
           </p>
           <Button
             size="lg"
-            className="rounded-full bg-white text-teal-700 hover:bg-teal-50 font-semibold px-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all"
+            className="rounded-full bg-white text-rose-600 hover:bg-rose-50 font-semibold px-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all"
             onClick={() => navigate("/courses")}
           >
             VOIR LES PROGRAMMES
