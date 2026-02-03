@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import BottomNavBar from "@/components/BottomNavBar";
 import { 
   Home, 
   Play, 
@@ -9,7 +10,9 @@ import {
   Settings, 
   LogOut,
   Menu,
-  X
+  X,
+  Lightbulb,
+  Dumbbell
 } from "lucide-react";
 
 const Layout = ({ children }) => {
@@ -20,8 +23,9 @@ const Layout = ({ children }) => {
 
   const navLinks = [
     { path: "/dashboard", label: "Accueil", icon: Home },
-    { path: "/courses", label: "Cours", icon: Play },
-    { path: "/account", label: "Mon compte", icon: User },
+    { path: "/courses", label: "Entraînements", icon: Dumbbell },
+    { path: "/conseils", label: "Conseils", icon: Lightbulb },
+    { path: "/account", label: "Mon espace", icon: User },
     { path: "/settings", label: "Paramètres", icon: Settings },
   ];
 
@@ -33,7 +37,7 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
       {/* Header */}
       <header className="sticky top-0 z-50 glass border-b border-border/50">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -96,7 +100,7 @@ const Layout = ({ children }) => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-border/50 bg-background">
             <div className="px-4 py-4 space-y-1">
@@ -134,6 +138,8 @@ const Layout = ({ children }) => {
         {children}
       </main>
 
+      {/* Bottom Navigation Bar (Mobile) */}
+      <BottomNavBar />
     </div>
   );
 };
