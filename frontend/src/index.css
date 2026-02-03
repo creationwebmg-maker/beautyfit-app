@@ -159,8 +159,13 @@
     animation: marquee-reverse 35s linear infinite;
 }
 
+.animate-marquee-fast {
+    animation: marquee 15s linear infinite;
+}
+
 .animate-marquee:hover,
-.animate-marquee-reverse:hover {
+.animate-marquee-reverse:hover,
+.animate-marquee-fast:hover {
     animation-play-state: paused;
 }
 
