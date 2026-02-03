@@ -171,10 +171,6 @@ const ActivityCalendar = ({ activeDays = [] }) => {
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, token } = useAuth();
-  const [courses, setCourses] = useState([]);
-  const [purchasedCourses, setPurchasedCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [todayCourse, setTodayCourse] = useState(null);
 
   // Simulated activity days (would come from backend in production)
   const [activeDays] = useState(() => {
@@ -211,14 +207,6 @@ const Dashboard = () => {
   });
 
   const isAuthenticated = !!token;
-
-  useEffect(() => {
-    // Mark today as active day if authenticated
-    if (isAuthenticated) {
-      // This would normally be tracked in backend
-    }
-  }, [isAuthenticated]);
-
   const progressPercentage = (progressData.sessionsCompleted / progressData.sessionsGoal) * 100;
 
   return (
