@@ -1,34 +1,169 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* Amel Fit Coach - Custom Styles */
+
+/* Hero section */
+.hero-gradient {
+    background: linear-gradient(180deg, transparent 0%, hsl(var(--background)) 100%);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Card hover effects */
+.course-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
 }
 
-.App-link {
-    color: #61dafb;
+/* Button styles */
+.btn-primary {
+    @apply h-12 px-8 rounded-full font-medium transition-all duration-300;
+    @apply bg-primary text-primary-foreground;
+    @apply hover:scale-105 active:scale-95;
+    @apply hover:shadow-lg;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.btn-secondary {
+    @apply h-12 px-8 rounded-full font-medium transition-all duration-300;
+    @apply bg-secondary text-secondary-foreground;
+    @apply hover:bg-secondary/80;
+    @apply hover:scale-105 active:scale-95;
+}
+
+/* Input styles */
+.input-field {
+    @apply h-12 rounded-lg border-input bg-transparent px-4;
+    @apply focus:ring-1 focus:ring-primary transition-all;
+}
+
+/* Navigation */
+.nav-link {
+    @apply text-foreground/70 hover:text-foreground transition-colors;
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-0.5;
+    @apply after:w-0 after:bg-foreground after:transition-all;
+    @apply hover:after:w-full;
+}
+
+.nav-link.active {
+    @apply text-foreground after:w-full;
+}
+
+/* Category badge */
+.category-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+    @apply bg-accent/30 text-foreground;
+}
+
+/* Level badge */
+.level-badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs;
+}
+
+.level-badge.debutant {
+    @apply bg-green-100 text-green-800;
+}
+
+.level-badge.intermediaire {
+    @apply bg-yellow-100 text-yellow-800;
+}
+
+.level-badge.avance {
+    @apply bg-red-100 text-red-800;
+}
+
+/* Video player */
+.video-container {
+    @apply relative w-full aspect-video bg-black rounded-xl overflow-hidden;
+}
+
+.video-overlay {
+    @apply absolute inset-0 flex items-center justify-center;
+    @apply bg-black/40 opacity-0 transition-opacity;
+}
+
+.video-container:hover .video-overlay {
+    @apply opacity-100;
+}
+
+/* Toast customization */
+.toast-success {
+    @apply bg-green-50 border-green-200 text-green-800;
+}
+
+.toast-error {
+    @apply bg-red-50 border-red-200 text-red-800;
+}
+
+/* Loading skeleton */
+.skeleton {
+    @apply animate-pulse bg-muted rounded;
+}
+
+/* Price tag */
+.price-tag {
+    @apply text-2xl font-bold text-foreground;
+}
+
+.price-tag::before {
+    content: '';
+}
+
+/* Motivation message */
+.motivation-message {
+    @apply p-6 rounded-2xl bg-accent/20 border border-accent/30;
+    @apply text-center;
+}
+
+.motivation-message p {
+    @apply text-lg font-handwritten text-foreground/80;
+}
+
+/* Dashboard grid */
+.dashboard-grid {
+    @apply grid grid-cols-1 md:grid-cols-12 gap-6;
+}
+
+.dashboard-main {
+    @apply md:col-span-8;
+}
+
+.dashboard-sidebar {
+    @apply md:col-span-4;
+}
+
+/* Notification item */
+.notification-item {
+    @apply p-4 rounded-xl bg-card border border-border/50;
+    @apply hover:border-accent/50 transition-colors cursor-pointer;
+}
+
+/* Settings section */
+.settings-section {
+    @apply p-6 rounded-2xl bg-card border border-border/50;
+}
+
+.settings-section h3 {
+    @apply text-lg font-semibold mb-4;
+}
+
+/* Auth card */
+.auth-card {
+    @apply w-full max-w-md p-8 rounded-2xl bg-card border border-border/50;
+    @apply shadow-[0_2px_8px_rgba(0,0,0,0.04)];
+}
+
+/* Splash screen */
+.splash-screen {
+    @apply min-h-screen flex flex-col items-center justify-center;
+    @apply bg-background;
+}
+
+.splash-logo {
+    @apply text-5xl md:text-7xl font-bold tracking-tight;
+    font-family: 'Playfair Display', serif;
+}
+
+.splash-slogan {
+    @apply text-lg md:text-xl text-muted-foreground mt-4;
+    @apply font-handwritten;
 }
