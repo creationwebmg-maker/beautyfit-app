@@ -220,19 +220,6 @@ const Dashboard = () => {
   }, [isAuthenticated]);
 
   const progressPercentage = (progressData.sessionsCompleted / progressData.sessionsGoal) * 100;
-      // Set a random course as "today's session"
-      if (allCourses.length > 0) {
-        const randomIndex = Math.floor(Math.random() * allCourses.length);
-        setTodayCourse(allCourses[randomIndex]);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const progressPercentage = (progressData.sessionsCompleted / progressData.sessionsGoal) * 100;
 
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-8">
