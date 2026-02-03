@@ -342,33 +342,9 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {/* Motivational Quotes Marquee */}
-      <div className="bg-black py-3 overflow-hidden">
-        <div className="animate-marquee whitespace-nowrap flex">
-          {[
-            "💪 Ton corps peut tout supporter, c'est ton esprit qu'il faut convaincre",
-            "✨ Chaque jour est une nouvelle chance de changer ta vie",
-            "🔥 La douleur d'aujourd'hui est la force de demain",
-            "⭐ Tu es plus forte que tu ne le penses",
-            "💖 Prends soin de ton corps, c'est le seul endroit où tu vis",
-            "🌟 Le succès commence par la décision d'essayer",
-            "💪 Ton corps peut tout supporter, c'est ton esprit qu'il faut convaincre",
-            "✨ Chaque jour est une nouvelle chance de changer ta vie",
-            "🔥 La douleur d'aujourd'hui est la force de demain",
-            "⭐ Tu es plus forte que tu ne le penses",
-            "💖 Prends soin de ton corps, c'est le seul endroit où tu vis",
-            "🌟 Le succès commence par la décision d'essayer",
-          ].map((quote, index) => (
-            <span key={index} className="mx-8 text-white font-medium text-sm md:text-base">
-              {quote}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Second Marquee - Reverse Direction */}
+      {/* Pink Marquee - Fast */}
       <div className="bg-gradient-to-r from-rose-500 to-pink-500 py-2 overflow-hidden">
-        <div className="animate-marquee-reverse whitespace-nowrap flex">
+        <div className="animate-marquee-fast whitespace-nowrap flex">
           {[
             "BEAUTYFIT",
             "•",
