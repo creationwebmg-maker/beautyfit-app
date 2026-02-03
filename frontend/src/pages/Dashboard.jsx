@@ -798,6 +798,86 @@ const Dashboard = () => {
           ))}
         </div>
       </nav>
+
+      {/* Footer with Legal Links */}
+      <footer className="bg-foreground/5 border-t border-border/50 py-8 mt-8 hidden md:block">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Brand */}
+            <div className="md:col-span-1">
+              <img 
+                src="https://customer-assets.emergentagent.com/job_fitvid-1/artifacts/h05n68ev_Design%20sans%20titre.png" 
+                alt="Beauty Fit by Amel" 
+                className="h-16 w-16 object-contain mb-3"
+              />
+              <p className="text-sm text-muted-foreground">
+                Transforme ta vie avec des programmes fitness adaptés à ton rythme.
+              </p>
+            </div>
+
+            {/* Navigation */}
+            <div>
+              <h4 className="font-semibold text-foreground mb-3">Navigation</h4>
+              <ul className="space-y-2 text-sm">
+                <li><button onClick={() => navigate("/courses")} className="text-muted-foreground hover:text-foreground transition-colors">Programmes</button></li>
+                <li><button onClick={() => navigate("/conseils")} className="text-muted-foreground hover:text-foreground transition-colors">Conseils</button></li>
+                <li><button onClick={() => navigate("/register")} className="text-muted-foreground hover:text-foreground transition-colors">S'inscrire</button></li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h4 className="font-semibold text-foreground mb-3">Informations légales</h4>
+              <ul className="space-y-2 text-sm">
+                <li><button onClick={() => navigate("/mentions-legales")} className="text-muted-foreground hover:text-foreground transition-colors">Mentions légales</button></li>
+                <li><button onClick={() => navigate("/confidentialite")} className="text-muted-foreground hover:text-foreground transition-colors">Politique de confidentialité</button></li>
+                <li><button onClick={() => navigate("/conditions-generales")} className="text-muted-foreground hover:text-foreground transition-colors">CGU / CGV</button></li>
+                <li><button onClick={() => navigate("/remboursement")} className="text-muted-foreground hover:text-foreground transition-colors">Politique de remboursement</button></li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="font-semibold text-foreground mb-3">Contact</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>JARDAZI SAYARI AMEL</li>
+                <li>265 Avenue de Grasse</li>
+                <li>06400 Cannes, France</li>
+                <li className="pt-2">SIREN : 851 371 039</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-border/50 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-xs text-muted-foreground">
+              © 2025 Beauty Fit by Amel. Tous droits réservés.
+            </p>
+            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+              <button onClick={() => navigate("/confidentialite")} className="hover:text-foreground transition-colors">Confidentialité</button>
+              <span>•</span>
+              <button onClick={() => navigate("/conditions-generales")} className="hover:text-foreground transition-colors">Conditions</button>
+              <span>•</span>
+              <button onClick={() => navigate("/mentions-legales")} className="hover:text-foreground transition-colors">Mentions légales</button>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {/* Mobile Footer Legal Links */}
+      <div className="md:hidden bg-foreground/5 border-t border-border/50 py-6 px-4 mb-16">
+        <div className="flex flex-wrap justify-center gap-3 text-xs text-muted-foreground">
+          <button onClick={() => navigate("/mentions-legales")} className="hover:text-foreground transition-colors">Mentions légales</button>
+          <span>•</span>
+          <button onClick={() => navigate("/confidentialite")} className="hover:text-foreground transition-colors">Confidentialité</button>
+          <span>•</span>
+          <button onClick={() => navigate("/conditions-generales")} className="hover:text-foreground transition-colors">CGU</button>
+          <span>•</span>
+          <button onClick={() => navigate("/remboursement")} className="hover:text-foreground transition-colors">Remboursement</button>
+        </div>
+        <p className="text-xs text-muted-foreground text-center mt-4">
+          © 2025 Beauty Fit by Amel
+        </p>
+      </div>
     </div>
   );
 };
