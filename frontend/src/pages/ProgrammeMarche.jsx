@@ -294,6 +294,15 @@ const ProgrammeMarche = () => {
                   </div>
                 </div>
               )}
+
+              {/* Step Counter */}
+              {!sessionComplete && (
+                <div className="mt-4 flex items-center justify-center gap-2 text-muted-foreground">
+                  <Footprints className={`w-5 h-5 ${currentPhase === "fast" ? "text-rose-500 animate-bounce" : "text-emerald-500"}`} />
+                  <span className="text-2xl font-bold text-foreground">{stepCount}</span>
+                  <span className="text-sm">pas</span>
+                </div>
+              )}
             </div>
 
             <Card className="border-border/50">
