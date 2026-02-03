@@ -61,16 +61,18 @@ function AppRoutes() {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={<Dashboard />} />
       <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
       <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       
-      {/* Protected Routes */}
-      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      {/* Semi-Public Routes (viewable but some features require auth) */}
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/courses" element={<Courses />} />
       <Route path="/courses/:courseId" element={<CourseDetail />} />
-      <Route path="/conseils" element={<ProtectedRoute><Conseils /></ProtectedRoute>} />
+      <Route path="/conseils" element={<Conseils />} />
+      
+      {/* Protected Routes */}
       <Route path="/watch/:courseId" element={<ProtectedRoute><VideoPlayer /></ProtectedRoute>} />
       <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
