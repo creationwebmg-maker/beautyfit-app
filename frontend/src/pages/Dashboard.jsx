@@ -411,7 +411,7 @@ const Dashboard = () => {
             >
               <div className="relative aspect-[3/4]">
                 <img
-                  src="https://images.unsplash.com/photo-1628258115421-23c0ad739b9b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwyfHxhcmFiJTIwd29tYW4lMjB3b3Jrb3V0JTIwc3RyZXRjaGluZyUyMGhlYWx0aHklMjBsaWZlc3R5bGV8ZW58MHx8fHwxNzcwMTMxNzI0fDA&ixlib=rb-4.1.0&q=85"
+                  src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/300dg799_IMG_7778.jpeg"
                   alt="Programme Ramadan"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
