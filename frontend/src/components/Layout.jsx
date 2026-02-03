@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { Toaster } from "@/components/ui/sonner";
 import { 
   Home, 
   Play, 
@@ -135,8 +134,6 @@ const Layout = ({ children }) => {
         {children}
       </main>
 
-      {/* Toast */}
-      <Toaster position="top-right" richColors />
     </div>
   );
 };
