@@ -224,18 +224,26 @@ const Dashboard = () => {
     { id: "collectifs", name: "Cours Collectifs", icon: Users, color: "bg-purple-100 text-purple-700" },
   ];
 
+  const isAuthenticated = !!token;
+
   useEffect(() => {
     fetchData();
   }, [token]);
 
   const fetchData = async () => {
     try {
-      const [allCourses, userCourses] = await Promise.all([
-        api.get("/courses"),
-        api.get("/user/courses", token)
-      ]);
+      const allCourses = await api.get("/courses");
       setCourses(allCourses);
-      setPurchasedCourses(userCourses);
+      
+      // Only fetch user courses if authenticated
+      if (token) {
+        try {
+          const userCourses = await api.get("/user/courses", token);
+          setPurchasedCourses(userCourses);
+        } catch (e) {
+          console.log("User courses not available");
+        }
+      }
       
       // Set a random course as "today's session"
       if (allCourses.length > 0) {
@@ -257,27 +265,80 @@ const Dashboard = () => {
       <header className="sticky top-0 z-50 glass border-b border-border/50">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Greeting */}
+            {/* Greeting / Logo */}
             <div>
-              <h1 
-                className="text-xl font-bold text-foreground"
-                style={{ fontFamily: "'Playfair Display', serif" }}
-                data-testid="greeting"
-              >
-                Salut, {user?.first_name} ! 👋
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Prête pour ta dose d'endorphines ?
-              </p>
+              {isAuthenticated ? (
+                <>
+                  <h1 
+                    className="text-xl font-bold text-foreground"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    data-testid="greeting"
+                  >
+                    Salut, {user?.first_name} ! 👋
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Prête pour ta dose d'endorphines ?
+                  </p>
+                </>
+              ) : (
+                <h1 
+                  className="text-xl font-bold text-foreground"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                  data-testid="logo"
+                >
+                  Amel Fit Coach
+                </h1>
+              )}
             </div>
 
-            {/* Icons */}
+            {/* Icons / Auth buttons */}
             <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative"
-                onClick={() => navigate("/settings")}
+              {isAuthenticated ? (
+                <>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative"
+                    onClick={() => navigate("/settings")}
+                    data-testid="notifications-btn"
+                  >
+                    <Bell className="w-5 h-5" />
+                    <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => navigate("/account")}
+                    data-testid="profile-btn"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-accent/50 flex items-center justify-center">
+                      <User className="w-4 h-4" />
+                    </div>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="ghost"
+                    onClick={() => navigate("/login")}
+                    className="text-sm"
+                    data-testid="login-btn"
+                  >
+                    Connexion
+                  </Button>
+                  <Button
+                    onClick={() => navigate("/register")}
+                    className="rounded-full bg-foreground text-background text-sm"
+                    data-testid="register-btn"
+                  >
+                    S'inscrire
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>}
                 data-testid="notifications-btn"
               >
                 <Bell className="w-5 h-5" />
