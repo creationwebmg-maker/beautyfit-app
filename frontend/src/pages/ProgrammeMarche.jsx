@@ -197,7 +197,9 @@ const ProgrammeMarche = () => {
     setTimeLeft(0);
     setCurrentRep(1);
     setSessionComplete(false);
+    setStepCount(0);
     if (intervalRef.current) clearInterval(intervalRef.current);
+    if (stepIntervalRef.current) clearInterval(stepIntervalRef.current);
   };
 
   const formatTime = (seconds) => {
