@@ -254,6 +254,7 @@ const ProgrammeMarche = () => {
                       <CheckCircle2 className="w-16 h-16 text-emerald-500 mb-2 mx-auto" />
                       <span className="text-2xl font-bold text-emerald-500">Bravo !</span>
                       <p className="text-sm text-muted-foreground">Session terminée</p>
+                      <p className="text-lg font-semibold text-foreground mt-2">{stepCount} pas</p>
                     </div>
                   ) : (
                     <div className="text-center">
