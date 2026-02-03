@@ -356,6 +356,166 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
+        {/* Upcoming Events Section */}
+        {!isAuthenticated && (
+          <div data-testid="upcoming-events-section">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Événements à Venir
+                </h2>
+                <p className="text-sm text-muted-foreground">Rejoins-nous pour des activités en groupe</p>
+              </div>
+              <Button variant="ghost" className="text-sm text-muted-foreground hover:text-foreground">
+                Voir tout
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              {/* Main Event - Randonnée */}
+              <Card className="lg:col-span-2 overflow-hidden border-0 shadow-xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white" data-testid="main-event-card">
+                <CardContent className="p-0">
+                  <div className="flex flex-col md:flex-row">
+                    <div className="relative md:w-2/5 aspect-video md:aspect-auto">
+                      <img 
+                        src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80"
+                        alt="Randonnée en montagne"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-emerald-600/80 hidden md:block" />
+                      <div className="absolute top-3 left-3 bg-white text-emerald-700 rounded-lg p-2 shadow-lg text-center min-w-[60px]">
+                        <span className="text-xs font-medium uppercase block">Fév</span>
+                        <span className="text-2xl font-bold block leading-none">23</span>
+                        <span className="text-xs text-emerald-600">2025</span>
+                      </div>
+                    </div>
+                    <div className="p-5 md:p-6 flex-1 flex flex-col justify-center">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="bg-white/20 backdrop-blur-sm text-xs px-3 py-1 rounded-full flex items-center gap-1">
+                          <Mountain className="w-3 h-3" />
+                          Randonnée
+                        </span>
+                        <span className="bg-amber-400/90 text-emerald-900 text-xs px-3 py-1 rounded-full font-semibold">
+                          Places limitées
+                        </span>
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        Randonnée Fitness en Montagne
+                      </h3>
+                      <p className="text-white/80 text-sm mb-4 leading-relaxed">
+                        Une journée de marche sportive dans un cadre naturel magnifique. 
+                        Cardio, renforcement et connexion avec la nature !
+                      </p>
+                      <div className="flex flex-wrap gap-4 text-sm mb-4">
+                        <div className="flex items-center gap-1">
+                          <MapPin className="w-4 h-4 text-emerald-200" />
+                          <span>Atlas, Maroc</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-4 h-4 text-emerald-200" />
+                          <span>8h00 - 17h00</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Users className="w-4 h-4 text-emerald-200" />
+                          <span>12 places restantes</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Button className="rounded-full bg-white text-emerald-700 hover:bg-emerald-50 font-semibold px-6">
+                          Réserver ma place
+                        </Button>
+                        <span className="text-lg font-bold">49€</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Mini Calendar */}
+              <Card className="border-border/50 overflow-hidden" data-testid="mini-calendar-card">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Calendar className="w-5 h-5 text-emerald-600" />
+                    <h3 className="font-semibold text-foreground">Février 2025</h3>
+                  </div>
+                  
+                  {/* Mini calendar grid */}
+                  <div className="grid grid-cols-7 gap-1 mb-4">
+                    {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((day, i) => (
+                      <div key={i} className="text-center text-xs font-medium text-muted-foreground py-1">
+                        {day}
+                      </div>
+                    ))}
+                    {/* Empty cells for alignment (February 2025 starts on Saturday) */}
+                    {[...Array(5)].map((_, i) => (
+                      <div key={`empty-${i}`} className="aspect-square" />
+                    ))}
+                    {/* Days of February */}
+                    {[...Array(28)].map((_, i) => {
+                      const day = i + 1;
+                      const isEvent = day === 23;
+                      const isPast = day < 3; // Assuming today is Feb 3
+                      return (
+                        <div
+                          key={day}
+                          className={`
+                            aspect-square rounded-md flex items-center justify-center text-xs font-medium transition-all cursor-pointer
+                            ${isEvent 
+                              ? 'bg-emerald-500 text-white ring-2 ring-emerald-300 ring-offset-1' 
+                              : isPast 
+                                ? 'text-muted-foreground/50' 
+                                : 'hover:bg-muted text-foreground'
+                            }
+                          `}
+                        >
+                          {isEvent ? <Mountain className="w-3 h-3" /> : day}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Upcoming events list */}
+                  <div className="space-y-2 border-t border-border/50 pt-3">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Prochains événements</p>
+                    
+                    <div className="flex items-center gap-3 p-2 rounded-lg bg-emerald-50 border border-emerald-200">
+                      <div className="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-white flex-shrink-0">
+                        <Mountain className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">Randonnée Atlas</p>
+                        <p className="text-xs text-muted-foreground">23 Fév • 8h00</p>
+                      </div>
+                      <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    </div>
+
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600 flex-shrink-0">
+                        <Sun className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">Yoga Sunrise</p>
+                        <p className="text-xs text-muted-foreground">2 Mars • 6h30</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <div className="w-10 h-10 rounded-lg bg-rose-100 flex items-center justify-center text-rose-600 flex-shrink-0">
+                        <Heart className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">Bootcamp Plage</p>
+                        <p className="text-xs text-muted-foreground">15 Mars • 9h00</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+
         {/* Success Stories Section - Non-authenticated users */}
         {!isAuthenticated && (
           <div data-testid="success-stories-section">
