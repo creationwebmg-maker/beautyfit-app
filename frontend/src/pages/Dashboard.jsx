@@ -491,16 +491,6 @@ const Dashboard = () => {
                     </div>
 
                     <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
-                      <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600 flex-shrink-0">
-                        <Sun className="w-5 h-5" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">Yoga Sunrise</p>
-                        <p className="text-xs text-muted-foreground">2 Mars • 6h30</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
                       <div className="w-10 h-10 rounded-lg bg-rose-100 flex items-center justify-center text-rose-600 flex-shrink-0">
                         <Heart className="w-5 h-5" />
                       </div>
