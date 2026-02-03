@@ -970,6 +970,160 @@ async def admin_get_all_courses(admin: dict = Depends(get_admin_user)):
     courses = await db.courses.find({}, {"_id": 0}).to_list(100)
     return courses
 
+# ==================== SITE CONTENT MANAGEMENT ====================
+
+DEFAULT_SITE_CONTENT = {
+    "id": "main",
+    "hero": {
+        "title": "Atteins tes objectifs",
+        "subtitle": None,
+        "button_text": "VOIR LES PROGRAMMES",
+        "image_url": "https://customer-assets.emergentagent.com/job_amelcoach/artifacts/re8f9wte_IMG_7767.jpeg"
+    },
+    "programs": [
+        {
+            "id": "prog1",
+            "title": "ÉLIMINER LES EXCÈS DE L'ÉTÉ !",
+            "subtitle": "Programme",
+            "price": 35.00,
+            "image_url": "https://customer-assets.emergentagent.com/job_amelcoach/artifacts/88u8asez_95A93139-7811-47B4-93DA-A287FFD4E1DA.png",
+            "badge": None,
+            "badge_icon": None,
+            "order": 0
+        },
+        {
+            "id": "prog2",
+            "title": "PROGRAMME RAMADHÂN",
+            "subtitle": "Programme",
+            "price": 27.00,
+            "image_url": "https://customer-assets.emergentagent.com/job_amelcoach/artifacts/300dg799_IMG_7778.jpeg",
+            "badge": "🌙",
+            "badge_icon": "moon",
+            "order": 1
+        },
+        {
+            "id": "prog3",
+            "title": "RAMADAN MINIMALISTE",
+            "subtitle": "Programme",
+            "price": 19.00,
+            "image_url": "https://images.unsplash.com/photo-1628258115387-23c428be3ac4",
+            "badge": "✨",
+            "badge_icon": "sparkle",
+            "order": 2
+        }
+    ],
+    "marquee": {
+        "texts": ["BEAUTYFIT", "TRANSFORME TOI", "DÉPASSE TES LIMITES"],
+        "separator": "✦"
+    },
+    "colors": {
+        "linen": "#F7F5F2",
+        "sky": "#D2DDE7",
+        "berry": "#D5A0A8",
+        "sunrise": "#EE9F80",
+        "watermelon": "#E37E7F"
+    },
+    "logo_url": "https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png"
+}
+
+@api_router.get("/site-content")
+async def get_site_content():
+    """Get site content - public endpoint"""
+    content = await db.site_content.find_one({"id": "main"}, {"_id": 0})
+    if not content:
+        return DEFAULT_SITE_CONTENT
+    return content
+
+@api_router.get("/admin/site-content")
+async def admin_get_site_content(admin: dict = Depends(get_admin_user)):
+    """Get site content for admin"""
+    content = await db.site_content.find_one({"id": "main"}, {"_id": 0})
+    if not content:
+        # Initialize with default content
+        await db.site_content.insert_one(DEFAULT_SITE_CONTENT)
+        return DEFAULT_SITE_CONTENT
+    return content
+
+@api_router.put("/admin/site-content")
+async def admin_update_site_content(
+    update: SiteContentUpdate,
+    admin: dict = Depends(get_admin_user)
+):
+    """Update site content"""
+    existing = await db.site_content.find_one({"id": "main"}, {"_id": 0})
+    
+    if not existing:
+        existing = DEFAULT_SITE_CONTENT.copy()
+    
+    update_data = {k: v for k, v in update.model_dump().items() if v is not None}
+    update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+    
+    await db.site_content.update_one(
+        {"id": "main"},
+        {"$set": update_data},
+        upsert=True
+    )
+    
+    updated = await db.site_content.find_one({"id": "main"}, {"_id": 0})
+    return updated
+
+@api_router.put("/admin/site-content/hero")
+async def admin_update_hero(
+    hero: HeroContent,
+    admin: dict = Depends(get_admin_user)
+):
+    """Update hero section"""
+    await db.site_content.update_one(
+        {"id": "main"},
+        {"$set": {"hero": hero.model_dump(), "updated_at": datetime.now(timezone.utc).isoformat()}},
+        upsert=True
+    )
+    return {"message": "Hero updated", "hero": hero}
+
+@api_router.put("/admin/site-content/programs")
+async def admin_update_programs(
+    programs: List[ProgramContent],
+    admin: dict = Depends(get_admin_user)
+):
+    """Update programs"""
+    await db.site_content.update_one(
+        {"id": "main"},
+        {"$set": {"programs": [p.model_dump() for p in programs], "updated_at": datetime.now(timezone.utc).isoformat()}},
+        upsert=True
+    )
+    return {"message": "Programs updated", "programs": programs}
+
+@api_router.put("/admin/site-content/colors")
+async def admin_update_colors(
+    colors: ColorTheme,
+    admin: dict = Depends(get_admin_user)
+):
+    """Update color theme"""
+    await db.site_content.update_one(
+        {"id": "main"},
+        {"$set": {"colors": colors.model_dump(), "updated_at": datetime.now(timezone.utc).isoformat()}},
+        upsert=True
+    )
+    return {"message": "Colors updated", "colors": colors}
+
+@api_router.post("/admin/upload/image")
+async def admin_upload_image(
+    file: UploadFile = File(...),
+    admin: dict = Depends(get_admin_user)
+):
+    """Upload image for site content"""
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="File must be an image")
+    
+    file_ext = file.filename.split(".")[-1] if "." in file.filename else "jpg"
+    filename = f"site_{uuid.uuid4()}.{file_ext}"
+    file_path = THUMBNAILS_DIR / filename
+    
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    return {"url": f"/uploads/thumbnails/{filename}", "filename": filename}
+
 # ==================== ROOT ====================
 
 @api_router.get("/")
