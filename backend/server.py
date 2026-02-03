@@ -728,6 +728,204 @@ async def seed_data():
     await db.courses.insert_many(courses)
     return {"message": "Data seeded successfully", "courses_created": len(courses)}
 
+# ==================== ADMIN ROUTES ====================
+
+class AdminLogin(BaseModel):
+    password: str
+
+class CourseUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
+    duration_minutes: Optional[int] = None
+    level: Optional[str] = None
+    price: Optional[float] = None
+    video_url: Optional[str] = None
+    teaser_url: Optional[str] = None
+    thumbnail_url: Optional[str] = None
+
+@api_router.post("/admin/login")
+async def admin_login(credentials: AdminLogin):
+    if credentials.password != ADMIN_PASSWORD:
+        raise HTTPException(status_code=401, detail="Invalid admin password")
+    
+    # Create admin token
+    payload = {
+        "sub": "admin",
+        "role": "admin",
+        "exp": datetime.now(timezone.utc) + timedelta(hours=24)
+    }
+    token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+    return {"access_token": token, "token_type": "bearer"}
+
+async def get_admin_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    try:
+        token = credentials.credentials
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        if payload.get("role") != "admin":
+            raise HTTPException(status_code=403, detail="Admin access required")
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+@api_router.post("/admin/upload/video")
+async def upload_video(
+    file: UploadFile = File(...),
+    admin: dict = Depends(get_admin_user)
+):
+    if not file.content_type.startswith("video/"):
+        raise HTTPException(status_code=400, detail="File must be a video")
+    
+    # Generate unique filename
+    file_ext = file.filename.split(".")[-1] if "." in file.filename else "mp4"
+    filename = f"{uuid.uuid4()}.{file_ext}"
+    file_path = VIDEOS_DIR / filename
+    
+    # Save file
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    # Return the URL
+    return {"url": f"/uploads/videos/{filename}", "filename": filename}
+
+@api_router.post("/admin/upload/thumbnail")
+async def upload_thumbnail(
+    file: UploadFile = File(...),
+    admin: dict = Depends(get_admin_user)
+):
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="File must be an image")
+    
+    # Generate unique filename
+    file_ext = file.filename.split(".")[-1] if "." in file.filename else "jpg"
+    filename = f"{uuid.uuid4()}.{file_ext}"
+    file_path = THUMBNAILS_DIR / filename
+    
+    # Save file
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    # Return the URL
+    return {"url": f"/uploads/thumbnails/{filename}", "filename": filename}
+
+@api_router.post("/admin/courses", response_model=CourseResponse)
+async def admin_create_course(
+    title: str = Form(...),
+    description: str = Form(...),
+    category: str = Form(...),
+    duration_minutes: int = Form(...),
+    level: str = Form(...),
+    price: float = Form(...),
+    video: Optional[UploadFile] = File(None),
+    teaser: Optional[UploadFile] = File(None),
+    thumbnail: Optional[UploadFile] = File(None),
+    video_url: Optional[str] = Form(None),
+    teaser_url: Optional[str] = Form(None),
+    thumbnail_url: Optional[str] = Form(None),
+    admin: dict = Depends(get_admin_user)
+):
+    course_id = str(uuid.uuid4())
+    now = datetime.now(timezone.utc).isoformat()
+    
+    # Handle video upload
+    final_video_url = video_url
+    if video and video.filename:
+        file_ext = video.filename.split(".")[-1] if "." in video.filename else "mp4"
+        filename = f"{course_id}_video.{file_ext}"
+        file_path = VIDEOS_DIR / filename
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(video.file, buffer)
+        final_video_url = f"/uploads/videos/{filename}"
+    
+    # Handle teaser upload
+    final_teaser_url = teaser_url
+    if teaser and teaser.filename:
+        file_ext = teaser.filename.split(".")[-1] if "." in teaser.filename else "mp4"
+        filename = f"{course_id}_teaser.{file_ext}"
+        file_path = VIDEOS_DIR / filename
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(teaser.file, buffer)
+        final_teaser_url = f"/uploads/videos/{filename}"
+    
+    # Handle thumbnail upload
+    final_thumbnail_url = thumbnail_url
+    if thumbnail and thumbnail.filename:
+        file_ext = thumbnail.filename.split(".")[-1] if "." in thumbnail.filename else "jpg"
+        filename = f"{course_id}_thumb.{file_ext}"
+        file_path = THUMBNAILS_DIR / filename
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(thumbnail.file, buffer)
+        final_thumbnail_url = f"/uploads/thumbnails/{filename}"
+    
+    course_doc = {
+        "id": course_id,
+        "title": title,
+        "description": description,
+        "category": category,
+        "duration_minutes": duration_minutes,
+        "level": level,
+        "price": price,
+        "video_url": final_video_url,
+        "teaser_url": final_teaser_url,
+        "thumbnail_url": final_thumbnail_url,
+        "created_at": now
+    }
+    
+    await db.courses.insert_one(course_doc)
+    return CourseResponse(**course_doc)
+
+@api_router.put("/admin/courses/{course_id}", response_model=CourseResponse)
+async def admin_update_course(
+    course_id: str,
+    update: CourseUpdate,
+    admin: dict = Depends(get_admin_user)
+):
+    course = await db.courses.find_one({"id": course_id}, {"_id": 0})
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    
+    update_data = {k: v for k, v in update.model_dump().items() if v is not None}
+    if update_data:
+        await db.courses.update_one({"id": course_id}, {"$set": update_data})
+    
+    updated_course = await db.courses.find_one({"id": course_id}, {"_id": 0})
+    return CourseResponse(**updated_course)
+
+@api_router.delete("/admin/courses/{course_id}")
+async def admin_delete_course(
+    course_id: str,
+    admin: dict = Depends(get_admin_user)
+):
+    course = await db.courses.find_one({"id": course_id}, {"_id": 0})
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    
+    # Delete associated files if they exist
+    if course.get("video_url") and course["video_url"].startswith("/uploads/"):
+        video_path = ROOT_DIR / course["video_url"].lstrip("/")
+        if video_path.exists():
+            video_path.unlink()
+    
+    if course.get("teaser_url") and course["teaser_url"].startswith("/uploads/"):
+        teaser_path = ROOT_DIR / course["teaser_url"].lstrip("/")
+        if teaser_path.exists():
+            teaser_path.unlink()
+    
+    if course.get("thumbnail_url") and course["thumbnail_url"].startswith("/uploads/"):
+        thumb_path = ROOT_DIR / course["thumbnail_url"].lstrip("/")
+        if thumb_path.exists():
+            thumb_path.unlink()
+    
+    await db.courses.delete_one({"id": course_id})
+    return {"message": "Course deleted successfully"}
+
+@api_router.get("/admin/courses", response_model=List[CourseResponse])
+async def admin_get_all_courses(admin: dict = Depends(get_admin_user)):
+    courses = await db.courses.find({}, {"_id": 0}).to_list(100)
+    return courses
+
 # ==================== ROOT ====================
 
 @api_router.get("/")
