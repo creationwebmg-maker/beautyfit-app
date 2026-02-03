@@ -14,7 +14,13 @@ import {
   Dumbbell,
   TrendingUp,
   Check,
-  ChevronLeft
+  ChevronLeft,
+  Utensils,
+  Lightbulb,
+  Clock,
+  Salad,
+  Moon,
+  Heart
 } from "lucide-react";
 
 // Activity Calendar Component
