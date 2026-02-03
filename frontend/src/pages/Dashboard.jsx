@@ -498,7 +498,8 @@ const Dashboard = () => {
 
         {/* Programme Marche Poussette - Free Access */}
         <Card 
-          className="overflow-hidden cursor-pointer group border-0 shadow-xl bg-gradient-to-r from-rose-500 to-pink-600"
+          className="overflow-hidden cursor-pointer group border-0 shadow-xl"
+          style={{ background: '#65514A' }}
           onClick={() => navigate("/programme/marche-poussette")}
           data-testid="programme-marche-poussette"
         >
@@ -510,39 +511,40 @@ const Dashboard = () => {
                   alt="Programme Marche Poussette"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-rose-500/80 hidden md:block" />
-                <div className="absolute top-3 left-3 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#65514A]/80 hidden md:block" />
+                <div className="absolute top-3 left-3 text-[#332521] text-xs font-bold px-3 py-1 rounded-full shadow-lg" style={{ background: '#E4D3C7' }}>
                   GRATUIT
                 </div>
               </div>
-              <div className="p-5 md:p-6 flex-1 flex flex-col justify-center text-white">
+              <div className="p-5 md:p-6 flex-1 flex flex-col justify-center text-[#E4D3C7]">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-3xl">👶</span>
-                  <span className="bg-white/20 backdrop-blur-sm text-xs px-3 py-1 rounded-full">Post-partum</span>
+                  <span className="bg-[#E4D3C7]/20 backdrop-blur-sm text-xs px-3 py-1 rounded-full">Post-partum</span>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                   Programme Marche Poussette
                 </h3>
-                <p className="text-white/80 text-sm mb-4 leading-relaxed">
+                <p className="text-[#E4D3C7]/80 text-sm mb-4 leading-relaxed">
                   9 mois de programme progressif avec timer interactif et vibrations intelligentes. 
                   Reprends le sport en douceur avec bébé !
                 </p>
                 <div className="flex flex-wrap gap-3 text-sm mb-4">
-                  <div className="flex items-center gap-1 bg-white/20 px-3 py-1 rounded-full">
+                  <div className="flex items-center gap-1 bg-[#E4D3C7]/20 px-3 py-1 rounded-full">
                     <Timer className="w-4 h-4" />
                     <span>25-60 min</span>
                   </div>
-                  <div className="flex items-center gap-1 bg-white/20 px-3 py-1 rounded-full">
+                  <div className="flex items-center gap-1 bg-[#E4D3C7]/20 px-3 py-1 rounded-full">
                     <Target className="w-4 h-4" />
                     <span>9 mois</span>
                   </div>
-                  <div className="flex items-center gap-1 bg-white/20 px-3 py-1 rounded-full">
+                  <div className="flex items-center gap-1 bg-[#E4D3C7]/20 px-3 py-1 rounded-full">
                     <Bell className="w-4 h-4" />
                     <span>Vibrations</span>
                   </div>
                 </div>
                 <Button
-                  className="rounded-full bg-white text-rose-600 hover:bg-rose-50 font-semibold px-6 w-fit"
+                  className="rounded-full font-semibold px-6 w-fit text-[#332521]"
+                  style={{ background: '#E4D3C7' }}
                   onClick={(e) => { e.stopPropagation(); navigate("/programme/marche-poussette"); }}
                 >
                   <Play className="w-4 h-4 mr-2 fill-current" />
