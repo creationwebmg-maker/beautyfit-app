@@ -20,8 +20,160 @@ import {
   Users,
   Zap,
   TrendingUp,
-  Calendar
+  Calendar,
+  Check,
+  ChevronLeft
 } from "lucide-react";
+
+// Activity Calendar Component
+const ActivityCalendar = ({ activeDays = [] }) => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  
+  const daysOfWeek = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+  const monthNames = [
+    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+  ];
+
+  const getDaysInMonth = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    
+    // Get the day of week for the first day (0 = Sunday, convert to Monday = 0)
+    let startDay = firstDay.getDay() - 1;
+    if (startDay < 0) startDay = 6;
+    
+    return { daysInMonth, startDay };
+  };
+
+  const { daysInMonth, startDay } = getDaysInMonth(currentDate);
+  const today = new Date();
+  const isCurrentMonth = today.getMonth() === currentDate.getMonth() && today.getFullYear() === currentDate.getFullYear();
+
+  const isActiveDay = (day) => {
+    const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return activeDays.includes(dateStr);
+  };
+
+  const prevMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  };
+
+  const nextMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+  };
+
+  // Generate calendar grid
+  const calendarDays = [];
+  for (let i = 0; i < startDay; i++) {
+    calendarDays.push(null);
+  }
+  for (let day = 1; day <= daysInMonth; day++) {
+    calendarDays.push(day);
+  }
+
+  const totalActiveDaysThisMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1)
+    .filter(day => isActiveDay(day)).length;
+
+  return (
+    <Card className="border-border/50" data-testid="activity-calendar">
+      <CardContent className="p-5">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 
+              className="text-lg font-semibold text-foreground"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Mes jours d'activité
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              {totalActiveDaysThisMonth} jours actifs ce mois
+            </p>
+          </div>
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" onClick={prevMonth} className="h-8 w-8">
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+            <span className="text-sm font-medium min-w-[120px] text-center">
+              {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+            </span>
+            <Button variant="ghost" size="icon" onClick={nextMonth} className="h-8 w-8">
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Days of week header */}
+        <div className="grid grid-cols-7 gap-1 mb-2">
+          {daysOfWeek.map((day, i) => (
+            <div key={i} className="text-center text-xs font-medium text-muted-foreground py-1">
+              {day}
+            </div>
+          ))}
+        </div>
+
+        {/* Calendar grid */}
+        <div className="grid grid-cols-7 gap-1">
+          {calendarDays.map((day, index) => {
+            if (day === null) {
+              return <div key={index} className="aspect-square" />;
+            }
+            
+            const isToday = isCurrentMonth && day === today.getDate();
+            const isActive = isActiveDay(day);
+            const isPast = isCurrentMonth ? day < today.getDate() : currentDate < today;
+            
+            return (
+              <div
+                key={index}
+                className={`
+                  aspect-square rounded-lg flex items-center justify-center text-sm font-medium
+                  transition-all relative
+                  ${isActive 
+                    ? 'bg-green-500 text-white' 
+                    : isPast 
+                      ? 'bg-muted/50 text-muted-foreground' 
+                      : 'bg-muted/30 text-foreground/70'
+                  }
+                  ${isToday ? 'ring-2 ring-foreground ring-offset-2' : ''}
+                `}
+                data-testid={`calendar-day-${day}`}
+              >
+                {isActive ? (
+                  <Check className="w-4 h-4" />
+                ) : (
+                  day
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Legend */}
+        <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-border/50">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded bg-green-500 flex items-center justify-center">
+              <Check className="w-3 h-3 text-white" />
+            </div>
+            <span className="text-xs text-muted-foreground">Actif</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded bg-muted/50" />
+            <span className="text-xs text-muted-foreground">Inactif</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded bg-muted/30 ring-2 ring-foreground ring-offset-1" />
+            <span className="text-xs text-muted-foreground">Aujourd'hui</span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -30,6 +182,32 @@ const Dashboard = () => {
   const [purchasedCourses, setPurchasedCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [todayCourse, setTodayCourse] = useState(null);
+
+  // Simulated activity days (would come from backend in production)
+  const [activeDays] = useState(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    // Simulate some active days this month
+    return [
+      `${year}-${month}-02`,
+      `${year}-${month}-03`,
+      `${year}-${month}-05`,
+      `${year}-${month}-07`,
+      `${year}-${month}-08`,
+      `${year}-${month}-10`,
+      `${year}-${month}-12`,
+      `${year}-${month}-14`,
+      `${year}-${month}-15`,
+      `${year}-${month}-17`,
+      `${year}-${month}-19`,
+      `${year}-${month}-21`,
+      `${year}-${month}-22`,
+      `${year}-${month}-24`,
+      `${year}-${month}-26`,
+      `${year}-${month}-28`,
+    ];
+  });
 
   // Simulated progress data (would come from backend in production)
   const [progressData] = useState({
