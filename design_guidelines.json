@@ -1,0 +1,124 @@
+{
+  "identity": {
+    "name": "Amel Fit Coach",
+    "persona": "E1 - The Anti-AI Designer",
+    "tone": "Elegant, Minimalist, Premium, Intimate, Motivating",
+    "theme_mode": "light",
+    "design_philosophy": "Organic Luxury. Warmth over sterility. Emotion over trends."
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Playfair Display, serif",
+      "body": "Manrope, sans-serif",
+      "accent": "Caveat, cursive"
+    },
+    "weights": {
+      "heading": "font-semibold",
+      "body": "font-normal",
+      "bold": "font-bold"
+    },
+    "sizes": {
+      "h1": "text-5xl md:text-7xl tracking-tight leading-none",
+      "h2": "text-4xl md:text-5xl tracking-tight",
+      "h3": "text-2xl md:text-3xl tracking-normal",
+      "body": "text-base md:text-lg leading-relaxed",
+      "small": "text-sm tracking-wide uppercase"
+    },
+    "instructions": "Use Playfair Display for all major headings to establish elegance. Use Manrope for UI elements and long text for readability. Use Caveat sparingly for 'personal notes' from the coach."
+  },
+  "colors": {
+    "palette": {
+      "background": "#FFFCF8",
+      "foreground": "#1A1A1A",
+      "card": "#FFFFFF",
+      "card_foreground": "#1A1A1A",
+      "primary": "#1A1A1A",
+      "primary_foreground": "#FFFFFF",
+      "secondary": "#F2EFE9",
+      "secondary_foreground": "#1A1A1A",
+      "muted": "#F5F5F0",
+      "muted_foreground": "#8A8A8A",
+      "accent": "#D4C5A9",
+      "accent_foreground": "#1A1A1A",
+      "border": "#E6E6E6",
+      "input": "#F2F2F2",
+      "ring": "#1A1A1A"
+    },
+    "usage": {
+      "background": "Use #FFFCF8 as the main page background for a warm, premium feel.",
+      "text": "Use #1A1A1A for primary text. Avoid pure black.",
+      "buttons": "Primary buttons should be #1A1A1A (Soft Black) with White text. Secondary buttons #F2EFE9 (Beige) with Black text.",
+      "borders": "Use very subtle borders #E6E6E6.",
+      "gradients": "Avoid gradients. Use solid colors or subtle noise textures."
+    }
+  },
+  "visual_enhancers": {
+    "radius": "rounded-xl",
+    "shadows": {
+      "card": "shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+      "hover": "shadow-[0_12px_24px_rgba(0,0,0,0.06)]",
+      "button": "shadow-md"
+    },
+    "textures": "Add a very subtle noise texture to the background if possible to reduce digital flatness.",
+    "glassmorphism": "Use backdrop-blur-md bg-white/70 for sticky headers and floating controls."
+  },
+  "layout_strategies": {
+    "container": "max-w-7xl mx-auto px-6 md:px-12",
+    "spacing": {
+      "section": "py-24 md:py-32",
+      "element": "gap-6 md:gap-8"
+    },
+    "grids": {
+      "dashboard": "grid grid-cols-1 md:grid-cols-12 gap-6",
+      "course_list": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    }
+  },
+  "components": {
+    "buttons": {
+      "style": "h-12 px-8 rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95",
+      "primary": "bg-primary text-primary-foreground hover:bg-primary/90",
+      "secondary": "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+    },
+    "cards": {
+      "style": "bg-card text-card-foreground rounded-2xl border border-border/50 overflow-hidden transition-all duration-300 hover:border-accent/50 hover:shadow-hover group"
+    },
+    "inputs": {
+      "style": "h-12 rounded-lg border-input bg-transparent px-4 focus:ring-1 focus:ring-primary transition-all"
+    }
+  },
+  "image_urls": {
+    "hero": {
+      "url": "https://images.unsplash.com/photo-1767611114501-ee5c2ea37ee7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwzfHxoZWFsdGh5JTIwbGlmZXN0eWxlJTIwd29tYW4lMjBzdHJldGNoaW5nJTIweW9nYSUyMGJlaWdlJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzAxMDA0Mzl8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "Woman stretching in a calm beige environment",
+      "category": "landing"
+    },
+    "coach_profile": {
+      "url": "https://images.unsplash.com/photo-1739001408867-5e2db264526b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwyfHxmZW1hbGUlMjBmaXRuZXNzJTIwY29hY2glMjBlbGVnYW50JTIwbWluaW1hbGlzdCUyMHN0dWRpb3xlbnwwfHx8fDE3NzAxMDA0MzJ8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "Amel Fit Coach Portrait",
+      "category": "profile"
+    },
+    "categories": {
+      "yoga": "https://images.unsplash.com/photo-1522844123782-9547a63eb28b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwxfHxoZWFsdGh5JTIwbGlmZXN0eWxlJTIwd29tYW4lMjBzdHJldGNoaW5nJTIweW9nYSUyMGJlaWdlJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzAxMDA0Mzl8MA&ixlib=rb-4.1.0&q=85",
+      "cardio": "https://images.unsplash.com/photo-1739001399130-fd7378863c5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwzfHxmZW1hbGUlMjBmaXRuZXNzJTIwY29hY2glMjBlbGVnYW50JTIwbWluaW1hbGlzdCUyMHN0dWRpb3xlbnwwfHx8fDE3NzAxMDA0MzJ8MA&ixlib=rb-4.1.0&q=85",
+      "strength": "https://images.unsplash.com/photo-1761971974992-6df33df97c3a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTJ8MHwxfHNlYXJjaHw0fHxtaW5pbWFsaXN0JTIwZ3ltJTIwaW50ZXJpb3IlMjBiZWlnZSUyMGFlc3RoZXRpY3xlbnwwfHx8fDE3NzAxMDA0Mzd8MA&ixlib=rb-4.1.0&q=85"
+    },
+    "backgrounds": {
+      "gym_interior": "https://images.unsplash.com/photo-1761971975973-cbb3e59263de?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTJ8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwZ3ltJTIwaW50ZXJpb3IlMjBiZWlnZSUyMGFlc3RoZXRpY3xlbnwwfHx8fDE3NzAxMDA0Mzd8MA&ixlib=rb-4.1.0&q=85"
+    }
+  },
+  "motion": {
+    "transitions": "transition-all duration-500 ease-out",
+    "hover_effects": "hover:-translate-y-1 hover:shadow-lg",
+    "page_transition": "initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}"
+  },
+  "universal_guidelines": [
+    "Do not use generic gradients. Use solid colors or subtle noise.",
+    "Ensure all text has high contrast (APCA standards).",
+    "Use 'Playfair Display' for headings to create the 'Vogue' fitness look.",
+    "Buttons should be pill-shaped (rounded-full).",
+    "Images should have a subtle overlay if text is placed on top.",
+    "Use 'sonner' for toasts.",
+    "All interactive elements must have data-testid attributes."
+  ],
+  "instructions_to_main_agent": "You are building the frontend for Amel Fit Coach. Follow the color palette strictly. Use the provided image URLs for the respective sections. Implement the 'Bento' grid for the dashboard. Ensure the 'My Account' and 'Course Detail' pages feel premium and personal. Use the 'Playfair Display' font for all H1-H3 headings."
+}
