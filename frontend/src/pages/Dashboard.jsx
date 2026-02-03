@@ -197,7 +197,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3">
               <img 
-                src="https://customer-assets.emergentagent.com/job_fitvid-1/artifacts/h05n68ev_Design%20sans%20titre.png" 
+                src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
                 alt="Beauty Fit by Amel" 
                 className="h-16 w-16 md:h-20 md:w-20 object-contain"
               />
@@ -864,7 +864,7 @@ const Dashboard = () => {
             {/* Brand */}
             <div className="md:col-span-1">
               <img 
-                src="https://customer-assets.emergentagent.com/job_fitvid-1/artifacts/h05n68ev_Design%20sans%20titre.png" 
+                src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
                 alt="Beauty Fit by Amel" 
                 className="h-16 w-16 object-contain mb-3"
               />

@@ -38,7 +38,7 @@ const SplashScreen = () => {
           }}
         >
           <img 
-            src="https://customer-assets.emergentagent.com/job_fitvid-1/artifacts/h05n68ev_Design%20sans%20titre.png" 
+            src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
             alt="Beauty Fit by Amel" 
             className="w-32 h-32 md:w-40 md:h-40 object-contain"
           />
