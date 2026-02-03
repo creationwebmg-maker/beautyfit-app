@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,8 +28,79 @@ import {
   Users,
   Calendar,
   Sun,
-  Timer
+  Timer,
+  X
 } from "lucide-react";
+
+// iOS Push Notification Component
+const IOSNotification = ({ show, onClose }) => {
+  if (!show) return null;
+  
+  return (
+    <div 
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-md animate-slide-down"
+      style={{
+        animation: "slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+      }}
+    >
+      <div 
+        className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-gray-200/50"
+        style={{
+          boxShadow: "0 10px 40px rgba(0,0,0,0.2)"
+        }}
+      >
+        {/* Notification Header */}
+        <div className="flex items-center gap-3 p-3 pb-2">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center shadow-lg">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
+              alt="BeautyFit"
+              className="w-6 h-6 object-contain brightness-0 invert"
+            />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">BEAUTYFIT</span>
+              <span className="text-xs text-gray-500">maintenant</span>
+            </div>
+          </div>
+          <button 
+            onClick={onClose}
+            className="w-6 h-6 rounded-full bg-gray-200/80 flex items-center justify-center hover:bg-gray-300/80 transition-colors"
+          >
+            <X className="w-3 h-3 text-gray-600" />
+          </button>
+        </div>
+        
+        {/* Notification Content */}
+        <div className="px-3 pb-3">
+          <h4 className="text-base font-bold text-gray-900 mb-1">
+            Bravo tu es motivée ! 💪
+          </h4>
+          <p className="text-sm text-gray-600 leading-snug">
+            Ne lâche rien, tu es sur la bonne voie ! Continue comme ça et atteins tes objectifs. 🔥
+          </p>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex border-t border-gray-200/80">
+          <button 
+            onClick={onClose}
+            className="flex-1 py-3 text-sm font-semibold text-gray-500 hover:bg-gray-50 transition-colors border-r border-gray-200/80"
+          >
+            Fermer
+          </button>
+          <button 
+            onClick={onClose}
+            className="flex-1 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 transition-colors"
+          >
+            Voir les programmes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Activity Calendar Component
 const ActivityCalendar = ({ activeDays = [] }) => {
