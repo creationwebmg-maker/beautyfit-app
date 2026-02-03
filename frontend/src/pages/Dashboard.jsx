@@ -410,6 +410,9 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
+        {/* Activity Calendar - Like Basic Fit */}
+        <ActivityCalendar activeDays={activeDays} />
+
         {/* Today's Session - Main Hero */}
         {todayCourse && (
           <div data-testid="todays-session">
