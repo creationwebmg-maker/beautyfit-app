@@ -125,9 +125,32 @@ const ProgrammeMarche = () => {
     setIsRunning(true);
     setIsPaused(false);
     setSessionComplete(false);
+    setStepCount(0);
     triggerVibration([300, 100, 300]);
     playBeep(1000, 300);
   };
+
+  // Step vibration effect - vibrates at each step
+  useEffect(() => {
+    if (isRunning && !isPaused && !sessionComplete) {
+      // Faster steps during "fast" phase, slower during "slow" phase
+      const stepInterval = currentPhase === "fast" ? 500 : 900;
+      
+      stepIntervalRef.current = setInterval(() => {
+        // Vibration pattern: stronger for fast walk, gentler for recovery
+        if (currentPhase === "fast") {
+          triggerVibration([80]); // Short strong pulse for each fast step
+        } else {
+          triggerVibration([40]); // Gentle pulse for recovery steps
+        }
+        setStepCount(prev => prev + 1);
+      }, stepInterval);
+    }
+    
+    return () => {
+      if (stepIntervalRef.current) clearInterval(stepIntervalRef.current);
+    };
+  }, [isRunning, isPaused, sessionComplete, currentPhase, triggerVibration]);
 
   useEffect(() => {
     if (isRunning && !isPaused && selectedMonth) {
@@ -135,7 +158,7 @@ const ProgrammeMarche = () => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
             if (currentPhase === "fast") {
-              triggerVibration([100, 200]);
+              triggerVibration([150, 100, 150]);
               playBeep(600, 200);
               setCurrentPhase("slow");
               return selectedMonth.slow;
@@ -155,7 +178,6 @@ const ProgrammeMarche = () => {
             }
           }
           if (prev <= 4 && prev > 1) {
-            triggerVibration([50]);
             playBeep(700, 100);
           }
           return prev - 1;
