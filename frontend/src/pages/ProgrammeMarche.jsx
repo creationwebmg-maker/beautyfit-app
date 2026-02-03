@@ -452,20 +452,23 @@ const ProgrammeMarche = () => {
                 <div className="flex items-start gap-3">
                   <Vibrate className="w-5 h-5 text-primary mt-0.5" />
                   <div>
-                    <h4 className="font-medium">Vibrations à chaque pas</h4>
+                    <h4 className="font-medium">Détection de pas intelligente</h4>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Ton téléphone vibrera à chaque pas pour te guider dans ton rythme :
+                      Ton téléphone détecte tes vrais pas grâce à l'accéléromètre :
                     </p>
                     <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
                       <li className="flex items-center gap-2">
-                        <Zap className="w-3 h-3 text-rose-500" />
-                        <span>Marche rapide : vibrations rapides (toutes les 0.5s)</span>
+                        <Footprints className="w-3 h-3 text-rose-500" />
+                        <span>Chaque pas détecté = 1 vibration</span>
                       </li>
                       <li className="flex items-center gap-2">
-                        <Footprints className="w-3 h-3 text-emerald-500" />
-                        <span>Récupération : vibrations lentes (toutes les 0.9s)</span>
+                        <Zap className="w-3 h-3 text-emerald-500" />
+                        <span>Compteur de pas en temps réel</span>
                       </li>
                     </ul>
+                    <p className="text-xs text-muted-foreground mt-2 italic">
+                      💡 Garde ton téléphone dans ta poche ou ta main pour une meilleure détection
+                    </p>
                   </div>
                 </div>
               </CardContent>
