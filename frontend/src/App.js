@@ -99,6 +99,9 @@ function AppRoutes() {
       <Route path="/conditions-generales" element={<TermsOfService />} />
       <Route path="/remboursement" element={<RefundPolicy />} />
       
+      {/* Programme Pages */}
+      <Route path="/programme/marche-poussette" element={<ProgrammeMarche />} />
+      
       {/* Catch all */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
