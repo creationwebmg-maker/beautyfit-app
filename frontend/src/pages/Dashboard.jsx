@@ -397,6 +397,98 @@ const Dashboard = () => {
         {/* Activity Calendar - Authenticated only */}
         {isAuthenticated && <ActivityCalendar activeDays={activeDays} />}
 
+        {/* Nutrition & Tips Section - Non-authenticated users */}
+        {!isAuthenticated && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" data-testid="nutrition-tips-section">
+            {/* Next Meal Suggestion */}
+            <Card className="border-border/50 overflow-hidden" data-testid="next-meal-card">
+              <CardContent className="p-0">
+                <div className="bg-gradient-to-r from-emerald-500/10 to-green-500/10 p-4 border-b border-border/30">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <Utensils className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        Prochain repas
+                      </h3>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <Clock className="w-3 h-3" />
+                        <span>Déjeuner • 12h30</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <div className="flex gap-4">
+                    <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center flex-shrink-0">
+                      <Salad className="w-10 h-10 text-emerald-600" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-foreground mb-1">Salade Méditerranéenne</h4>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Quinoa, poulet grillé, tomates cerises, concombre, feta & huile d'olive
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="text-xs bg-emerald-500/10 text-emerald-700 px-2 py-1 rounded-full">450 kcal</span>
+                        <span className="text-xs bg-blue-500/10 text-blue-700 px-2 py-1 rounded-full">35g protéines</span>
+                        <span className="text-xs bg-amber-500/10 text-amber-700 px-2 py-1 rounded-full">Équilibré</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Daily Tip */}
+            <Card className="border-border/50 overflow-hidden" data-testid="daily-tip-card">
+              <CardContent className="p-0">
+                <div className="bg-gradient-to-r from-purple-500/10 to-indigo-500/10 p-4 border-b border-border/30">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+                      <Lightbulb className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        Conseil du jour
+                      </h3>
+                      <span className="text-xs text-muted-foreground">Récupération & Bien-être</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center flex-shrink-0 mt-1">
+                      <Moon className="w-4 h-4 text-indigo-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1">Optimise ton sommeil</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Évite les écrans 30 min avant de dormir. La lumière bleue perturbe la production de mélatonine et réduit la qualité de ta récupération musculaire.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between pt-3 border-t border-border/30">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Heart className="w-4 h-4 text-rose-500" />
+                      <span>+15% de récupération</span>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-full"
+                      onClick={() => navigate("/conseils")}
+                    >
+                      Plus de conseils
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         {/* CTA for non-authenticated users */}
         {!isAuthenticated && (
           <Card className="bg-accent/20 border-accent/30">
