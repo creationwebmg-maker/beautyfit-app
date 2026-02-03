@@ -390,7 +390,7 @@ const Dashboard = () => {
             >
               <div className="relative aspect-[3/4]">
                 <img
-                  src="https://images.unsplash.com/photo-1628258113926-b8d725bbffe9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHxhcmFiJTIwd29tYW4lMjB3b3Jrb3V0JTIwc3RyZXRjaGluZyUyMGhlYWx0aHklMjBsaWZlc3R5bGV8ZW58MHx8fHwxNzcwMTMxNzI0fDA&ixlib=rb-4.1.0&q=85"
+                  src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/88u8asez_95A93139-7811-47B4-93DA-A287FFD4E1DA.png"
                   alt="Programme Éliminer les excès de l'été"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
