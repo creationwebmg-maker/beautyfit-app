@@ -1,10 +1,16 @@
 import { useTheme } from "next-themes"
-import { Toaster as Sonner, toast } from "sonner"
+import { Toaster as Sonner } from "sonner"
 
 const Toaster = ({
   ...props
 }) => {
-  const { theme = "system" } = useTheme()
+  let theme = "light";
+  try {
+    const { theme: nextTheme = "light" } = useTheme();
+    theme = nextTheme;
+  } catch (e) {
+    theme = "light";
+  }
 
   return (
     <Sonner
@@ -25,4 +31,4 @@ const Toaster = ({
   );
 }
 
-export { Toaster, toast }
+export { Toaster }
