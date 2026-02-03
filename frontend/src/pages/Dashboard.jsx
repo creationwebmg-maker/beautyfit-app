@@ -20,7 +20,9 @@ import {
   Clock,
   Salad,
   Moon,
-  Heart
+  Heart,
+  Star,
+  Quote
 } from "lucide-react";
 
 // Activity Calendar Component
