@@ -351,6 +351,110 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
+        {/* Success Stories Section - Non-authenticated users */}
+        {!isAuthenticated && (
+          <div data-testid="success-stories-section">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Résultats Motivants
+                </h2>
+                <p className="text-sm text-muted-foreground">Nos clientes ont transformé leur vie</p>
+              </div>
+              <div className="flex items-center gap-1">
+                {[1,2,3,4,5].map((star) => (
+                  <Star key={star} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Transformation 1 */}
+              <Card className="overflow-hidden border-0 shadow-lg group hover:shadow-xl transition-all" data-testid="transformation-1">
+                <div className="relative aspect-square">
+                  <img
+                    src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/lryd7tpt_AA46CBD1-2C7A-4600-9C5C-FBC90A83B2B5.jpeg"
+                    alt="Transformation Sarah"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">-25 kg</span>
+                      <span className="bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">6 mois</span>
+                    </div>
+                    <p className="text-white text-sm font-medium">Sarah, 28 ans</p>
+                    <p className="text-white/80 text-xs">« Je me sens enfin bien dans ma peau »</p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Transformation 2 */}
+              <Card className="overflow-hidden border-0 shadow-lg group hover:shadow-xl transition-all" data-testid="transformation-2">
+                <div className="relative aspect-square">
+                  <img
+                    src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/c3i4ig9k_632CEFA9-6343-4197-94E6-304A00E12758.jpeg"
+                    alt="Transformation Leila"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">-18 kg</span>
+                      <span className="bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">4 mois</span>
+                    </div>
+                    <p className="text-white text-sm font-medium">Leila, 32 ans</p>
+                    <p className="text-white/80 text-xs">« Plus d'énergie au quotidien ! »</p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Transformation 3 */}
+              <Card className="overflow-hidden border-0 shadow-lg group hover:shadow-xl transition-all" data-testid="transformation-3">
+                <div className="relative aspect-square">
+                  <img
+                    src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/kpupfayt_16BCEC9C-6C2A-47BF-B74A-CB270E0B9606.jpeg"
+                    alt="Transformation Nadia"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">-30 kg</span>
+                      <span className="bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">8 mois</span>
+                    </div>
+                    <p className="text-white text-sm font-medium">Nadia, 35 ans</p>
+                    <p className="text-white/80 text-xs">« Une nouvelle vie commence »</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            {/* Testimonial Quote */}
+            <Card className="mt-4 bg-gradient-to-r from-foreground/5 to-foreground/10 border-0">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+                    <Quote className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <div>
+                    <p className="text-foreground/80 italic leading-relaxed">
+                      "Grâce à Beauty Fit by Amel, j'ai non seulement perdu du poids mais j'ai aussi gagné en confiance. 
+                      Les programmes sont adaptés à notre rythme de vie et les résultats sont incroyables !"
+                    </p>
+                    <p className="text-sm font-semibold text-foreground mt-3">— Fatima Z.</p>
+                    <div className="flex items-center gap-1 mt-1">
+                      {[1,2,3,4,5].map((star) => (
+                        <Star key={star} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         {/* Progress Widget - Authenticated only */}
         {isAuthenticated && (
           <Card className="bg-gradient-to-r from-foreground to-foreground/90 text-background overflow-hidden">
