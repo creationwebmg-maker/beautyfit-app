@@ -899,6 +899,7 @@ const Dashboard = () => {
               className="flex flex-col items-center justify-center gap-1 px-4 py-2"
             >
               <User className="w-6 h-6 text-white" />
+              <span className="text-xs font-medium text-white">Mon compte</span>
             </button>
           </div>
         </div>
