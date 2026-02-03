@@ -343,65 +343,145 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-6">
         
-        {/* 🌙 RAMADAN SPECIAL BANNER */}
+        {/* 📦 PROGRAMMES SECTION */}
+        <div data-testid="programmes-section">
+          <div className="flex items-center justify-between mb-4">
+            <h2 
+              className="text-2xl font-semibold text-foreground"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Nos Programmes
+            </h2>
+            <span className="text-sm text-muted-foreground">3 produits</span>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Programme 1: Éliminer les excès de l'été */}
+            <Card 
+              className="overflow-hidden cursor-pointer group border-0 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+              onClick={() => navigate("/courses")}
+              data-testid="programme-ete"
+            >
+              <div className="relative aspect-[3/4]">
+                <img
+                  src="https://images.pexels.com/photos/5132092/pexels-photo-5132092.jpeg"
+                  alt="Programme Éliminer les excès de l'été"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="text-xs text-white/70 uppercase tracking-wider mb-1">Programme</p>
+                  <h3 
+                    className="text-lg font-bold text-white leading-tight"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    ÉLIMINER LES EXCÈS DE L'ÉTÉ !
+                  </h3>
+                </div>
+              </div>
+            </Card>
+
+            {/* Programme 2: Programme Ramadan */}
+            <Card 
+              className="overflow-hidden cursor-pointer group border-0 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+              onClick={() => navigate("/courses")}
+              data-testid="programme-ramadan"
+            >
+              <div className="relative aspect-[3/4]">
+                <img
+                  src="https://images.unsplash.com/photo-1645810798586-08e892108d67?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1OTV8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGZpdG5lc3MlMjBncmV5JTIwc3dlYXRwYW50cyUyMGF0aGxldGljJTIwY2FzdWFsfGVufDB8fHx8MTc3MDEzMDQ1OHww&ixlib=rb-4.1.0&q=85"
+                  alt="Programme Ramadan"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute top-3 right-3">
+                  <span className="text-2xl">🌙</span>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="text-xs text-amber-400 uppercase tracking-wider mb-1">Programme</p>
+                  <h3 
+                    className="text-lg font-bold text-white leading-tight"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    PROGRAMME RAMADHÂN
+                  </h3>
+                </div>
+              </div>
+            </Card>
+
+            {/* Programme 3: Ramadan Minimaliste */}
+            <Card 
+              className="overflow-hidden cursor-pointer group border-0 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+              onClick={() => navigate("/courses")}
+              data-testid="programme-ramadan-minimaliste"
+            >
+              <div className="relative aspect-[3/4]">
+                <img
+                  src="https://images.unsplash.com/photo-1517574394752-94986fc2c084?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NDh8MHwxfHNlYXJjaHwyfHxtaW5pbWFsaXN0JTIwcmFtYWRhbiUyMGFyY2hlcyUyMG1vcm9jY2FuJTIwd2hpdGUlMjBnb2xkJTIwZWxlZ2FudHxlbnwwfHx8fDE3NzAxMzA0NjJ8MA&ixlib=rb-4.1.0&q=85"
+                  alt="Ramadan Minimaliste"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
+                <div className="absolute top-3 right-3">
+                  <span className="text-2xl">✨</span>
+                </div>
+                {/* Elegant overlay card */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-white/95 backdrop-blur-sm px-6 py-4 rounded-lg text-center shadow-lg">
+                    <p className="text-amber-600 text-xs uppercase tracking-widest mb-1">Ramadan</p>
+                    <h3 
+                      className="text-xl font-bold text-foreground"
+                      style={{ fontFamily: "'Playfair Display', serif" }}
+                    >
+                      MINIMALISTE
+                    </h3>
+                    <div className="flex justify-center gap-1 mt-2">
+                      <span className="text-amber-500">🌙</span>
+                      <span className="text-amber-500">🌙</span>
+                      <span className="text-amber-500">🌙</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+
+        {/* 🌙 RAMADAN BANNER - Ne perds pas ton rythme */}
         <Card 
-          className="overflow-hidden cursor-pointer group border-0 shadow-xl"
+          className="overflow-hidden cursor-pointer group border-0 shadow-xl bg-gradient-to-r from-amber-900 to-amber-700"
           onClick={() => navigate("/courses")}
           data-testid="ramadan-banner"
         >
-          <div className="relative aspect-[21/9] md:aspect-[3/1]">
-            <img
-              src="https://images.unsplash.com/photo-1578704311507-15aa141d9a8e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODh8MHwxfHNlYXJjaHwxfHxyYW1hZGFuJTIwZml0bmVzcyUyMHdvcmtvdXQlMjBoZWFsdGh5JTIwd29tYW4lMjBtdXNsaW18ZW58MHx8fHwxNzcwMTI5OTE3fDA&ixlib=rb-4.1.0&q=85"
-              alt="Programme Ramadan"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent" />
-            
-            {/* Decorative elements */}
-            <div className="absolute top-4 right-4 text-4xl md:text-6xl opacity-30">
-              🌙
-            </div>
-            
-            {/* Content */}
-            <div className="absolute inset-0 p-5 md:p-8 flex flex-col justify-center">
-              <div className="max-w-lg space-y-3">
-                {/* Badge */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 w-fit">
-                  <span className="text-amber-400">🌙</span>
-                  <span className="text-amber-300 text-xs md:text-sm font-medium uppercase tracking-wider">
-                    Programme Spécial
-                  </span>
+          <CardContent className="p-6 md:p-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="text-5xl">🌙</div>
+                <div>
+                  <h3 
+                    className="text-xl md:text-2xl font-bold text-white"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    Ne perds pas ton rythme pendant le Ramadan
+                  </h3>
+                  <p className="text-amber-200 text-sm mt-1">
+                    Des programmes adaptés pour garder la forme
+                  </p>
                 </div>
-                
-                {/* Title */}
-                <h2 
-                  className="text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  Programme Ramadan
-                </h2>
-                
-                {/* Subtitle */}
-                <p className="text-lg md:text-xl text-white/90 font-handwritten">
-                  Ne perds pas ton rythme pendant le Ramadan ✨
-                </p>
-                
-                {/* CTA Button */}
-                <Button
-                  className="mt-2 h-12 px-8 rounded-full bg-amber-500 hover:bg-amber-400 text-black font-semibold text-base transition-all hover:scale-105"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate("/courses");
-                  }}
-                  data-testid="ramadan-cta-btn"
-                >
-                  <Play className="w-5 h-5 mr-2 fill-current" />
-                  Découvrir le programme
-                </Button>
               </div>
+              <Button
+                className="rounded-full bg-white text-amber-900 hover:bg-amber-100 font-semibold px-6"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/courses");
+                }}
+                data-testid="ramadan-cta-btn"
+              >
+                <Play className="w-4 h-4 mr-2 fill-current" />
+                Découvrir
+              </Button>
             </div>
-          </div>
+          </CardContent>
         </Card>
 
         {/* Progress Widget - Only for authenticated users */}
