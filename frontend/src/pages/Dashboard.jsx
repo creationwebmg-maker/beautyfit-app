@@ -855,28 +855,6 @@ const Dashboard = () => {
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-        {/* Auth buttons row - only for non-authenticated users */}
-        {!isAuthenticated && (
-          <div className="flex items-center justify-center gap-4 py-2 bg-background border-t border-border/50">
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={() => navigate("/login")}
-              className="text-foreground"
-            >
-              <User className="w-5 h-5" />
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={() => navigate("/register")}
-              className="text-foreground"
-            >
-              <Heart className="w-5 h-5" />
-            </Button>
-          </div>
-        )}
-        
         {/* Main navigation - black background */}
         <div className="bg-black">
           <div className="flex items-center justify-around h-16 px-2">
