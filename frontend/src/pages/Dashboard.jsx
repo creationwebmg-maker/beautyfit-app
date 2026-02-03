@@ -410,7 +410,7 @@ const Dashboard = () => {
                       <div className="flex flex-wrap gap-4 text-sm mb-4">
                         <div className="flex items-center gap-1">
                           <MapPin className="w-4 h-4 text-emerald-200" />
-                          <span>Atlas, Maroc</span>
+                          <span>Massif de l'Estérel, Côte d'Azur</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Clock className="w-4 h-4 text-emerald-200" />
@@ -484,7 +484,7 @@ const Dashboard = () => {
                         <Mountain className="w-5 h-5" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">Randonnée Atlas</p>
+                        <p className="text-sm font-medium text-foreground truncate">Randonnée Estérel</p>
                         <p className="text-xs text-muted-foreground">23 Fév • 8h00</p>
                       </div>
                       <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
