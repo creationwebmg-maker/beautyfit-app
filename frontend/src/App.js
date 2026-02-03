@@ -74,6 +74,9 @@ function AppRoutes() {
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
       <Route path="/payment/success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
       
+      {/* Admin Route */}
+      <Route path="/admin" element={<Admin />} />
+      
       {/* Catch all */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
