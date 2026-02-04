@@ -291,6 +291,50 @@ async def login(credentials: UserLogin):
     
     return TokenResponse(access_token=token, user=user_response)
 
+@api_router.post("/auth/google", response_model=TokenResponse)
+async def google_auth(request: GoogleAuthRequest):
+    # Check if user exists
+    existing_user = await db.users.find_one({"email": request.email}, {"_id": 0})
+    
+    if existing_user:
+        # Update existing user with Google info
+        await db.users.update_one(
+            {"email": request.email},
+            {"$set": {
+                "google_picture": request.picture,
+                "last_login": datetime.now(timezone.utc).isoformat()
+            }}
+        )
+        user = existing_user
+    else:
+        # Create new user from Google auth
+        user_id = f"user_{uuid.uuid4().hex[:12]}"
+        first_name = request.name.split()[0] if request.name else "Utilisateur"
+        
+        user = {
+            "id": user_id,
+            "email": request.email,
+            "first_name": first_name,
+            "google_picture": request.picture,
+            "auth_provider": "google",
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.users.insert_one(user)
+        del user["_id"] if "_id" in user else None
+    
+    # Create token
+    token = create_token(user["id"], user["email"])
+    
+    user_response = UserResponse(
+        id=user["id"],
+        email=user["email"],
+        first_name=user["first_name"],
+        fitness_goal=user.get("fitness_goal"),
+        created_at=user["created_at"]
+    )
+    
+    return TokenResponse(access_token=token, user=user_response)
+
 @api_router.post("/auth/forgot-password")
 async def forgot_password(request: ForgotPasswordRequest):
     user = await db.users.find_one({"email": request.email})
