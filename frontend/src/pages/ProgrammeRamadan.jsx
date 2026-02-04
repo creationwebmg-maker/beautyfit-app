@@ -335,19 +335,19 @@ function ProgrammeRamadan() {
 
   return (
     <div className="ramadan-page min-h-screen pb-24">
-      <header className="ramadan-header sticky top-0 z-50 backdrop-blur-xl border-b border-white/10">
+      <header className="ramadan-header sticky top-0 z-50 border-b" style={{ borderColor: '#D2DDE7' }}>
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={handleBack}>
+              <Button variant="ghost" size="icon" style={{ color: '#E37E7F' }} className="hover:bg-[#D5A0A8]/20" onClick={handleBack}>
                 <ChevronLeft className="w-5 h-5" />
               </Button>
               <div className="ml-2">
-                <h1 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <Moon className="w-5 h-5 text-amber-400" />
+                <h1 className="text-lg font-semibold flex items-center gap-2" style={{ color: '#333' }}>
+                  <Moon className="w-5 h-5" style={{ color: '#E37E7F' }} />
                   Programme Ramadan
                 </h1>
-                <p className="text-xs text-white/60">Aller bien, même à jeun</p>
+                <p className="text-xs" style={{ color: '#999' }}>Aller bien, même à jeun</p>
               </div>
             </div>
             {/* Feedback Mode Toggle */}
@@ -355,7 +355,8 @@ function ProgrammeRamadan() {
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className={`text-white hover:bg-white/10 ${feedbackMode === FEEDBACK_VIBRATION ? "bg-white/20" : ""}`}
+                className={feedbackMode === FEEDBACK_VIBRATION ? "bg-[#D5A0A8]/20" : ""}
+                style={{ color: feedbackMode === FEEDBACK_VIBRATION ? '#E37E7F' : '#999' }}
                 onClick={() => setFeedbackMode(FEEDBACK_VIBRATION)}
                 title="Vibrations"
               >
@@ -364,7 +365,8 @@ function ProgrammeRamadan() {
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className={`text-white hover:bg-white/10 ${feedbackMode === FEEDBACK_SOUND ? "bg-white/20" : ""}`}
+                className={feedbackMode === FEEDBACK_SOUND ? "bg-[#D5A0A8]/20" : ""}
+                style={{ color: feedbackMode === FEEDBACK_SOUND ? '#E37E7F' : '#999' }}
                 onClick={() => setFeedbackMode(FEEDBACK_SOUND)}
                 title="Son"
               >
