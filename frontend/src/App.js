@@ -29,6 +29,9 @@ import RefundPolicy from "@/pages/RefundPolicy";
 import ProgrammeMarche from "@/pages/ProgrammeMarche";
 import ProgrammeRamadan from "@/pages/ProgrammeRamadan";
 
+// Progress Page
+import Progres from "@/pages/Progres";
+
 // Auth Callback
 import AuthCallback from "@/pages/AuthCallback";
 
