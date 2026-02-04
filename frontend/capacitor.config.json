@@ -1,0 +1,8 @@
+{
+  "appId": "com.beautyfit.amel",
+  "appName": "Beauty Fit by Amel",
+  "webDir": "build",
+  "server": {
+    "androidScheme": "https"
+  }
+}
