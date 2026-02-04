@@ -24,7 +24,7 @@ import BottomNavBar from "@/components/BottomNavBar";
 
 const Account = () => {
   const navigate = useNavigate();
-  const { user, token, updateUser } = useAuth();
+  const { user, token, updateUser, logout, isGuest } = useAuth();
   const [purchases, setPurchases] = useState([]);
   const [purchasedCourses, setPurchasedCourses] = useState([]);
   const [loading, setLoading] = useState(true);
