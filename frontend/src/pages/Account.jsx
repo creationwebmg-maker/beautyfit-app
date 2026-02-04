@@ -16,9 +16,11 @@ import {
   Edit2,
   Save,
   Loader2,
-  Calendar
+  Calendar,
+  LogOut,
+  ChevronLeft
 } from "lucide-react";
-import Layout from "@/components/Layout";
+import BottomNavBar from "@/components/BottomNavBar";
 
 const Account = () => {
   const navigate = useNavigate();
