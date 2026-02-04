@@ -9,7 +9,6 @@ import {
   Pause,
   RotateCcw,
   Volume2,
-  VolumeX,
   Vibrate,
   Timer,
   Heart,
@@ -17,9 +16,14 @@ import {
   CheckCircle2,
   Moon,
   Battery,
-  Sparkles
+  Sparkles,
+  Smartphone
 } from "lucide-react";
 import "./ProgrammeRamadan.css";
+
+// Feedback modes
+const FEEDBACK_VIBRATION = "vibration";
+const FEEDBACK_SOUND = "sound";
 
 function ProgrammeRamadan() {
   const navigate = useNavigate();
@@ -30,15 +34,18 @@ function ProgrammeRamadan() {
   const [isPaused, setIsPaused] = useState(false);
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [vibrationEnabled, setVibrationEnabled] = useState(true);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [stepCount, setStepCount] = useState(0);
+  const [motionPermission, setMotionPermission] = useState(false);
+  const [feedbackMode, setFeedbackMode] = useState(FEEDBACK_VIBRATION); // vibration or sound
 
   const intervalRef = useRef(null);
   const audioContextRef = useRef(null);
+  const lastAccelRef = useRef({ x: 0, y: 0, z: 0 });
+  const stepThreshold = 10; // Sensitivity for step detection
+  const lastStepTimeRef = useRef(0);
 
-  // Simple data - phases for each seance
+  // Simple data - phases for each seance [label, duration, isFastPhase]
   const getPhases = useCallback((weekId, seanceId) => {
     if (weekId === 1) {
       if (seanceId === 1) return [
@@ -100,6 +107,7 @@ function ProgrammeRamadan() {
   const phases = getPhases(selectedWeekId, selectedSeanceId);
   const currentPhase = phases[currentPhaseIndex];
 
+  // Initialize audio context
   useEffect(function initAudio() {
     audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
     return function cleanup() { 
@@ -107,25 +115,56 @@ function ProgrammeRamadan() {
     };
   }, []);
 
+  // Play beep sound
   const playBeep = useCallback(function beep(freq, dur) {
-    if (!soundEnabled || !audioContextRef.current) return;
+    if (feedbackMode !== FEEDBACK_SOUND || !audioContextRef.current) return;
     try {
       const osc = audioContextRef.current.createOscillator();
       const gain = audioContextRef.current.createGain();
       osc.connect(gain);
       gain.connect(audioContextRef.current.destination);
       osc.frequency.value = freq || 800;
-      gain.gain.setValueAtTime(0.3, audioContextRef.current.currentTime);
+      gain.gain.setValueAtTime(0.4, audioContextRef.current.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + (dur || 200)/1000);
       osc.start();
       osc.stop(audioContextRef.current.currentTime + (dur || 200)/1000);
     } catch(e) {}
-  }, [soundEnabled]);
+  }, [feedbackMode]);
 
+  // Play step sound (shorter beep for steps)
+  const playStepSound = useCallback(function stepSound(isFast) {
+    if (feedbackMode !== FEEDBACK_SOUND || !audioContextRef.current) return;
+    try {
+      const osc = audioContextRef.current.createOscillator();
+      const gain = audioContextRef.current.createGain();
+      osc.connect(gain);
+      gain.connect(audioContextRef.current.destination);
+      osc.frequency.value = isFast ? 600 : 400;
+      osc.type = "sine";
+      gain.gain.setValueAtTime(0.2, audioContextRef.current.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.05);
+      osc.start();
+      osc.stop(audioContextRef.current.currentTime + 0.05);
+    } catch(e) {}
+  }, [feedbackMode]);
+
+  // Vibrate device
   const vibrate = useCallback(function vib(pattern) {
-    if (vibrationEnabled && navigator.vibrate) navigator.vibrate(pattern);
-  }, [vibrationEnabled]);
+    if (feedbackMode !== FEEDBACK_VIBRATION || !navigator.vibrate) return;
+    try {
+      navigator.vibrate(pattern);
+    } catch(e) {}
+  }, [feedbackMode]);
 
+  // Vibrate for each step
+  const vibrateStep = useCallback(function stepVib(isFast) {
+    if (feedbackMode !== FEEDBACK_VIBRATION || !navigator.vibrate) return;
+    try {
+      navigator.vibrate(isFast ? [50] : [30]);
+    } catch(e) {}
+  }, [feedbackMode]);
+
+  // Request motion permission and start session
   function startSession(weekId, seanceId) {
     setSelectedWeekId(weekId);
     setSelectedSeanceId(seanceId);
@@ -137,10 +176,83 @@ function ProgrammeRamadan() {
     setSessionComplete(false);
     setStepCount(0);
     setViewMode("session");
-    vibrate([300, 100, 300]);
-    playBeep(1000, 300);
+    
+    // Reset accelerometer data
+    lastAccelRef.current = { x: 0, y: 0, z: 0 };
+    lastStepTimeRef.current = 0;
+    
+    // Feedback at start
+    if (feedbackMode === FEEDBACK_VIBRATION) {
+      vibrate([300, 100, 300]);
+    } else {
+      playBeep(1000, 300);
+    }
+    
+    // Request motion permission for iOS
+    if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+      DeviceMotionEvent.requestPermission()
+        .then(response => {
+          if (response === 'granted') {
+            setMotionPermission(true);
+          }
+        })
+        .catch(console.error);
+    } else {
+      setMotionPermission(true);
+    }
   }
 
+  // Real step detection using accelerometer
+  useEffect(function stepDetection() {
+    if (!isRunning || isPaused || sessionComplete || !motionPermission || viewMode !== "session") return;
+
+    const handleMotion = (event) => {
+      const { accelerationIncludingGravity } = event;
+      if (!accelerationIncludingGravity) return;
+
+      const { x, y, z } = accelerationIncludingGravity;
+      const lastAccel = lastAccelRef.current;
+      
+      // Calculate acceleration change (delta)
+      const deltaX = Math.abs((x || 0) - lastAccel.x);
+      const deltaY = Math.abs((y || 0) - lastAccel.y);
+      const deltaZ = Math.abs((z || 0) - lastAccel.z);
+      const totalDelta = deltaX + deltaY + deltaZ;
+
+      // Update last acceleration
+      lastAccelRef.current = { x: x || 0, y: y || 0, z: z || 0 };
+
+      // Detect step if acceleration change exceeds threshold
+      const now = Date.now();
+      const timeSinceLastStep = now - lastStepTimeRef.current;
+      
+      // Minimum 250ms between steps to avoid double counting
+      if (totalDelta > stepThreshold && timeSinceLastStep > 250) {
+        lastStepTimeRef.current = now;
+        setStepCount(prev => prev + 1);
+        
+        // Get current phase to check if fast
+        const currentPhases = getPhases(selectedWeekId, selectedSeanceId);
+        const phase = currentPhases[currentPhaseIndex];
+        const isFastPhase = phase ? phase[2] : false;
+        
+        // Trigger feedback based on mode
+        if (feedbackMode === FEEDBACK_VIBRATION) {
+          vibrateStep(isFastPhase);
+        } else {
+          playStepSound(isFastPhase);
+        }
+      }
+    };
+
+    window.addEventListener('devicemotion', handleMotion);
+    
+    return () => {
+      window.removeEventListener('devicemotion', handleMotion);
+    };
+  }, [isRunning, isPaused, sessionComplete, motionPermission, viewMode, selectedWeekId, selectedSeanceId, currentPhaseIndex, feedbackMode, getPhases, vibrateStep, playStepSound]);
+
+  // Timer logic
   useEffect(function timerEffect() {
     if (!isRunning || isPaused || viewMode !== "session") return;
     
@@ -153,28 +265,35 @@ function ProgrammeRamadan() {
           if (nextIdx >= currentPhases.length) {
             setIsRunning(false);
             setSessionComplete(true);
-            vibrate([500, 200, 500]);
-            playBeep(1200, 500);
+            if (feedbackMode === FEEDBACK_VIBRATION) {
+              vibrate([500, 200, 500]);
+            } else {
+              playBeep(1200, 500);
+            }
             return 0;
           }
           setCurrentPhaseIndex(nextIdx);
-          vibrate([300, 150, 300]);
-          playBeep(1000, 400);
+          if (feedbackMode === FEEDBACK_VIBRATION) {
+            vibrate([300, 150, 300]);
+          } else {
+            playBeep(1000, 400);
+          }
           return currentPhases[nextIdx][1];
         }
+        // Countdown beep in last 3 seconds
         if (prev <= 4 && prev > 1) {
-          playBeep(700, 100);
-          vibrate([50]);
-        }
-        if (currentPhases[currentPhaseIndex] && currentPhases[currentPhaseIndex][2] && Math.random() > 0.7) {
-          setStepCount(function inc(s) { return s + 1; });
+          if (feedbackMode === FEEDBACK_VIBRATION) {
+            vibrate([50]);
+          } else {
+            playBeep(700, 100);
+          }
         }
         return prev - 1;
       });
     }, 1000);
     
     return function cleanupTimer() { clearInterval(intervalRef.current); };
-  }, [isRunning, isPaused, viewMode, selectedWeekId, selectedSeanceId, currentPhaseIndex, vibrate, playBeep, getPhases]);
+  }, [isRunning, isPaused, viewMode, selectedWeekId, selectedSeanceId, currentPhaseIndex, feedbackMode, getPhases, vibrate, playBeep]);
 
   function resetSession() {
     setIsRunning(false);
@@ -183,6 +302,8 @@ function ProgrammeRamadan() {
     setTimeLeft(0);
     setSessionComplete(false);
     setStepCount(0);
+    lastAccelRef.current = { x: 0, y: 0, z: 0 };
+    lastStepTimeRef.current = 0;
     clearInterval(intervalRef.current);
     setViewMode("seances");
   }
@@ -202,9 +323,15 @@ function ProgrammeRamadan() {
     }
   }
 
+  function toggleFeedbackMode() {
+    setFeedbackMode(prev => prev === FEEDBACK_VIBRATION ? FEEDBACK_SOUND : FEEDBACK_VIBRATION);
+  }
+
   const weekNames = ["", "Semaine 1", "Semaine 2", "Semaine 3", "Semaine 4"];
   const weekTitles = ["", "REMISE EN ROUTE", "ACTIVATION", "PIC CONTRÔLÉ", "FIN DE RAMADAN"];
   const weekIcons = ["", "🌙", "🔥", "⚡", "🌟"];
+
+  const phaseColorClass = currentPhase && currentPhase[2] ? "phase-fast" : "phase-slow";
 
   return (
     <div className="ramadan-page min-h-screen pb-24">
@@ -223,12 +350,25 @@ function ProgrammeRamadan() {
                 <p className="text-xs text-white/60">Aller bien, même à jeun</p>
               </div>
             </div>
-            <div className="flex gap-2">
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => setSoundEnabled(!soundEnabled)}>
-                {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5 text-white/40" />}
+            {/* Feedback Mode Toggle */}
+            <div className="flex gap-1">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className={`text-white hover:bg-white/10 ${feedbackMode === FEEDBACK_VIBRATION ? "bg-white/20" : ""}`}
+                onClick={() => setFeedbackMode(FEEDBACK_VIBRATION)}
+                title="Vibrations"
+              >
+                <Vibrate className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => setVibrationEnabled(!vibrationEnabled)}>
-                <Vibrate className={vibrationEnabled ? "w-5 h-5" : "w-5 h-5 text-white/40"} />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className={`text-white hover:bg-white/10 ${feedbackMode === FEEDBACK_SOUND ? "bg-white/20" : ""}`}
+                onClick={() => setFeedbackMode(FEEDBACK_SOUND)}
+                title="Son"
+              >
+                <Volume2 className="w-5 h-5" />
               </Button>
             </div>
           </div>
@@ -238,8 +378,25 @@ function ProgrammeRamadan() {
       <main className="max-w-4xl mx-auto px-4 py-6">
         {viewMode === "session" ? (
           <div className="space-y-6">
-            <div className="flex flex-col items-center py-8">
-              <div className={sessionComplete ? "timer-circle phase-complete" : currentPhase && currentPhase[2] ? "timer-circle phase-fast" : "timer-circle phase-slow"}>
+            {/* Feedback Mode Indicator */}
+            <div className="flex justify-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/80 text-sm">
+                {feedbackMode === FEEDBACK_VIBRATION ? (
+                  <>
+                    <Vibrate className="w-4 h-4 text-amber-400" />
+                    <span>Vibrations activées</span>
+                  </>
+                ) : (
+                  <>
+                    <Volume2 className="w-4 h-4 text-amber-400" />
+                    <span>Son activé</span>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center py-4">
+              <div className={sessionComplete ? "timer-circle phase-complete" : `timer-circle ${phaseColorClass}`}>
                 <div className="timer-inner">
                   {sessionComplete ? (
                     <div className="text-center">
@@ -260,11 +417,19 @@ function ProgrammeRamadan() {
                   )}
                 </div>
               </div>
+
+              {/* Step Counter with animation */}
               {!sessionComplete && (
-                <div className="mt-4 flex items-center gap-2 text-white/60">
-                  <Footprints className="w-5 h-5 text-amber-400" />
-                  <span className="text-2xl font-bold text-white">{stepCount}</span>
-                  <span>pas</span>
+                <div className="mt-6 flex flex-col items-center">
+                  <div className="flex items-center gap-3 bg-white/10 px-6 py-3 rounded-full">
+                    <Footprints className="w-6 h-6 text-amber-400 animate-bounce" />
+                    <span className="text-3xl font-bold text-white">{stepCount}</span>
+                    <span className="text-white/60">pas</span>
+                  </div>
+                  <p className="text-xs text-white/40 mt-2 flex items-center gap-1">
+                    <Smartphone className="w-3 h-3" />
+                    Garde ton téléphone sur toi
+                  </p>
                 </div>
               )}
             </div>
@@ -295,6 +460,17 @@ function ProgrammeRamadan() {
                 </Button>
               )}
             </div>
+
+            {/* Motion Permission Info */}
+            {!motionPermission && isRunning && (
+              <Card className="border-0 bg-amber-500/20">
+                <CardContent className="p-4 text-center">
+                  <p className="text-amber-300 text-sm">
+                    📱 Autorise l'accès aux capteurs de mouvement pour le comptage des pas automatique
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         ) : viewMode === "seances" ? (
           <div className="space-y-4">
@@ -303,6 +479,31 @@ function ProgrammeRamadan() {
               <h2 className="text-2xl font-bold text-white">{weekNames[selectedWeekId]}</h2>
               <p className="text-amber-400">{weekTitles[selectedWeekId]}</p>
             </div>
+
+            {/* Feedback Mode Selection */}
+            <Card className="border-0 bg-white/5">
+              <CardContent className="p-4">
+                <p className="text-white/80 text-sm mb-3 text-center">Choisis ton mode de feedback :</p>
+                <div className="flex justify-center gap-3">
+                  <Button 
+                    variant={feedbackMode === FEEDBACK_VIBRATION ? "default" : "outline"}
+                    className={`rounded-full flex items-center gap-2 ${feedbackMode === FEEDBACK_VIBRATION ? "bg-amber-500" : "border-white/20 text-white"}`}
+                    onClick={() => setFeedbackMode(FEEDBACK_VIBRATION)}
+                  >
+                    <Vibrate className="w-4 h-4" />
+                    Vibrations
+                  </Button>
+                  <Button 
+                    variant={feedbackMode === FEEDBACK_SOUND ? "default" : "outline"}
+                    className={`rounded-full flex items-center gap-2 ${feedbackMode === FEEDBACK_SOUND ? "bg-amber-500" : "border-white/20 text-white"}`}
+                    onClick={() => setFeedbackMode(FEEDBACK_SOUND)}
+                  >
+                    <Volume2 className="w-4 h-4" />
+                    Son
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
 
             <Card className="seance-card cursor-pointer border-0 hover:scale-[1.02] transition-all" onClick={() => startSession(selectedWeekId, 1)}>
               <CardContent className="p-4">
@@ -381,6 +582,23 @@ function ProgrammeRamadan() {
               </CardContent>
             </Card>
 
+            {/* Step Detection Info */}
+            <Card className="border-0 bg-white/5">
+              <CardContent className="p-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+                    <Footprints className="w-5 h-5 text-amber-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-white">Comptage des pas automatique</h4>
+                    <p className="text-sm text-white/60 mt-1">
+                      Ton téléphone détecte chaque pas et te donne un feedback en temps réel (vibration ou son).
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                 <Timer className="w-5 h-5 text-amber-400" />Choisis ta semaine
@@ -410,18 +628,6 @@ function ProgrammeRamadan() {
                 </Card>
               ))}
             </div>
-
-            <Card className="border-0 info-card">
-              <CardContent className="p-4">
-                <div className="flex items-start gap-3">
-                  <Vibrate className="w-5 h-5 text-amber-400" />
-                  <div>
-                    <h4 className="font-medium text-white">Vibrations & Son</h4>
-                    <p className="text-sm text-white/60">Chaque changement de phase déclenche une vibration.</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         )}
       </main>
