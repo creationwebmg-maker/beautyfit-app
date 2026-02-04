@@ -439,24 +439,24 @@ function ProgrammeRamadan() {
             <Card className="border-0 shadow-md" style={{ background: 'white' }}>
               <CardContent className="p-4">
                 <div className="flex justify-between mb-2">
-                  <span className="text-white/80">Progression</span>
-                  <span className="text-white/60">{Math.round((currentPhaseIndex / phases.length) * 100)}%</span>
+                  <span style={{ color: '#666' }}>Progression</span>
+                  <span style={{ color: '#999' }}>{Math.round((currentPhaseIndex / phases.length) * 100)}%</span>
                 </div>
-                <Progress value={(currentPhaseIndex / phases.length) * 100} className="h-2 bg-white/10" />
+                <Progress value={(currentPhaseIndex / phases.length) * 100} className="h-2" style={{ background: '#D2DDE7' }} />
               </CardContent>
             </Card>
 
             <div className="flex justify-center gap-4">
-              <Button variant="outline" size="lg" className="rounded-full w-14 h-14 border-white/20 text-white hover:bg-white/10" onClick={resetSession}>
+              <Button variant="outline" size="lg" className="rounded-full w-14 h-14" style={{ borderColor: '#D5A0A8', color: '#D5A0A8' }} onClick={resetSession}>
                 <RotateCcw className="w-6 h-6" />
               </Button>
               {!sessionComplete && (
-                <Button size="lg" className={isPaused ? "rounded-full w-20 h-20 bg-emerald-500" : "rounded-full w-20 h-20 bg-amber-500"} onClick={() => setIsPaused(!isPaused)}>
-                  {isPaused ? <Play className="w-10 h-10" /> : <Pause className="w-10 h-10" />}
+                <Button size="lg" className="rounded-full w-20 h-20" style={{ background: isPaused ? '#D5A0A8' : '#E37E7F' }} onClick={() => setIsPaused(!isPaused)}>
+                  {isPaused ? <Play className="w-10 h-10 text-white" /> : <Pause className="w-10 h-10 text-white" />}
                 </Button>
               )}
               {sessionComplete && (
-                <Button size="lg" className="rounded-full px-8 h-14 bg-gradient-to-r from-amber-500 to-orange-500" onClick={resetSession}>
+                <Button size="lg" className="rounded-full px-8 h-14 text-white" style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }} onClick={resetSession}>
                   <Sparkles className="w-5 h-5 mr-2" />
                   Nouvelle session
                 </Button>
@@ -465,9 +465,9 @@ function ProgrammeRamadan() {
 
             {/* Motion Permission Info */}
             {!motionPermission && isRunning && (
-              <Card className="border-0 bg-amber-500/20">
+              <Card className="border-0" style={{ background: 'rgba(213, 160, 168, 0.2)' }}>
                 <CardContent className="p-4 text-center">
-                  <p className="text-amber-300 text-sm">
+                  <p className="text-sm" style={{ color: '#E37E7F' }}>
                     📱 Autorise l'accès aux capteurs de mouvement pour le comptage des pas automatique
                   </p>
                 </CardContent>
@@ -478,26 +478,34 @@ function ProgrammeRamadan() {
           <div className="space-y-4">
             <div className="text-center mb-6">
               <span className="text-4xl">{weekIcons[selectedWeekId]}</span>
-              <h2 className="text-2xl font-bold text-white">{weekNames[selectedWeekId]}</h2>
-              <p className="text-amber-400">{weekTitles[selectedWeekId]}</p>
+              <h2 className="text-2xl font-bold" style={{ color: '#333' }}>{weekNames[selectedWeekId]}</h2>
+              <p style={{ color: '#E37E7F' }}>{weekTitles[selectedWeekId]}</p>
             </div>
 
             {/* Feedback Mode Selection */}
-            <Card className="border-0 bg-white/5">
+            <Card className="border-0 shadow-md" style={{ background: 'white' }}>
               <CardContent className="p-4">
-                <p className="text-white/80 text-sm mb-3 text-center">Choisis ton mode de feedback :</p>
+                <p className="text-sm mb-3 text-center" style={{ color: '#666' }}>Choisis ton mode de feedback :</p>
                 <div className="flex justify-center gap-3">
                   <Button 
-                    variant={feedbackMode === FEEDBACK_VIBRATION ? "default" : "outline"}
-                    className={`rounded-full flex items-center gap-2 ${feedbackMode === FEEDBACK_VIBRATION ? "bg-amber-500" : "border-white/20 text-white"}`}
+                    className={`rounded-full flex items-center gap-2 ${feedbackMode === FEEDBACK_VIBRATION ? "text-white" : ""}`}
+                    style={{ 
+                      background: feedbackMode === FEEDBACK_VIBRATION ? '#E37E7F' : 'transparent',
+                      border: feedbackMode === FEEDBACK_VIBRATION ? 'none' : '1px solid #D5A0A8',
+                      color: feedbackMode === FEEDBACK_VIBRATION ? 'white' : '#D5A0A8'
+                    }}
                     onClick={() => setFeedbackMode(FEEDBACK_VIBRATION)}
                   >
                     <Vibrate className="w-4 h-4" />
                     Vibrations
                   </Button>
                   <Button 
-                    variant={feedbackMode === FEEDBACK_SOUND ? "default" : "outline"}
-                    className={`rounded-full flex items-center gap-2 ${feedbackMode === FEEDBACK_SOUND ? "bg-amber-500" : "border-white/20 text-white"}`}
+                    className={`rounded-full flex items-center gap-2 ${feedbackMode === FEEDBACK_SOUND ? "text-white" : ""}`}
+                    style={{ 
+                      background: feedbackMode === FEEDBACK_SOUND ? '#E37E7F' : 'transparent',
+                      border: feedbackMode === FEEDBACK_SOUND ? 'none' : '1px solid #D5A0A8',
+                      color: feedbackMode === FEEDBACK_SOUND ? 'white' : '#D5A0A8'
+                    }}
                     onClick={() => setFeedbackMode(FEEDBACK_SOUND)}
                   >
                     <Volume2 className="w-4 h-4" />
@@ -507,7 +515,7 @@ function ProgrammeRamadan() {
               </CardContent>
             </Card>
 
-            <Card className="seance-card cursor-pointer border-0 hover:scale-[1.02] transition-all" onClick={() => startSession(selectedWeekId, 1)}>
+            <Card className="seance-card cursor-pointer hover:scale-[1.02] transition-all" onClick={() => startSession(selectedWeekId, 1)}>
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
                   <div className={"w-12 h-12 rounded-full flex items-center justify-center week-" + selectedWeekId}>
