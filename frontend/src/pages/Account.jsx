@@ -404,8 +404,12 @@ const Account = () => {
             )}
           </TabsContent>
         </Tabs>
-      </div>
-    </Layout>
+          </div>
+        )}
+      </main>
+
+      <BottomNavBar />
+    </div>
   );
 };
 
