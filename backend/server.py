@@ -377,7 +377,8 @@ async def google_auth(request: GoogleAuthRequest):
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         await db.users.insert_one(user)
-        del user["_id"] if "_id" in user else None
+        if "_id" in user:
+            del user["_id"]
     
     # Create token
     token = create_token(user["id"], user["email"])
