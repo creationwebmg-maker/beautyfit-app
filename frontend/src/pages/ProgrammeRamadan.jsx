@@ -21,86 +21,11 @@ import {
 } from "lucide-react";
 import "./ProgrammeRamadan.css";
 
-// Data stored outside component
-const WEEK_1_SEANCES = [
-  { id: "s1-1", name: "Séance 1", phases: [
-    { label: "Marche lente", duration: 300, fast: false },
-    { label: "Fractionné (x4)", duration: 480, fast: true },
-    { label: "Marche bras actifs", duration: 420, fast: true },
-    { label: "Retour au calme", duration: 300, fast: false }
-  ]},
-  { id: "s1-2", name: "Séance 2 - Rythme continu", phases: [
-    { label: "Échauffement", duration: 300, fast: false },
-    { label: "Marche active", duration: 900, fast: true },
-    { label: "Fractionnés courts (x5)", duration: 300, fast: true },
-    { label: "Respiration lente", duration: 300, fast: false }
-  ]},
-  { id: "s1-3", name: "Séance 3 - Douce", optional: true, phases: [
-    { label: "Marche libre", duration: 1800, fast: false }
-  ]}
-];
-
-const WEEK_2_SEANCES = [
-  { id: "s2-1", name: "Séance 1 - Fractionné court", phases: [
-    { label: "Échauffement", duration: 300, fast: false },
-    { label: "Fractionnés intenses (x5)", duration: 600, fast: true },
-    { label: "Retour au calme", duration: 480, fast: false }
-  ]},
-  { id: "s2-2", name: "Séance 2 - Variée", phases: [
-    { label: "Marche fluide", duration: 300, fast: false },
-    { label: "Alternance (x4)", duration: 360, fast: true },
-    { label: "Marche + bras", duration: 300, fast: true },
-    { label: "Marche lente", duration: 300, fast: false }
-  ]},
-  { id: "s2-3", name: "Séance 3 - Posture", optional: true, phases: [
-    { label: "Marche active", duration: 1800, fast: true }
-  ]}
-];
-
-const WEEK_3_SEANCES = [
-  { id: "s3-1", name: "Séance 1 - Dynamique", phases: [
-    { label: "Échauffement", duration: 300, fast: false },
-    { label: "Fractionnés intensifs (x5)", duration: 600, fast: true },
-    { label: "Marche libre", duration: 420, fast: false }
-  ]},
-  { id: "s3-2", name: "Séance 2 - Challenge", phases: [
-    { label: "Marche cool", duration: 300, fast: false },
-    { label: "Blocs longs (x4)", duration: 720, fast: true },
-    { label: "Marche lente", duration: 600, fast: false }
-  ]},
-  { id: "s3-3", name: "Séance 3 - Allégée", optional: true, phases: [
-    { label: "Marche continue", duration: 1200, fast: false }
-  ]}
-];
-
-const WEEK_4_SEANCES = [
-  { id: "s4-1", name: "Séance 1 - Relance douce", phases: [
-    { label: "Marche lente", duration: 600, fast: false },
-    { label: "Fractionnés légers (x5)", duration: 450, fast: true },
-    { label: "Allure modérée", duration: 600, fast: true }
-  ]},
-  { id: "s4-2", name: "Séance 2 - Énergie basse", phases: [
-    { label: "Marche libre", duration: 300, fast: false },
-    { label: "Fractionnés doux (x4)", duration: 260, fast: true },
-    { label: "Allure modérée", duration: 300, fast: true },
-    { label: "Lente + bras actifs", duration: 300, fast: false }
-  ]},
-  { id: "s4-3", name: "Séance 3", optional: true, phases: [
-    { label: "Marche modérée", duration: 900, fast: false }
-  ]}
-];
-
-const WEEKS_DATA = [
-  { id: 1, name: "Semaine 1", title: "REMISE EN ROUTE", icon: "🌙", colorClass: "week-1", seances: WEEK_1_SEANCES, intensity: 65 },
-  { id: 2, name: "Semaine 2", title: "ACTIVATION", icon: "🔥", colorClass: "week-2", seances: WEEK_2_SEANCES, intensity: 80 },
-  { id: 3, name: "Semaine 3", title: "PIC CONTRÔLÉ", subtitle: "Semaine intense", icon: "⚡", colorClass: "week-3", seances: WEEK_3_SEANCES, intensity: 100 },
-  { id: 4, name: "Semaine 4", title: "FIN DE RAMADAN", subtitle: "Préserver l'énergie", icon: "🌟", colorClass: "week-4", seances: WEEK_4_SEANCES, intensity: 40 }
-];
-
 function ProgrammeRamadan() {
   const navigate = useNavigate();
-  const [selectedWeek, setSelectedWeek] = useState(null);
-  const [selectedSeance, setSelectedSeance] = useState(null);
+  const [selectedWeekId, setSelectedWeekId] = useState(0);
+  const [selectedSeanceId, setSelectedSeanceId] = useState(0);
+  const [viewMode, setViewMode] = useState("weeks");
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
@@ -112,6 +37,68 @@ function ProgrammeRamadan() {
 
   const intervalRef = useRef(null);
   const audioContextRef = useRef(null);
+
+  // Simple data - phases for each seance
+  const getPhases = useCallback((weekId, seanceId) => {
+    if (weekId === 1) {
+      if (seanceId === 1) return [
+        ["Marche lente", 300, false],
+        ["Fractionné (x4)", 480, true],
+        ["Marche bras actifs", 420, true],
+        ["Retour au calme", 300, false]
+      ];
+      if (seanceId === 2) return [
+        ["Échauffement", 300, false],
+        ["Marche active", 900, true],
+        ["Fractionnés courts (x5)", 300, true],
+        ["Respiration lente", 300, false]
+      ];
+      return [["Marche libre", 1800, false]];
+    }
+    if (weekId === 2) {
+      if (seanceId === 1) return [
+        ["Échauffement", 300, false],
+        ["Fractionnés intenses (x5)", 600, true],
+        ["Retour au calme", 480, false]
+      ];
+      if (seanceId === 2) return [
+        ["Marche fluide", 300, false],
+        ["Alternance (x4)", 360, true],
+        ["Marche + bras", 300, true],
+        ["Marche lente", 300, false]
+      ];
+      return [["Marche active", 1800, true]];
+    }
+    if (weekId === 3) {
+      if (seanceId === 1) return [
+        ["Échauffement", 300, false],
+        ["Fractionnés intensifs (x5)", 600, true],
+        ["Marche libre", 420, false]
+      ];
+      if (seanceId === 2) return [
+        ["Marche cool", 300, false],
+        ["Blocs longs (x4)", 720, true],
+        ["Marche lente", 600, false]
+      ];
+      return [["Marche continue", 1200, false]];
+    }
+    // Week 4
+    if (seanceId === 1) return [
+      ["Marche lente", 600, false],
+      ["Fractionnés légers (x5)", 450, true],
+      ["Allure modérée", 600, true]
+    ];
+    if (seanceId === 2) return [
+      ["Marche libre", 300, false],
+      ["Fractionnés doux (x4)", 260, true],
+      ["Allure modérée", 300, true],
+      ["Lente + bras", 300, false]
+    ];
+    return [["Marche modérée", 900, false]];
+  }, []);
+
+  const phases = getPhases(selectedWeekId, selectedSeanceId);
+  const currentPhase = phases[currentPhaseIndex];
 
   useEffect(function initAudio() {
     audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
@@ -132,35 +119,38 @@ function ProgrammeRamadan() {
       gain.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + (dur || 200)/1000);
       osc.start();
       osc.stop(audioContextRef.current.currentTime + (dur || 200)/1000);
-    } catch(e) { /* ignore */ }
+    } catch(e) {}
   }, [soundEnabled]);
 
   const vibrate = useCallback(function vib(pattern) {
-    if (vibrationEnabled && navigator.vibrate) {
-      navigator.vibrate(pattern);
-    }
+    if (vibrationEnabled && navigator.vibrate) navigator.vibrate(pattern);
   }, [vibrationEnabled]);
 
-  function startSession(seance) {
-    setSelectedSeance(seance);
+  function startSession(weekId, seanceId) {
+    setSelectedWeekId(weekId);
+    setSelectedSeanceId(seanceId);
+    const firstPhases = getPhases(weekId, seanceId);
     setCurrentPhaseIndex(0);
-    setTimeLeft(seance.phases[0].duration);
+    setTimeLeft(firstPhases[0][1]);
     setIsRunning(true);
     setIsPaused(false);
     setSessionComplete(false);
     setStepCount(0);
+    setViewMode("session");
     vibrate([300, 100, 300]);
     playBeep(1000, 300);
   }
 
   useEffect(function timerEffect() {
-    if (!isRunning || isPaused || !selectedSeance) return;
+    if (!isRunning || isPaused || viewMode !== "session") return;
+    
+    const currentPhases = getPhases(selectedWeekId, selectedSeanceId);
     
     intervalRef.current = setInterval(function tick() {
       setTimeLeft(function updateTime(prev) {
         if (prev <= 1) {
           const nextIdx = currentPhaseIndex + 1;
-          if (nextIdx >= selectedSeance.phases.length) {
+          if (nextIdx >= currentPhases.length) {
             setIsRunning(false);
             setSessionComplete(true);
             vibrate([500, 200, 500]);
@@ -170,55 +160,51 @@ function ProgrammeRamadan() {
           setCurrentPhaseIndex(nextIdx);
           vibrate([300, 150, 300]);
           playBeep(1000, 400);
-          return selectedSeance.phases[nextIdx].duration;
+          return currentPhases[nextIdx][1];
         }
         if (prev <= 4 && prev > 1) {
           playBeep(700, 100);
           vibrate([50]);
         }
-        const phase = selectedSeance.phases[currentPhaseIndex];
-        if (phase && phase.fast && Math.random() > 0.7) {
+        if (currentPhases[currentPhaseIndex] && currentPhases[currentPhaseIndex][2] && Math.random() > 0.7) {
           setStepCount(function inc(s) { return s + 1; });
         }
         return prev - 1;
       });
     }, 1000);
     
-    return function cleanupTimer() { 
-      clearInterval(intervalRef.current); 
-    };
-  }, [isRunning, isPaused, selectedSeance, currentPhaseIndex, vibrate, playBeep]);
+    return function cleanupTimer() { clearInterval(intervalRef.current); };
+  }, [isRunning, isPaused, viewMode, selectedWeekId, selectedSeanceId, currentPhaseIndex, vibrate, playBeep, getPhases]);
 
   function resetSession() {
     setIsRunning(false);
     setIsPaused(false);
-    setSelectedSeance(null);
     setCurrentPhaseIndex(0);
     setTimeLeft(0);
     setSessionComplete(false);
     setStepCount(0);
     clearInterval(intervalRef.current);
+    setViewMode("seances");
   }
 
   function formatTime(s) {
-    const mins = Math.floor(s / 60);
-    const secs = s % 60;
-    return mins + ":" + secs.toString().padStart(2, "0");
+    return Math.floor(s / 60) + ":" + (s % 60).toString().padStart(2, "0");
   }
 
   function handleBack() {
-    if (selectedSeance) {
+    if (viewMode === "session") {
       if (isRunning) resetSession();
-      else setSelectedSeance(null);
-    } else if (selectedWeek) {
-      setSelectedWeek(null);
+      else setViewMode("seances");
+    } else if (viewMode === "seances") {
+      setViewMode("weeks");
     } else {
       navigate(-1);
     }
   }
 
-  const phase = selectedSeance ? selectedSeance.phases[currentPhaseIndex] : null;
-  const phaseColorClass = phase && phase.fast ? "phase-fast" : "phase-slow";
+  const weekNames = ["", "Semaine 1", "Semaine 2", "Semaine 3", "Semaine 4"];
+  const weekTitles = ["", "REMISE EN ROUTE", "ACTIVATION", "PIC CONTRÔLÉ", "FIN DE RAMADAN"];
+  const weekIcons = ["", "🌙", "🔥", "⚡", "🌟"];
 
   return (
     <div className="ramadan-page min-h-screen pb-24">
@@ -242,7 +228,7 @@ function ProgrammeRamadan() {
                 {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5 text-white/40" />}
               </Button>
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => setVibrationEnabled(!vibrationEnabled)}>
-                <Vibrate className={`w-5 h-5 ${!vibrationEnabled ? "text-white/40" : ""}`} />
+                <Vibrate className={vibrationEnabled ? "w-5 h-5" : "w-5 h-5 text-white/40"} />
               </Button>
             </div>
           </div>
@@ -250,10 +236,10 @@ function ProgrammeRamadan() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-6">
-        {selectedSeance && (isRunning || sessionComplete) ? (
+        {viewMode === "session" ? (
           <div className="space-y-6">
             <div className="flex flex-col items-center py-8">
-              <div className={`timer-circle ${sessionComplete ? "phase-complete" : phaseColorClass}`}>
+              <div className={sessionComplete ? "timer-circle phase-complete" : currentPhase && currentPhase[2] ? "timer-circle phase-fast" : "timer-circle phase-slow"}>
                 <div className="timer-inner">
                   {sessionComplete ? (
                     <div className="text-center">
@@ -266,15 +252,14 @@ function ProgrammeRamadan() {
                   ) : (
                     <div className="text-center">
                       <span className="text-6xl font-bold text-white">{formatTime(timeLeft)}</span>
-                      <span className="block text-lg font-semibold mt-2 text-amber-400">{phase ? phase.label : ""}</span>
+                      <span className="block text-lg font-semibold mt-2 text-amber-400">{currentPhase ? currentPhase[0] : ""}</span>
                       <div className="flex items-center justify-center gap-2 mt-2 text-white/60">
-                        <span>Phase {currentPhaseIndex + 1}/{selectedSeance.phases.length}</span>
+                        <span>Phase {currentPhaseIndex + 1}/{phases.length}</span>
                       </div>
                     </div>
                   )}
                 </div>
               </div>
-
               {!sessionComplete && (
                 <div className="mt-4 flex items-center gap-2 text-white/60">
                   <Footprints className="w-5 h-5 text-amber-400" />
@@ -288,9 +273,9 @@ function ProgrammeRamadan() {
               <CardContent className="p-4">
                 <div className="flex justify-between mb-2">
                   <span className="text-white/80">Progression</span>
-                  <span className="text-white/60">{Math.round((currentPhaseIndex / selectedSeance.phases.length) * 100)}%</span>
+                  <span className="text-white/60">{Math.round((currentPhaseIndex / phases.length) * 100)}%</span>
                 </div>
-                <Progress value={(currentPhaseIndex / selectedSeance.phases.length) * 100} className="h-2 bg-white/10" />
+                <Progress value={(currentPhaseIndex / phases.length) * 100} className="h-2 bg-white/10" />
               </CardContent>
             </Card>
 
@@ -299,8 +284,7 @@ function ProgrammeRamadan() {
                 <RotateCcw className="w-6 h-6" />
               </Button>
               {!sessionComplete && (
-                <Button size="lg" className={`rounded-full w-20 h-20 ${isPaused ? "bg-emerald-500" : "bg-amber-500"}`}
-                  onClick={() => setIsPaused(!isPaused)}>
+                <Button size="lg" className={isPaused ? "rounded-full w-20 h-20 bg-emerald-500" : "rounded-full w-20 h-20 bg-amber-500"} onClick={() => setIsPaused(!isPaused)}>
                   {isPaused ? <Play className="w-10 h-10" /> : <Pause className="w-10 h-10" />}
                 </Button>
               )}
@@ -312,36 +296,60 @@ function ProgrammeRamadan() {
               )}
             </div>
           </div>
-        ) : selectedWeek && !selectedSeance ? (
+        ) : viewMode === "seances" ? (
           <div className="space-y-4">
             <div className="text-center mb-6">
-              <span className="text-4xl">{selectedWeek.icon}</span>
-              <h2 className="text-2xl font-bold text-white">{selectedWeek.name}</h2>
-              <p className="text-amber-400">{selectedWeek.title}</p>
-              {selectedWeek.subtitle && <p className="text-white/60 text-sm">{selectedWeek.subtitle}</p>}
+              <span className="text-4xl">{weekIcons[selectedWeekId]}</span>
+              <h2 className="text-2xl font-bold text-white">{weekNames[selectedWeekId]}</h2>
+              <p className="text-amber-400">{weekTitles[selectedWeekId]}</p>
             </div>
 
-            {selectedWeek.seances.map((seance) => (
-              <Card key={seance.id} className={`cursor-pointer border-0 hover:scale-[1.02] transition-all seance-card ${seance.optional ? "opacity-80" : ""}`}
-                onClick={() => startSession(seance)}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center ${selectedWeek.colorClass}`}>
-                        <Play className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-white">{seance.name}</h3>
-                        <p className="text-sm text-white/60">{seance.phases.length} phases</p>
-                      </div>
-                    </div>
-                    {seance.optional && <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/60">Optionnelle</span>}
+            <Card className="seance-card cursor-pointer border-0 hover:scale-[1.02] transition-all" onClick={() => startSession(selectedWeekId, 1)}>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className={"w-12 h-12 rounded-full flex items-center justify-center week-" + selectedWeekId}>
+                    <Play className="w-5 h-5 text-white" />
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                  <div>
+                    <h3 className="font-semibold text-white">Séance 1</h3>
+                    <p className="text-sm text-white/60">{getPhases(selectedWeekId, 1).length} phases</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-            <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10" onClick={() => setSelectedWeek(null)}>
+            <Card className="seance-card cursor-pointer border-0 hover:scale-[1.02] transition-all" onClick={() => startSession(selectedWeekId, 2)}>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className={"w-12 h-12 rounded-full flex items-center justify-center week-" + selectedWeekId}>
+                    <Play className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white">Séance 2</h3>
+                    <p className="text-sm text-white/60">{getPhases(selectedWeekId, 2).length} phases</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="seance-card cursor-pointer border-0 hover:scale-[1.02] transition-all opacity-80" onClick={() => startSession(selectedWeekId, 3)}>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={"w-12 h-12 rounded-full flex items-center justify-center week-" + selectedWeekId}>
+                      <Play className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">Séance 3</h3>
+                      <p className="text-sm text-white/60">{getPhases(selectedWeekId, 3).length} phases</p>
+                    </div>
+                  </div>
+                  <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/60">Optionnelle</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10" onClick={() => setViewMode("weeks")}>
               <ChevronLeft className="w-4 h-4 mr-2" />Retour
             </Button>
           </div>
@@ -378,26 +386,25 @@ function ProgrammeRamadan() {
                 <Timer className="w-5 h-5 text-amber-400" />Choisis ta semaine
               </h2>
               
-              {WEEKS_DATA.map((week) => (
-                <Card key={week.id} className="cursor-pointer border-0 hover:scale-[1.02] transition-all overflow-hidden" onClick={() => setSelectedWeek(week)}>
-                  <div className={`p-4 text-white ${week.colorClass}`}>
+              {[1, 2, 3, 4].map((weekId) => (
+                <Card key={weekId} className="cursor-pointer border-0 hover:scale-[1.02] transition-all overflow-hidden" onClick={() => { setSelectedWeekId(weekId); setViewMode("seances"); }}>
+                  <div className={"p-4 text-white week-" + weekId}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <span className="text-3xl">{week.icon}</span>
+                        <span className="text-3xl">{weekIcons[weekId]}</span>
                         <div>
-                          <h3 className="text-xl font-bold">{week.name}</h3>
-                          <p className="text-white/90 text-sm">{week.title}</p>
+                          <h3 className="text-xl font-bold">{weekNames[weekId]}</h3>
+                          <p className="text-white/90 text-sm">{weekTitles[weekId]}</p>
                         </div>
                       </div>
                       <div className="text-right text-sm text-white/80">2-3 séances</div>
                     </div>
-                    {week.subtitle && <p className="mt-2 text-sm text-white/70 italic">{week.subtitle}</p>}
                     <div className="mt-3 flex items-center gap-2">
                       <Battery className="w-4 h-4" />
                       <div className="flex-1 h-2 bg-white/20 rounded-full overflow-hidden">
-                        <div className="h-full bg-white/80 rounded-full" style={{width: `${week.intensity}%`}} />
+                        <div className="h-full bg-white/80 rounded-full" style={{width: weekId === 3 ? "100%" : weekId === 4 ? "40%" : (50 + weekId * 15) + "%"}} />
                       </div>
-                      <span className="text-xs">{week.id === 3 ? "Intense" : week.id === 4 ? "Doux" : "Modéré"}</span>
+                      <span className="text-xs">{weekId === 3 ? "Intense" : weekId === 4 ? "Doux" : "Modéré"}</span>
                     </div>
                   </div>
                 </Card>
