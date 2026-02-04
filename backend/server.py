@@ -1274,13 +1274,13 @@ Réponds UNIQUEMENT en JSON valide avec ce format exact:
         )
         chat.with_model("openai", "gpt-4o")
         
-        # Create file content for image
-        file_content = FileContent(content_type="image/jpeg", file_content_base64=request.image_base64)
+        # Create image content
+        image_content = ImageContent(image_base64=request.image_base64)
         
         # Send message with image
         user_message = UserMessage(
             text="Analyse ce repas et donne-moi les informations nutritionnelles détaillées en JSON.",
-            file_contents=[file_content]
+            file_contents=[image_content]
         )
         
         response = await chat.send_message(user_message)
