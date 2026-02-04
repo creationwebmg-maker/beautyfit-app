@@ -79,6 +79,9 @@ function AppRoutes() {
       {/* Splash Screen */}
       <Route path="/" element={<SplashScreen />} />
       
+      {/* Auth Callback for Google OAuth */}
+      <Route path="/auth/callback" element={<AuthCallback />} />
+      
       {/* Public Routes */}
       <Route path="/home" element={<Dashboard />} />
       <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
