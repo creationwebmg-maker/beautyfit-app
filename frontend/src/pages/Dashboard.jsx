@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,13 +10,15 @@ import {
   Moon,
   Timer,
   Zap,
-  Heart
+  Heart,
+  X
 } from "lucide-react";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { token } = useAuth();
   const isAuthenticated = !!token;
+  const [showNotification, setShowNotification] = useState(false);
 
   const motivationalQuotes = [
     "✨ Chaque pas compte vers ta meilleure version ✨",
@@ -26,8 +28,74 @@ const Dashboard = () => {
     "🔥 30 minutes pour transformer ta journée 🔥"
   ];
 
+  // Show notification after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowNotification(true);
+    }, 3000);
+    
+    // Auto-hide after 8 seconds
+    const hideTimer = setTimeout(() => {
+      setShowNotification(false);
+    }, 11000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen pb-24 md:pb-8" style={{ background: '#F7F5F2' }}>
+      {/* iOS Style Push Notification */}
+      {showNotification && (
+        <div className="fixed top-4 left-4 right-4 z-[100] animate-slide-down">
+          <div 
+            className="mx-auto max-w-md rounded-2xl p-4 shadow-2xl backdrop-blur-xl"
+            style={{ 
+              background: 'rgba(255, 255, 255, 0.95)',
+              border: '1px solid rgba(0,0,0,0.1)'
+            }}
+          >
+            <div className="flex items-start gap-3">
+              {/* App Icon */}
+              <div className="flex-shrink-0">
+                <img 
+                  src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
+                  alt="Beauty Fit" 
+                  className="w-12 h-12 rounded-xl object-contain"
+                  style={{ background: '#F7F5F2' }}
+                />
+              </div>
+              
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium uppercase tracking-wide" style={{ color: '#E37E7F' }}>
+                    BEAUTY FIT BY AMEL
+                  </span>
+                  <span className="text-xs" style={{ color: '#999' }}>maintenant</span>
+                </div>
+                <p className="mt-1 text-sm font-semibold" style={{ color: '#333' }}>
+                  💪 Rappel du jour
+                </p>
+                <p className="mt-0.5 text-sm leading-snug" style={{ color: '#666' }}>
+                  Tes courbatures d'aujourd'hui sont tes muscles de demain 🔥
+                </p>
+              </div>
+              
+              {/* Close button */}
+              <button 
+                onClick={() => setShowNotification(false)}
+                className="flex-shrink-0 p-1 rounded-full hover:bg-black/5 transition-colors"
+              >
+                <X className="w-4 h-4" style={{ color: '#999' }} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-[#D2DDE7]" style={{ background: '#F7F5F2' }}>
         <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -257,7 +325,7 @@ const Dashboard = () => {
         </div>
       </footer>
 
-      {/* CSS for marquee animation */}
+      {/* CSS Animations */}
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
@@ -265,6 +333,19 @@ const Dashboard = () => {
         }
         .animate-marquee {
           animation: marquee 20s linear infinite;
+        }
+        @keyframes slide-down {
+          0% { 
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          100% { 
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        .animate-slide-down {
+          animation: slide-down 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
       `}</style>
     </div>
