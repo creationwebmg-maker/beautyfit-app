@@ -18,7 +18,8 @@ import {
   Loader2,
   Calendar,
   LogOut,
-  ChevronLeft
+  ChevronLeft,
+  Camera
 } from "lucide-react";
 import BottomNavBar from "@/components/BottomNavBar";
 
@@ -149,6 +150,31 @@ const Account = () => {
         ) : (
           /* Logged In View */
           <div className="space-y-6" data-testid="account-page">
+            {/* Quick Access Card - Calorie Tracker */}
+            <Card 
+              className="border-0 shadow-md cursor-pointer hover:shadow-lg transition-shadow"
+              style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}
+              onClick={() => navigate("/calories")}
+              data-testid="calorie-tracker-card"
+            >
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center">
+                    <Camera className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
+                      Compteur de Calories
+                    </h3>
+                    <p className="text-white/80 text-sm">
+                      Photographiez votre repas pour calculer les calories
+                    </p>
+                  </div>
+                  <ChevronLeft className="w-6 h-6 text-white rotate-180" />
+                </div>
+              </CardContent>
+            </Card>
+
             <Tabs defaultValue="profile" className="space-y-6">
               <TabsList className="bg-white p-1 rounded-full shadow-sm w-full">
                 <TabsTrigger 
