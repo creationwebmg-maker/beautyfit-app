@@ -28,6 +28,9 @@ import RefundPolicy from "@/pages/RefundPolicy";
 // Programme Pages
 import ProgrammeMarche from "@/pages/ProgrammeMarche";
 
+// Admin Panel
+import AdminPanel from "@/pages/AdminPanel";
+
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -90,8 +93,9 @@ function AppRoutes() {
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
       <Route path="/payment/success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
       
-      {/* Admin Route */}
+      {/* Admin Routes */}
       <Route path="/admin" element={<Admin />} />
+      <Route path="/admin-panel" element={<AdminPanel />} />
       
       {/* Legal Pages */}
       <Route path="/mentions-legales" element={<LegalMentions />} />
