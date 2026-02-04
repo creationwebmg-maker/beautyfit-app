@@ -150,6 +150,12 @@ class ProfileUpdate(BaseModel):
     first_name: Optional[str] = None
     fitness_goal: Optional[str] = None
 
+class GoogleAuthRequest(BaseModel):
+    email: str
+    name: str
+    picture: Optional[str] = None
+    session_token: str
+
 # ==================== SITE CONTENT MODELS ====================
 
 class ProgramContent(BaseModel):
