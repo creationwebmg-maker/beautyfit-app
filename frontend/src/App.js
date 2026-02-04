@@ -27,6 +27,7 @@ import RefundPolicy from "@/pages/RefundPolicy";
 
 // Programme Pages
 import ProgrammeMarche from "@/pages/ProgrammeMarche";
+import ProgrammeRamadan from "@/pages/ProgrammeRamadan";
 
 // Admin Panel
 import AdminPanel from "@/pages/AdminPanel";
@@ -105,6 +106,7 @@ function AppRoutes() {
       
       {/* Programme Pages */}
       <Route path="/programme/marche-poussette" element={<ProgrammeMarche />} />
+      <Route path="/programme/ramadan" element={<ProgrammeRamadan />} />
       
       {/* Catch all */}
       <Route path="*" element={<Navigate to="/" replace />} />
