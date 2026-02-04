@@ -19,6 +19,7 @@ import {
   Battery,
   Sparkles
 } from "lucide-react";
+import "./ProgrammeRamadan.css";
 
 // Data stored outside component
 const WEEK_1_SEANCES = [
@@ -90,10 +91,10 @@ const WEEK_4_SEANCES = [
 ];
 
 const WEEKS_DATA = [
-  { id: 1, name: "Semaine 1", title: "REMISE EN ROUTE", icon: "🌙", color: "from-amber-400 to-orange-500", seances: WEEK_1_SEANCES },
-  { id: 2, name: "Semaine 2", title: "ACTIVATION", icon: "🔥", color: "from-orange-400 to-red-500", seances: WEEK_2_SEANCES },
-  { id: 3, name: "Semaine 3", title: "PIC CONTRÔLÉ", subtitle: "Semaine intense", icon: "⚡", color: "from-red-400 to-rose-500", seances: WEEK_3_SEANCES },
-  { id: 4, name: "Semaine 4", title: "FIN DE RAMADAN", subtitle: "Préserver l'énergie", icon: "🌟", color: "from-rose-400 to-purple-500", seances: WEEK_4_SEANCES }
+  { id: 1, name: "Semaine 1", title: "REMISE EN ROUTE", icon: "🌙", colorClass: "week-1", seances: WEEK_1_SEANCES, intensity: 65 },
+  { id: 2, name: "Semaine 2", title: "ACTIVATION", icon: "🔥", colorClass: "week-2", seances: WEEK_2_SEANCES, intensity: 80 },
+  { id: 3, name: "Semaine 3", title: "PIC CONTRÔLÉ", subtitle: "Semaine intense", icon: "⚡", colorClass: "week-3", seances: WEEK_3_SEANCES, intensity: 100 },
+  { id: 4, name: "Semaine 4", title: "FIN DE RAMADAN", subtitle: "Préserver l'énergie", icon: "🌟", colorClass: "week-4", seances: WEEK_4_SEANCES, intensity: 40 }
 ];
 
 function ProgrammeRamadan() {
@@ -207,11 +208,8 @@ function ProgrammeRamadan() {
 
   function handleBack() {
     if (selectedSeance) {
-      if (isRunning) {
-        resetSession();
-      } else {
-        setSelectedSeance(null);
-      }
+      if (isRunning) resetSession();
+      else setSelectedSeance(null);
     } else if (selectedWeek) {
       setSelectedWeek(null);
     } else {
@@ -220,11 +218,11 @@ function ProgrammeRamadan() {
   }
 
   const phase = selectedSeance ? selectedSeance.phases[currentPhaseIndex] : null;
-  const phaseColor = phase && phase.fast ? "from-rose-500 to-red-600" : "from-emerald-400 to-green-600";
+  const phaseColorClass = phase && phase.fast ? "phase-fast" : "phase-slow";
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: "linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)" }}>
-      <header className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/10" style={{ background: "rgba(26,26,46,0.9)" }}>
+    <div className="ramadan-page min-h-screen pb-24">
+      <header className="ramadan-header sticky top-0 z-50 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
@@ -240,11 +238,11 @@ function ProgrammeRamadan() {
               </div>
             </div>
             <div className="flex gap-2">
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={function() { setSoundEnabled(!soundEnabled); }}>
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => setSoundEnabled(!soundEnabled)}>
                 {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5 text-white/40" />}
               </Button>
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={function() { setVibrationEnabled(!vibrationEnabled); }}>
-                <Vibrate className={"w-5 h-5 " + (!vibrationEnabled ? "text-white/40" : "")} />
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => setVibrationEnabled(!vibrationEnabled)}>
+                <Vibrate className={`w-5 h-5 ${!vibrationEnabled ? "text-white/40" : ""}`} />
               </Button>
             </div>
           </div>
@@ -255,8 +253,8 @@ function ProgrammeRamadan() {
         {selectedSeance && (isRunning || sessionComplete) ? (
           <div className="space-y-6">
             <div className="flex flex-col items-center py-8">
-              <div className={"relative w-72 h-72 rounded-full p-2 shadow-2xl bg-gradient-to-br " + (sessionComplete ? "from-emerald-400 to-green-600" : phaseColor)}>
-                <div className="w-full h-full rounded-full flex flex-col items-center justify-center" style={{ background: "#1a1a2e" }}>
+              <div className={`timer-circle ${sessionComplete ? "phase-complete" : phaseColorClass}`}>
+                <div className="timer-inner">
                   {sessionComplete ? (
                     <div className="text-center">
                       <div className="text-6xl mb-4">🌙</div>
@@ -301,8 +299,8 @@ function ProgrammeRamadan() {
                 <RotateCcw className="w-6 h-6" />
               </Button>
               {!sessionComplete && (
-                <Button size="lg" className={"rounded-full w-20 h-20 " + (isPaused ? "bg-emerald-500" : "bg-amber-500")}
-                  onClick={function() { setIsPaused(!isPaused); }}>
+                <Button size="lg" className={`rounded-full w-20 h-20 ${isPaused ? "bg-emerald-500" : "bg-amber-500"}`}
+                  onClick={() => setIsPaused(!isPaused)}>
                   {isPaused ? <Play className="w-10 h-10" /> : <Pause className="w-10 h-10" />}
                 </Button>
               )}
@@ -323,29 +321,27 @@ function ProgrammeRamadan() {
               {selectedWeek.subtitle && <p className="text-white/60 text-sm">{selectedWeek.subtitle}</p>}
             </div>
 
-            {selectedWeek.seances.map(function(seance) {
-              return (
-                <Card key={seance.id} className={"cursor-pointer border-0 hover:scale-[1.02] transition-all " + (seance.optional ? "opacity-80" : "")}
-                  style={{ background: "rgba(255,255,255,0.05)" }} onClick={function() { startSession(seance); }}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={"w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br " + selectedWeek.color}>
-                          <Play className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-white">{seance.name}</h3>
-                          <p className="text-sm text-white/60">{seance.phases.length} phases</p>
-                        </div>
+            {selectedWeek.seances.map((seance) => (
+              <Card key={seance.id} className={`cursor-pointer border-0 hover:scale-[1.02] transition-all seance-card ${seance.optional ? "opacity-80" : ""}`}
+                onClick={() => startSession(seance)}>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center ${selectedWeek.colorClass}`}>
+                        <Play className="w-5 h-5 text-white" />
                       </div>
-                      {seance.optional && <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/60">Optionnelle</span>}
+                      <div>
+                        <h3 className="font-semibold text-white">{seance.name}</h3>
+                        <p className="text-sm text-white/60">{seance.phases.length} phases</p>
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                    {seance.optional && <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/60">Optionnelle</span>}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
 
-            <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10" onClick={function() { setSelectedWeek(null); }}>
+            <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10" onClick={() => setSelectedWeek(null)}>
               <ChevronLeft className="w-4 h-4 mr-2" />Retour
             </Button>
           </div>
@@ -362,7 +358,7 @@ function ProgrammeRamadan() {
               </div>
             </div>
 
-            <Card className="border-0" style={{ background: "linear-gradient(135deg, rgba(251,191,36,0.1), rgba(245,158,11,0.05))" }}>
+            <Card className="border-0 rules-card">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Heart className="w-5 h-5 text-amber-400" />
@@ -382,35 +378,33 @@ function ProgrammeRamadan() {
                 <Timer className="w-5 h-5 text-amber-400" />Choisis ta semaine
               </h2>
               
-              {WEEKS_DATA.map(function(week) {
-                return (
-                  <Card key={week.id} className="cursor-pointer border-0 hover:scale-[1.02] transition-all" onClick={function() { setSelectedWeek(week); }}>
-                    <div className={"bg-gradient-to-r p-4 text-white " + week.color}>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <span className="text-3xl">{week.icon}</span>
-                          <div>
-                            <h3 className="text-xl font-bold">{week.name}</h3>
-                            <p className="text-white/90 text-sm">{week.title}</p>
-                          </div>
+              {WEEKS_DATA.map((week) => (
+                <Card key={week.id} className="cursor-pointer border-0 hover:scale-[1.02] transition-all overflow-hidden" onClick={() => setSelectedWeek(week)}>
+                  <div className={`p-4 text-white ${week.colorClass}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className="text-3xl">{week.icon}</span>
+                        <div>
+                          <h3 className="text-xl font-bold">{week.name}</h3>
+                          <p className="text-white/90 text-sm">{week.title}</p>
                         </div>
-                        <div className="text-right text-sm text-white/80">2-3 séances</div>
                       </div>
-                      {week.subtitle && <p className="mt-2 text-sm text-white/70 italic">{week.subtitle}</p>}
-                      <div className="mt-3 flex items-center gap-2">
-                        <Battery className="w-4 h-4" />
-                        <div className="flex-1 h-2 bg-white/20 rounded-full">
-                          <div className="h-full bg-white/80 rounded-full" style={{ width: (week.id === 3 ? 100 : week.id === 4 ? 40 : 50 + week.id * 15) + "%" }} />
-                        </div>
-                        <span className="text-xs">{week.id === 3 ? "Intense" : week.id === 4 ? "Doux" : "Modéré"}</span>
-                      </div>
+                      <div className="text-right text-sm text-white/80">2-3 séances</div>
                     </div>
-                  </Card>
-                );
-              })}
+                    {week.subtitle && <p className="mt-2 text-sm text-white/70 italic">{week.subtitle}</p>}
+                    <div className="mt-3 flex items-center gap-2">
+                      <Battery className="w-4 h-4" />
+                      <div className="flex-1 h-2 bg-white/20 rounded-full overflow-hidden">
+                        <div className="h-full bg-white/80 rounded-full" style={{width: `${week.intensity}%`}} />
+                      </div>
+                      <span className="text-xs">{week.id === 3 ? "Intense" : week.id === 4 ? "Doux" : "Modéré"}</span>
+                    </div>
+                  </div>
+                </Card>
+              ))}
             </div>
 
-            <Card className="border-0" style={{ background: "rgba(255,255,255,0.05)" }}>
+            <Card className="border-0 info-card">
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
                   <Vibrate className="w-5 h-5 text-amber-400" />
