@@ -15,7 +15,7 @@ import jwt
 import bcrypt
 import shutil
 from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionResponse, CheckoutStatusResponse, CheckoutSessionRequest
-from emergentintegrations.llm.chat import LlmChat, UserMessage, FileContent
+from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
 import base64
 import json
 import re
