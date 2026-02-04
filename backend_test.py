@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 class AmelFitCoachAPITester:
-    def __init__(self, base_url="https://amel-management.preview.emergentagent.com"):
+    def __init__(self, base_url="https://fitness-ramadan.preview.emergentagent.com"):
         self.base_url = base_url
         self.token = None
         self.user_id = None
@@ -175,7 +175,7 @@ class AmelFitCoachAPITester:
             checkout_data = {
                 "course_id": course_id,
                 "payment_method": "stripe",
-                "origin_url": "https://amel-management.preview.emergentagent.com"
+                "origin_url": "https://fitness-ramadan.preview.emergentagent.com"
             }
             return self.run_test("Stripe Checkout Creation", "POST", "payments/stripe/checkout", 200, checkout_data, auth_required=True)
         else:
