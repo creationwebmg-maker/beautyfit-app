@@ -15,6 +15,10 @@ import jwt
 import bcrypt
 import shutil
 from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionResponse, CheckoutStatusResponse, CheckoutSessionRequest
+from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
+import base64
+import json
+import re
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -34,6 +38,9 @@ STRIPE_API_KEY = os.environ.get('STRIPE_API_KEY', 'sk_test_emergent')
 
 # Admin password (simple auth for admin)
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'amel2024admin')
+
+# Emergent LLM Key for GPT-4o
+EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY')
 
 # Upload directories
 UPLOAD_DIR = ROOT_DIR / "uploads"
@@ -155,6 +162,56 @@ class GoogleAuthRequest(BaseModel):
     name: str
     picture: Optional[str] = None
     session_token: str
+
+# ==================== CALORIE TRACKER MODELS ====================
+
+class CalorieAnalysisRequest(BaseModel):
+    image_base64: str
+    meal_type: Optional[str] = "repas"  # petit-dejeuner, dejeuner, diner, collation
+
+class FoodItem(BaseModel):
+    name: str
+    quantity: str
+    calories: int
+    proteins: float
+    carbs: float
+    fats: float
+
+class CalorieAnalysisResponse(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str
+    foods: List[FoodItem]
+    total_calories: int
+    total_proteins: float
+    total_carbs: float
+    total_fats: float
+    meal_type: str
+    analysis_text: str
+    created_at: str
+
+class MealHistoryResponse(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str
+    foods: List[dict]
+    total_calories: int
+    total_proteins: float
+    total_carbs: float
+    total_fats: float
+    meal_type: str
+    analysis_text: str
+    created_at: str
+
+class DailyGoal(BaseModel):
+    calories: int = 2000
+    proteins: float = 50.0
+    carbs: float = 250.0
+    fats: float = 65.0
+
+class DailyGoalUpdate(BaseModel):
+    calories: Optional[int] = None
+    proteins: Optional[float] = None
+    carbs: Optional[float] = None
+    fats: Optional[float] = None
 
 # ==================== SITE CONTENT MODELS ====================
 
