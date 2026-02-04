@@ -96,6 +96,7 @@ function AppRoutes() {
       <Route path="/courses" element={<Courses />} />
       <Route path="/courses/:courseId" element={<CourseDetail />} />
       <Route path="/conseils" element={<Conseils />} />
+      <Route path="/progres" element={<Progres />} />
       
       {/* Protected Routes */}
       <Route path="/watch/:courseId" element={<ProtectedRoute><VideoPlayer /></ProtectedRoute>} />
