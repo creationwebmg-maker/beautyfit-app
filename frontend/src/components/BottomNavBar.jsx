@@ -11,7 +11,7 @@ const BottomNavBar = () => {
       id: "programme",
       label: "Programme",
       icon: Dumbbell,
-      path: "/dashboard"
+      path: "/programme/ramadan"
     },
     {
       id: "progres",
@@ -28,7 +28,7 @@ const BottomNavBar = () => {
   ];
 
   const isActive = (path) => {
-    if (path === "/dashboard") {
+    if (path === "/programme/ramadan") {
       return location.pathname === "/" || location.pathname === "/dashboard" || location.pathname.startsWith("/programme");
     }
     return location.pathname === path;
