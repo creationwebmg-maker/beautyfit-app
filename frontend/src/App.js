@@ -29,6 +29,9 @@ import RefundPolicy from "@/pages/RefundPolicy";
 import ProgrammeMarche from "@/pages/ProgrammeMarche";
 import ProgrammeRamadan from "@/pages/ProgrammeRamadan";
 
+// Auth Callback
+import AuthCallback from "@/pages/AuthCallback";
+
 // Admin Panel
 import AdminPanel from "@/pages/AdminPanel";
 
