@@ -77,50 +77,105 @@ const Account = () => {
     }
   };
 
-  return (
-    <Layout>
-      <div className="space-y-8" data-testid="account-page">
-        {/* Header */}
-        <div>
-          <h1 
-            className="text-4xl md:text-5xl font-bold text-foreground mb-2"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-            data-testid="account-title"
-          >
-            Mon compte
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Gère ton profil et accède à tes cours
-          </p>
-        </div>
+  const handleLogout = () => {
+    logout();
+    toast.success("Déconnexion réussie");
+    navigate("/dashboard");
+  };
 
-        <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="bg-secondary/50 p-1 rounded-full">
-            <TabsTrigger 
-              value="profile" 
-              className="rounded-full data-[state=active]:bg-background"
-              data-testid="tab-profile"
+  return (
+    <div className="min-h-screen pb-24" style={{ background: '#F7F5F2' }}>
+      {/* Header */}
+      <header className="sticky top-0 z-40 border-b" style={{ background: '#F7F5F2', borderColor: '#D2DDE7' }}>
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold" style={{ color: '#333', fontFamily: "'Playfair Display', serif" }}>
+                Mon espace
+              </h1>
+              <p className="text-sm" style={{ color: '#666' }}>
+                {isGuest ? "Mode invité" : user?.first_name || "Bienvenue"}
+              </p>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleLogout}
+              className="rounded-full"
+              style={{ borderColor: '#E37E7F', color: '#E37E7F' }}
             >
-              <User className="w-4 h-4 mr-2" />
-              Profil
-            </TabsTrigger>
-            <TabsTrigger 
-              value="courses" 
-              className="rounded-full data-[state=active]:bg-background"
-              data-testid="tab-courses"
-            >
-              <Play className="w-4 h-4 mr-2" />
-              Mes cours
-            </TabsTrigger>
-            <TabsTrigger 
-              value="purchases" 
-              className="rounded-full data-[state=active]:bg-background"
-              data-testid="tab-purchases"
-            >
-              <ShoppingBag className="w-4 h-4 mr-2" />
-              Historique
-            </TabsTrigger>
-          </TabsList>
+              <LogOut className="w-4 h-4 mr-2" />
+              {isGuest ? "Quitter" : "Déconnexion"}
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-4xl mx-auto px-4 py-6">
+        {isGuest ? (
+          /* Guest Mode View */
+          <div className="space-y-6">
+            <Card className="border-0 shadow-md" style={{ background: 'white' }}>
+              <CardContent className="p-6 text-center">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ background: '#D5A0A8' }}>
+                  <User className="w-10 h-10 text-white" />
+                </div>
+                <h2 className="text-xl font-semibold mb-2" style={{ color: '#333', fontFamily: "'Playfair Display', serif" }}>
+                  Mode Invité
+                </h2>
+                <p className="mb-6" style={{ color: '#666' }}>
+                  Crée un compte pour sauvegarder ta progression et accéder à tous les avantages.
+                </p>
+                <div className="flex flex-col gap-3">
+                  <Button 
+                    onClick={() => navigate("/register")}
+                    className="rounded-full"
+                    style={{ background: '#E37E7F' }}
+                  >
+                    Créer mon compte
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    onClick={() => navigate("/login")}
+                    className="rounded-full"
+                    style={{ borderColor: '#D5A0A8', color: '#D5A0A8' }}
+                  >
+                    J'ai déjà un compte
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ) : (
+          /* Logged In View */
+          <div className="space-y-6" data-testid="account-page">
+            <Tabs defaultValue="profile" className="space-y-6">
+              <TabsList className="bg-white p-1 rounded-full shadow-sm w-full">
+                <TabsTrigger 
+                  value="profile" 
+                  className="rounded-full flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#E37E7F] data-[state=active]:to-[#EE9F80] data-[state=active]:text-white"
+                  data-testid="tab-profile"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Profil
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="courses" 
+                  className="rounded-full flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#E37E7F] data-[state=active]:to-[#EE9F80] data-[state=active]:text-white"
+                  data-testid="tab-courses"
+                >
+                  <Play className="w-4 h-4 mr-2" />
+                  Mes cours
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="purchases" 
+                  className="rounded-full flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#E37E7F] data-[state=active]:to-[#EE9F80] data-[state=active]:text-white"
+                  data-testid="tab-purchases"
+                >
+                  <ShoppingBag className="w-4 h-4 mr-2" />
+                  Achats
+                </TabsTrigger>
+              </TabsList>
 
           {/* Profile Tab */}
           <TabsContent value="profile" className="space-y-6">
