@@ -382,15 +382,15 @@ function ProgrammeRamadan() {
           <div className="space-y-6">
             {/* Feedback Mode Indicator */}
             <div className="flex justify-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/80 text-sm">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm" style={{ background: '#D5A0A8', color: 'white' }}>
                 {feedbackMode === FEEDBACK_VIBRATION ? (
                   <>
-                    <Vibrate className="w-4 h-4 text-amber-400" />
+                    <Vibrate className="w-4 h-4" />
                     <span>Vibrations activées</span>
                   </>
                 ) : (
                   <>
-                    <Volume2 className="w-4 h-4 text-amber-400" />
+                    <Volume2 className="w-4 h-4" />
                     <span>Son activé</span>
                   </>
                 )}
@@ -403,16 +403,16 @@ function ProgrammeRamadan() {
                   {sessionComplete ? (
                     <div className="text-center">
                       <div className="text-6xl mb-4">🌙</div>
-                      <CheckCircle2 className="w-16 h-16 text-emerald-400 mb-2 mx-auto" />
-                      <span className="text-2xl font-bold text-emerald-400">Mabrouk !</span>
-                      <p className="text-white/60">Session terminée</p>
-                      <p className="text-xl font-semibold text-white mt-3">{stepCount} pas</p>
+                      <CheckCircle2 className="w-16 h-16 mb-2 mx-auto" style={{ color: '#D5A0A8' }} />
+                      <span className="text-2xl font-bold" style={{ color: '#E37E7F' }}>Mabrouk !</span>
+                      <p style={{ color: '#999' }}>Session terminée</p>
+                      <p className="text-xl font-semibold mt-3" style={{ color: '#333' }}>{stepCount} pas</p>
                     </div>
                   ) : (
                     <div className="text-center">
-                      <span className="text-6xl font-bold text-white">{formatTime(timeLeft)}</span>
-                      <span className="block text-lg font-semibold mt-2 text-amber-400">{currentPhase ? currentPhase[0] : ""}</span>
-                      <div className="flex items-center justify-center gap-2 mt-2 text-white/60">
+                      <span className="text-6xl font-bold" style={{ color: '#333' }}>{formatTime(timeLeft)}</span>
+                      <span className="block text-lg font-semibold mt-2" style={{ color: '#E37E7F' }}>{currentPhase ? currentPhase[0] : ""}</span>
+                      <div className="flex items-center justify-center gap-2 mt-2" style={{ color: '#999' }}>
                         <span>Phase {currentPhaseIndex + 1}/{phases.length}</span>
                       </div>
                     </div>
@@ -423,12 +423,12 @@ function ProgrammeRamadan() {
               {/* Step Counter with animation */}
               {!sessionComplete && (
                 <div className="mt-6 flex flex-col items-center">
-                  <div className="flex items-center gap-3 bg-white/10 px-6 py-3 rounded-full">
-                    <Footprints className="w-6 h-6 text-amber-400 animate-bounce" />
+                  <div className="flex items-center gap-3 px-6 py-3 rounded-full" style={{ background: '#D5A0A8' }}>
+                    <Footprints className="w-6 h-6 text-white animate-bounce" />
                     <span className="text-3xl font-bold text-white">{stepCount}</span>
-                    <span className="text-white/60">pas</span>
+                    <span className="text-white/80">pas</span>
                   </div>
-                  <p className="text-xs text-white/40 mt-2 flex items-center gap-1">
+                  <p className="text-xs mt-2 flex items-center gap-1" style={{ color: '#999' }}>
                     <Smartphone className="w-3 h-3" />
                     Garde ton téléphone sur toi
                   </p>
@@ -436,7 +436,7 @@ function ProgrammeRamadan() {
               )}
             </div>
 
-            <Card className="border-0 bg-white/5">
+            <Card className="border-0 shadow-md" style={{ background: 'white' }}>
               <CardContent className="p-4">
                 <div className="flex justify-between mb-2">
                   <span className="text-white/80">Progression</span>
