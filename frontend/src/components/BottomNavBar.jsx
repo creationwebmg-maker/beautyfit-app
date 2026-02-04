@@ -38,8 +38,8 @@ const BottomNavBar = () => {
     <nav 
       className="fixed bottom-0 left-0 right-0 z-50 border-t safe-area-bottom"
       style={{ 
-        background: '#1a1a2e',
-        borderColor: 'rgba(255,255,255,0.1)'
+        background: '#F7F5F2',
+        borderColor: '#D2DDE7'
       }}
     >
       <div className="max-w-lg mx-auto px-4">
@@ -62,11 +62,13 @@ const BottomNavBar = () => {
                   }}
                 >
                   <Icon 
-                    className={`w-5 h-5 transition-colors ${active ? 'text-white' : 'text-white/50'}`}
+                    className="w-5 h-5 transition-colors"
+                    style={{ color: active ? 'white' : '#D5A0A8' }}
                   />
                 </div>
                 <span 
-                  className={`text-xs font-medium transition-colors ${active ? 'text-white' : 'text-white/50'}`}
+                  className="text-xs font-medium transition-colors"
+                  style={{ color: active ? '#E37E7F' : '#999' }}
                 >
                   {item.label}
                 </span>
