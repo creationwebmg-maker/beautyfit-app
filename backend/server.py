@@ -1233,6 +1233,226 @@ async def admin_upload_image(
 
 # ==================== ROOT ====================
 
+# ==================== CALORIE TRACKER ROUTES ====================
+
+@api_router.post("/calories/analyze", response_model=CalorieAnalysisResponse)
+async def analyze_meal_calories(
+    request: CalorieAnalysisRequest,
+    user: dict = Depends(get_current_user)
+):
+    """Analyze a meal photo and return nutritional information using GPT-4o"""
+    if not EMERGENT_LLM_KEY:
+        raise HTTPException(status_code=500, detail="AI service not configured")
+    
+    try:
+        # Initialize GPT-4o chat
+        session_id = f"calorie_analysis_{user['id']}_{uuid.uuid4().hex[:8]}"
+        chat = LlmChat(
+            api_key=EMERGENT_LLM_KEY,
+            session_id=session_id,
+            system_message="""Tu es un expert nutritionniste. Analyse l'image du repas et identifie tous les aliments visibles.
+Pour chaque aliment, estime:
+- Le nom de l'aliment
+- La quantité approximative (en grammes ou portions)
+- Les calories
+- Les protéines (g)
+- Les glucides (g)
+- Les lipides (g)
+
+Réponds UNIQUEMENT en JSON valide avec ce format exact:
+{
+    "foods": [
+        {"name": "nom", "quantity": "100g", "calories": 150, "proteins": 5.0, "carbs": 20.0, "fats": 3.0}
+    ],
+    "total_calories": 150,
+    "total_proteins": 5.0,
+    "total_carbs": 20.0,
+    "total_fats": 3.0,
+    "analysis_text": "Description courte du repas analysé"
+}"""
+        )
+        chat.with_model("openai", "gpt-4o")
+        
+        # Create image content
+        image_content = ImageContent(image_base64=request.image_base64)
+        
+        # Send message with image
+        user_message = UserMessage(
+            text="Analyse ce repas et donne-moi les informations nutritionnelles détaillées en JSON.",
+            image_contents=[image_content]
+        )
+        
+        response = await chat.send_message(user_message)
+        
+        # Parse JSON response
+        try:
+            # Try to extract JSON from the response
+            json_match = re.search(r'\{[\s\S]*\}', response)
+            if json_match:
+                analysis_data = json.loads(json_match.group())
+            else:
+                raise ValueError("No JSON found in response")
+        except (json.JSONDecodeError, ValueError) as e:
+            logger.error(f"Failed to parse AI response: {response}")
+            # Provide default response if parsing fails
+            analysis_data = {
+                "foods": [{"name": "Repas non identifié", "quantity": "1 portion", "calories": 400, "proteins": 15.0, "carbs": 50.0, "fats": 15.0}],
+                "total_calories": 400,
+                "total_proteins": 15.0,
+                "total_carbs": 50.0,
+                "total_fats": 15.0,
+                "analysis_text": "Impossible d'analyser précisément ce repas. Estimation approximative fournie."
+            }
+        
+        # Save to database
+        meal_id = str(uuid.uuid4())
+        now = datetime.now(timezone.utc).isoformat()
+        
+        meal_doc = {
+            "id": meal_id,
+            "user_id": user["id"],
+            "foods": analysis_data.get("foods", []),
+            "total_calories": analysis_data.get("total_calories", 0),
+            "total_proteins": analysis_data.get("total_proteins", 0.0),
+            "total_carbs": analysis_data.get("total_carbs", 0.0),
+            "total_fats": analysis_data.get("total_fats", 0.0),
+            "meal_type": request.meal_type,
+            "analysis_text": analysis_data.get("analysis_text", ""),
+            "created_at": now
+        }
+        
+        await db.meal_history.insert_one(meal_doc)
+        
+        return CalorieAnalysisResponse(**meal_doc)
+        
+    except Exception as e:
+        logger.error(f"Error analyzing meal: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors de l'analyse: {str(e)}")
+
+@api_router.get("/calories/history", response_model=List[MealHistoryResponse])
+async def get_meal_history(
+    date: Optional[str] = None,
+    limit: int = 20,
+    user: dict = Depends(get_current_user)
+):
+    """Get meal history for the current user"""
+    query = {"user_id": user["id"]}
+    
+    if date:
+        # Filter by date (YYYY-MM-DD)
+        start = f"{date}T00:00:00"
+        end = f"{date}T23:59:59"
+        query["created_at"] = {"$gte": start, "$lte": end}
+    
+    meals = await db.meal_history.find(
+        query,
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(limit)
+    
+    return meals
+
+@api_router.get("/calories/today")
+async def get_today_summary(user: dict = Depends(get_current_user)):
+    """Get today's calorie summary"""
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    start = f"{today}T00:00:00"
+    end = f"{today}T23:59:59"
+    
+    meals = await db.meal_history.find(
+        {
+            "user_id": user["id"],
+            "created_at": {"$gte": start, "$lte": end}
+        },
+        {"_id": 0}
+    ).to_list(100)
+    
+    total_calories = sum(m.get("total_calories", 0) for m in meals)
+    total_proteins = sum(m.get("total_proteins", 0) for m in meals)
+    total_carbs = sum(m.get("total_carbs", 0) for m in meals)
+    total_fats = sum(m.get("total_fats", 0) for m in meals)
+    
+    # Get user's daily goal
+    user_data = await db.users.find_one({"id": user["id"]}, {"_id": 0})
+    daily_goal = user_data.get("daily_goal", {
+        "calories": 2000,
+        "proteins": 50.0,
+        "carbs": 250.0,
+        "fats": 65.0
+    })
+    
+    return {
+        "date": today,
+        "meals_count": len(meals),
+        "consumed": {
+            "calories": total_calories,
+            "proteins": round(total_proteins, 1),
+            "carbs": round(total_carbs, 1),
+            "fats": round(total_fats, 1)
+        },
+        "goal": daily_goal,
+        "remaining": {
+            "calories": max(0, daily_goal["calories"] - total_calories),
+            "proteins": max(0, round(daily_goal["proteins"] - total_proteins, 1)),
+            "carbs": max(0, round(daily_goal["carbs"] - total_carbs, 1)),
+            "fats": max(0, round(daily_goal["fats"] - total_fats, 1))
+        }
+    }
+
+@api_router.get("/calories/goal", response_model=DailyGoal)
+async def get_daily_goal(user: dict = Depends(get_current_user)):
+    """Get user's daily nutritional goal"""
+    user_data = await db.users.find_one({"id": user["id"]}, {"_id": 0})
+    goal = user_data.get("daily_goal", {
+        "calories": 2000,
+        "proteins": 50.0,
+        "carbs": 250.0,
+        "fats": 65.0
+    })
+    return DailyGoal(**goal)
+
+@api_router.put("/calories/goal", response_model=DailyGoal)
+async def update_daily_goal(
+    goal: DailyGoalUpdate,
+    user: dict = Depends(get_current_user)
+):
+    """Update user's daily nutritional goal"""
+    current_goal = {
+        "calories": 2000,
+        "proteins": 50.0,
+        "carbs": 250.0,
+        "fats": 65.0
+    }
+    
+    user_data = await db.users.find_one({"id": user["id"]}, {"_id": 0})
+    if user_data and "daily_goal" in user_data:
+        current_goal.update(user_data["daily_goal"])
+    
+    update_data = {k: v for k, v in goal.model_dump().items() if v is not None}
+    current_goal.update(update_data)
+    
+    await db.users.update_one(
+        {"id": user["id"]},
+        {"$set": {"daily_goal": current_goal}}
+    )
+    
+    return DailyGoal(**current_goal)
+
+@api_router.delete("/calories/meal/{meal_id}")
+async def delete_meal(
+    meal_id: str,
+    user: dict = Depends(get_current_user)
+):
+    """Delete a meal from history"""
+    result = await db.meal_history.delete_one({
+        "id": meal_id,
+        "user_id": user["id"]
+    })
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Repas non trouvé")
+    
+    return {"message": "Repas supprimé"}
+
 @api_router.get("/")
 async def root():
     return {"message": "Amel Fit Coach API", "version": "1.0.0"}
