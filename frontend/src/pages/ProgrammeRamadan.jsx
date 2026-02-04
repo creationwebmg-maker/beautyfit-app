@@ -522,28 +522,28 @@ function ProgrammeRamadan() {
                     <Play className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white">Séance 1</h3>
-                    <p className="text-sm text-white/60">{getPhases(selectedWeekId, 1).length} phases</p>
+                    <h3 className="font-semibold" style={{ color: '#333' }}>Séance 1</h3>
+                    <p className="text-sm" style={{ color: '#999' }}>{getPhases(selectedWeekId, 1).length} phases</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="seance-card cursor-pointer border-0 hover:scale-[1.02] transition-all" onClick={() => startSession(selectedWeekId, 2)}>
+            <Card className="seance-card cursor-pointer hover:scale-[1.02] transition-all" onClick={() => startSession(selectedWeekId, 2)}>
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
                   <div className={"w-12 h-12 rounded-full flex items-center justify-center week-" + selectedWeekId}>
                     <Play className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white">Séance 2</h3>
-                    <p className="text-sm text-white/60">{getPhases(selectedWeekId, 2).length} phases</p>
+                    <h3 className="font-semibold" style={{ color: '#333' }}>Séance 2</h3>
+                    <p className="text-sm" style={{ color: '#999' }}>{getPhases(selectedWeekId, 2).length} phases</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="seance-card cursor-pointer border-0 hover:scale-[1.02] transition-all opacity-80" onClick={() => startSession(selectedWeekId, 3)}>
+            <Card className="seance-card cursor-pointer hover:scale-[1.02] transition-all opacity-80" onClick={() => startSession(selectedWeekId, 3)}>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -551,16 +551,16 @@ function ProgrammeRamadan() {
                       <Play className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-white">Séance 3</h3>
-                      <p className="text-sm text-white/60">{getPhases(selectedWeekId, 3).length} phases</p>
+                      <h3 className="font-semibold" style={{ color: '#333' }}>Séance 3</h3>
+                      <p className="text-sm" style={{ color: '#999' }}>{getPhases(selectedWeekId, 3).length} phases</p>
                     </div>
                   </div>
-                  <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/60">Optionnelle</span>
+                  <span className="text-xs px-2 py-1 rounded-full" style={{ background: '#D5A0A8', color: 'white' }}>Optionnelle</span>
                 </div>
               </CardContent>
             </Card>
 
-            <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10" onClick={() => setViewMode("weeks")}>
+            <Button variant="outline" className="w-full rounded-full" style={{ borderColor: '#D5A0A8', color: '#D5A0A8' }} onClick={() => setViewMode("weeks")}>
               <ChevronLeft className="w-4 h-4 mr-2" />Retour
             </Button>
           </div>
@@ -568,12 +568,12 @@ function ProgrammeRamadan() {
           <div className="space-y-6">
             <div className="text-center py-6">
               <div className="text-6xl mb-4">🌙</div>
-              <h1 className="text-3xl font-bold text-white mb-2">ALLER BIEN, MÊME À JEUN</h1>
-              <p className="text-amber-400 text-lg">Programme Ramadan Marche</p>
+              <h1 className="text-3xl font-bold mb-2" style={{ color: '#333', fontFamily: "'Playfair Display', serif" }}>ALLER BIEN, MÊME À JEUN</h1>
+              <p className="text-lg" style={{ color: '#E37E7F' }}>Programme Ramadan Marche</p>
               <div className="flex flex-wrap justify-center gap-3 mt-4 text-sm">
-                <span className="bg-white/10 px-3 py-1.5 rounded-full text-white/80">🚶 Marche rapide</span>
-                <span className="bg-white/10 px-3 py-1.5 rounded-full text-white/80">⏱️ 30 min</span>
-                <span className="bg-white/10 px-3 py-1.5 rounded-full text-white/80">📅 2-3x/semaine</span>
+                <span className="px-3 py-1.5 rounded-full" style={{ background: '#D5A0A8', color: 'white' }}>🚶 Marche rapide</span>
+                <span className="px-3 py-1.5 rounded-full" style={{ background: '#E37E7F', color: 'white' }}>⏱️ 30 min</span>
+                <span className="px-3 py-1.5 rounded-full" style={{ background: '#EE9F80', color: 'white' }}>📅 2-3x/semaine</span>
               </div>
             </div>
 
