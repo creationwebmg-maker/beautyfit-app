@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { Eye, EyeOff, ArrowLeft, Loader2, User } from "lucide-react";
@@ -13,6 +14,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,7 +28,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await login(formData.email, formData.password);
+      await login(formData.email, formData.password, rememberMe);
       toast.success("Connexion réussie !");
       navigate("/dashboard");
     } catch (error) {
@@ -185,6 +187,24 @@ const Login = () => {
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
+            </div>
+
+            {/* Remember Me Checkbox */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="remember-me"
+                checked={rememberMe}
+                onCheckedChange={(checked) => setRememberMe(checked)}
+                className="border-[#D5A0A8] data-[state=checked]:bg-[#E37E7F] data-[state=checked]:border-[#E37E7F]"
+                data-testid="remember-me-checkbox"
+              />
+              <Label 
+                htmlFor="remember-me" 
+                className="text-sm cursor-pointer"
+                style={{ color: '#666' }}
+              >
+                Rester connectée
+              </Label>
             </div>
 
             <Button
