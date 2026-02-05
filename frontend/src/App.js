@@ -35,6 +35,9 @@ import Progres from "@/pages/Progres";
 // Calorie Tracker
 import CalorieTracker from "@/pages/CalorieTracker";
 
+// Calorie Profile
+import CalorieProfile from "@/pages/CalorieProfile";
+
 // Auth Callback
 import AuthCallback from "@/pages/AuthCallback";
 
@@ -101,6 +104,7 @@ function AppRoutes() {
       <Route path="/conseils" element={<Conseils />} />
       <Route path="/progres" element={<Progres />} />
       <Route path="/calories" element={<CalorieTracker />} />
+      <Route path="/calorie-profile" element={<CalorieProfile />} />
       
       {/* Protected Routes */}
       <Route path="/watch/:courseId" element={<ProtectedRoute><VideoPlayer /></ProtectedRoute>} />
