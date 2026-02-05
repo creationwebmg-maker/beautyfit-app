@@ -128,6 +128,7 @@ function AppRoutes() {
       {/* Programme Pages */}
       <Route path="/programme/marche-poussette" element={<ProgrammeMarche />} />
       <Route path="/programme/ramadan" element={<ProgrammeRamadan />} />
+      <Route path="/programme/checkout" element={<ProgrammeCheckout />} />
       
       {/* Catch all */}
       <Route path="*" element={<Navigate to="/" replace />} />
