@@ -33,7 +33,7 @@ const LegalMentions = () => {
             </p>
 
             <h2 className="text-xl font-semibold mt-6 mb-3">1. Éditeur de l'application</h2>
-            <p>L'application <strong>Beauty Fit by Amel</strong> est éditée par :</p>
+            <p>L'application <strong>Beautyfit By Amel</strong> est éditée par :</p>
             <ul className="list-none pl-0 space-y-1">
               <li><strong>Nom :</strong> JARDAZI SAYARI AMEL</li>
               <li><strong>Statut :</strong> Entrepreneur Individuel</li>
@@ -61,7 +61,7 @@ const LegalMentions = () => {
 
             <h2 className="text-xl font-semibold mt-6 mb-3">4. Propriété intellectuelle</h2>
             <p>
-              L'ensemble des contenus présents sur l'application Beauty Fit by Amel, incluant, de façon non limitative, 
+              L'ensemble des contenus présents sur l'application Beautyfit By Amel, incluant, de façon non limitative, 
               les textes, images, vidéos, graphismes, logos, icônes, sons, ainsi que leur mise en forme, sont la propriété 
               exclusive de JARDAZI SAYARI AMEL, à l'exception des marques, logos ou contenus appartenant à d'autres 
               sociétés partenaires ou auteurs.
@@ -73,8 +73,8 @@ const LegalMentions = () => {
 
             <h2 className="text-xl font-semibold mt-6 mb-3">5. Crédits</h2>
             <p>
-              <strong>Conception et développement :</strong> Beauty Fit by Amel<br />
-              <strong>Photographies :</strong> © Unsplash, © Beauty Fit by Amel
+              <strong>Conception et développement :</strong> Beautyfit By Amel<br />
+              <strong>Photographies :</strong> © Unsplash, © Beautyfit By Amel
             </p>
 
             <h2 className="text-xl font-semibold mt-6 mb-3">6. Contact</h2>

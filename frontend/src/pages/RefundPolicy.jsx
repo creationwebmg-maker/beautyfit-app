@@ -33,7 +33,7 @@ const RefundPolicy = () => {
             </p>
 
             <p>
-              Chez <strong>Beauty Fit by Amel</strong>, votre satisfaction est notre priorité. Cette politique 
+              Chez <strong>Beautyfit By Amel</strong>, votre satisfaction est notre priorité. Cette politique 
               de remboursement décrit les conditions dans lesquelles vous pouvez demander un remboursement 
               pour les achats effectués via notre application.
             </p>
@@ -80,7 +80,7 @@ const RefundPolicy = () => {
               à une autre personne</li>
             </ul>
 
-            <h3 className="text-lg font-medium mt-4 mb-2">2.2 Annulation par Beauty Fit by Amel</h3>
+            <h3 className="text-lg font-medium mt-4 mb-2">2.2 Annulation par Beautyfit By Amel</h3>
             <p>
               En cas d'annulation de notre part (conditions météorologiques dangereuses, force majeure, etc.), 
               vous bénéficierez au choix :

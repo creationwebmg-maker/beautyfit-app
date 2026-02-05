@@ -35,7 +35,7 @@ const PrivacyPolicy = () => {
             <p>
               La présente politique de confidentialité décrit comment JARDAZI SAYARI AMEL, entrepreneur individuel 
               (SIREN : 851 371 039), collecte, utilise et protège vos données personnelles lorsque vous utilisez 
-              l'application <strong>Beauty Fit by Amel</strong>.
+              l'application <strong>Beautyfit By Amel</strong>.
             </p>
 
             <h2 className="text-xl font-semibold mt-6 mb-3">1. Responsable du traitement</h2>

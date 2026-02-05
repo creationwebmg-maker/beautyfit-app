@@ -73,7 +73,7 @@ const Login = () => {
           <div className="text-center mb-8">
             <img 
               src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
-              alt="Beauty Fit" 
+              alt="Beautyfit" 
               className="h-16 w-16 mx-auto mb-4 object-contain"
             />
             <h1 

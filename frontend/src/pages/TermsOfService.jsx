@@ -35,7 +35,7 @@ const TermsOfService = () => {
             <h2 className="text-xl font-semibold mt-6 mb-3">Article 1 - Objet</h2>
             <p>
               Les présentes Conditions Générales d'Utilisation et de Vente (ci-après "CGU/CGV") régissent 
-              l'utilisation de l'application mobile et web <strong>Beauty Fit by Amel</strong> (ci-après "l'Application") 
+              l'utilisation de l'application mobile et web <strong>Beautyfit By Amel</strong> (ci-après "l'Application") 
               et les achats de contenus numériques (programmes sportifs, vidéos) effectués via celle-ci.
             </p>
             <p>
