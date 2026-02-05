@@ -17,6 +17,7 @@ Application de sport "Amel Fit Coach" / "Beauty Fit by Amel" pour accompagner le
 - Connexion Google (Emergent Auth)
 - Mode invité
 - Récupération de mot de passe
+- **Option "Rester connectée"** : Permet de garder la session active après fermeture du navigateur
 
 #### Programme Ramadan Interactif
 - Programme de 4 semaines de marche
