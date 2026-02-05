@@ -203,6 +203,7 @@ function ProgrammeRamadan() {
     setSessionComplete(false);
     setStepCount(0);
     setViewMode("session");
+    setSessionStartTime(Date.now());
     
     // Reset accelerometer data
     lastAccelRef.current = { x: 0, y: 0, z: 0 };
