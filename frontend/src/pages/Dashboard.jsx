@@ -63,7 +63,7 @@ const Dashboard = () => {
               <div className="flex-shrink-0">
                 <img 
                   src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
-                  alt="Beauty Fit" 
+                  alt="Beautyfit" 
                   className="w-12 h-12 rounded-xl object-contain"
                   style={{ background: '#F7F5F2' }}
                 />
@@ -105,7 +105,7 @@ const Dashboard = () => {
             <div className="flex flex-col items-center">
               <img 
                 src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
-                alt="Beauty Fit by Amel" 
+                alt="Beautyfit By Amel" 
                 className="h-16 w-16 md:h-20 md:w-20 object-contain"
               />
             </div>
@@ -136,7 +136,7 @@ const Dashboard = () => {
             className="text-3xl md:text-5xl font-bold text-white leading-tight mb-2"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Beauty Fit by Amel
+            Beautyfit By Amel
           </h1>
           <p className="text-white/90 text-lg mb-4">Ton coach fitness personnel</p>
         </div>
@@ -273,7 +273,7 @@ const Dashboard = () => {
           <Card className="border shadow-md" style={{ background: 'white', borderColor: '#D2DDE7' }}>
             <CardContent className="p-6 text-center">
               <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: "'Playfair Display', serif", color: '#333' }}>
-                Rejoins Beauty Fit by Amel
+                Rejoins Beautyfit By Amel
               </h3>
               <p className="mb-4" style={{ color: '#666' }}>
                 Crée ton compte pour suivre ta progression
@@ -307,7 +307,7 @@ const Dashboard = () => {
           <div className="flex flex-col items-center gap-4">
             <img 
               src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
-              alt="Beauty Fit by Amel" 
+              alt="Beautyfit By Amel" 
               className="h-12 w-12 object-contain opacity-60"
             />
             <div className="flex flex-wrap justify-center gap-3 text-xs" style={{ color: '#999' }}>
@@ -320,7 +320,7 @@ const Dashboard = () => {
               <button onClick={() => navigate("/remboursement")} className="hover:text-[#E37E7F] transition-colors">Remboursement</button>
             </div>
             <p className="text-xs" style={{ color: '#bbb' }}>
-              © 2025 Beauty Fit by Amel. Tous droits réservés.
+              © 2025 Beautyfit By Amel. Tous droits réservés.
             </p>
           </div>
         </div>
