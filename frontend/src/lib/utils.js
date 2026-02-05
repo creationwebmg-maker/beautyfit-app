@@ -17,12 +17,13 @@ export const api = {
     }
     const response = await fetch(`${API_URL}/api${endpoint}`, { headers });
     if (!response.ok) {
+      const text = await response.text();
       let errorDetail = null;
       try {
-        const errorData = await response.json();
+        const errorData = JSON.parse(text);
         errorDetail = errorData.detail;
       } catch (e) {
-        errorDetail = null;
+        errorDetail = text || null;
       }
       const message = translateError(errorDetail);
       throw new Error(message);
@@ -43,12 +44,13 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
+      const text = await response.text();
       let errorDetail = null;
       try {
-        const errorData = await response.json();
+        const errorData = JSON.parse(text);
         errorDetail = errorData.detail;
       } catch (e) {
-        errorDetail = null;
+        errorDetail = text || null;
       }
       const message = translateError(errorDetail);
       throw new Error(message);
@@ -69,12 +71,13 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
+      const text = await response.text();
       let errorDetail = null;
       try {
-        const errorData = await response.json();
+        const errorData = JSON.parse(text);
         errorDetail = errorData.detail;
       } catch (e) {
-        errorDetail = null;
+        errorDetail = text || null;
       }
       const message = translateError(errorDetail);
       throw new Error(message);
@@ -94,12 +97,13 @@ export const api = {
       headers,
     });
     if (!response.ok) {
+      const text = await response.text();
       let errorDetail = null;
       try {
-        const errorData = await response.json();
+        const errorData = JSON.parse(text);
         errorDetail = errorData.detail;
       } catch (e) {
-        errorDetail = null;
+        errorDetail = text || null;
       }
       const message = translateError(errorDetail);
       throw new Error(message);
