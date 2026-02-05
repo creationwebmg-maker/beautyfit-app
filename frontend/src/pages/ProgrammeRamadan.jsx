@@ -670,54 +670,97 @@ function ProgrammeRamadan() {
             </Card>
 
             <div className="space-y-3">
-              {/* Prix et Achat */}
-              <Card className="border-0 shadow-lg overflow-hidden" style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}>
-                <CardContent className="p-5">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-white/80 text-sm">Programme complet</p>
-                      <p className="text-3xl font-bold text-white">22 €</p>
-                      <p className="text-white/80 text-sm">Accès illimité à vie</p>
+              {/* Prix et Achat - Affiché seulement si non acheté */}
+              {!hasPurchased && (
+                <Card className="border-0 shadow-lg overflow-hidden" style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}>
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-white/80 text-sm">Programme complet</p>
+                        <p className="text-3xl font-bold text-white">22 €</p>
+                        <p className="text-white/80 text-sm">Accès illimité à vie</p>
+                      </div>
+                      <Button
+                        onClick={() => navigate("/programme/checkout")}
+                        className="rounded-full px-6 h-12 font-semibold"
+                        style={{ background: 'white', color: '#E37E7F' }}
+                        data-testid="buy-programme-btn"
+                      >
+                        Acheter
+                      </Button>
                     </div>
-                    <Button
-                      onClick={() => navigate("/programme/checkout")}
-                      className="rounded-full px-6 h-12 font-semibold"
-                      style={{ background: 'white', color: '#E37E7F' }}
-                      data-testid="buy-programme-btn"
-                    >
-                      Acheter
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Message si acheté */}
+              {hasPurchased && (
+                <Card className="border-0 shadow-md" style={{ background: '#F0FDF4' }}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <CheckCircle2 className="w-6 h-6 text-green-600" />
+                      <div>
+                        <p className="font-semibold text-green-800">Programme débloqué !</p>
+                        <p className="text-sm text-green-700">Accès illimité à toutes les semaines</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
 
               <h2 className="text-lg font-semibold flex items-center gap-2" style={{ color: '#333', fontFamily: "'Playfair Display', serif" }}>
                 <Timer className="w-5 h-5" style={{ color: '#E37E7F' }} />Choisis ta semaine
               </h2>
               
-              {[1, 2, 3, 4].map((weekId) => (
-                <Card key={weekId} className="cursor-pointer border-0 hover:scale-[1.02] transition-all overflow-hidden" onClick={() => { setSelectedWeekId(weekId); setViewMode("seances"); }}>
-                  <div className={"p-4 text-white week-" + weekId}>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <span className="text-3xl">{weekIcons[weekId]}</span>
-                        <div>
-                          <h3 className="text-xl font-bold">{weekNames[weekId]}</h3>
-                          <p className="text-white/90 text-sm">{weekTitles[weekId]}</p>
+              {checkingPurchase ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="w-8 h-8 animate-spin" style={{ color: '#E37E7F' }} />
+                </div>
+              ) : (
+                [1, 2, 3, 4].map((weekId) => (
+                  <Card 
+                    key={weekId} 
+                    className={`border-0 overflow-hidden transition-all ${hasPurchased ? 'cursor-pointer hover:scale-[1.02]' : 'opacity-80'}`}
+                    onClick={() => {
+                      if (hasPurchased) {
+                        setSelectedWeekId(weekId);
+                        setViewMode("seances");
+                      } else {
+                        toast.error("Achetez le programme pour accéder aux semaines");
+                        navigate("/programme/checkout");
+                      }
+                    }}
+                  >
+                    <div className={"p-4 text-white week-" + weekId + " relative"}>
+                      {/* Lock overlay if not purchased */}
+                      {!hasPurchased && (
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                          <div className="bg-white/90 rounded-full p-3">
+                            <Lock className="w-6 h-6" style={{ color: '#E37E7F' }} />
+                          </div>
                         </div>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <span className="text-3xl">{weekIcons[weekId]}</span>
+                          <div>
+                            <h3 className="text-xl font-bold">{weekNames[weekId]}</h3>
+                            <p className="text-white/90 text-sm">{weekTitles[weekId]}</p>
+                          </div>
+                        </div>
+                        <div className="text-right text-sm text-white/80">2-3 séances</div>
                       </div>
-                      <div className="text-right text-sm text-white/80">2-3 séances</div>
-                    </div>
-                    <div className="mt-3 flex items-center gap-2">
-                      <Battery className="w-4 h-4" />
-                      <div className="flex-1 h-2 bg-white/20 rounded-full overflow-hidden">
-                        <div className="h-full bg-white/80 rounded-full" style={{width: weekId === 3 ? "100%" : weekId === 4 ? "40%" : (50 + weekId * 15) + "%"}} />
+                      <div className="mt-3 flex items-center gap-2">
+                        <Battery className="w-4 h-4" />
+                        <div className="flex-1 h-2 bg-white/20 rounded-full overflow-hidden">
+                          <div className="h-full bg-white/80 rounded-full" style={{width: weekId === 3 ? "100%" : weekId === 4 ? "40%" : (50 + weekId * 15) + "%"}} />
+                        </div>
+                        <span className="text-xs">{weekId === 3 ? "Intense" : weekId === 4 ? "Doux" : "Modéré"}</span>
                       </div>
-                      <span className="text-xs">{weekId === 3 ? "Intense" : weekId === 4 ? "Doux" : "Modéré"}</span>
                     </div>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))
+              )}
             </div>
           </div>
         )}
