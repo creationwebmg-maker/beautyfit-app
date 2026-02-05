@@ -86,28 +86,36 @@ const Progres = () => {
 
       <main className="max-w-4xl mx-auto px-4 py-6 space-y-6">
         {/* Weekly Progress Card */}
-        <Card className="border-0 shadow-lg overflow-hidden">
-          <div style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }} className="p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-white/80 text-sm">Cette semaine</p>
-                <p className="text-3xl font-bold">{stats.totalSteps.toLocaleString()}</p>
-                <p className="text-white/80 text-sm">pas</p>
+        {loading ? (
+          <Card className="border-0 shadow-lg overflow-hidden">
+            <div style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }} className="p-6 h-40 flex items-center justify-center">
+              <Loader2 className="w-8 h-8 text-white animate-spin" />
+            </div>
+          </Card>
+        ) : (
+          <Card className="border-0 shadow-lg overflow-hidden">
+            <div style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }} className="p-6 text-white">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-white/80 text-sm">Cette semaine</p>
+                  <p className="text-3xl font-bold">{stats.weekly_steps.toLocaleString()}</p>
+                  <p className="text-white/80 text-sm">pas</p>
+                </div>
+                <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center">
+                  <Footprints className="w-10 h-10" />
+                </div>
               </div>
-              <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center">
-                <Footprints className="w-10 h-10" />
+              
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span>Objectif: {stats.weekly_goal.toLocaleString()} pas</span>
+                  <span>{Math.round(weekProgress)}%</span>
+                </div>
+                <Progress value={Math.min(weekProgress, 100)} className="h-3 bg-white/20" />
               </div>
             </div>
-            
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Objectif: {stats.weeklyGoal.toLocaleString()} pas</span>
-                <span>{Math.round(weekProgress)}%</span>
-              </div>
-              <Progress value={weekProgress} className="h-3 bg-white/20" />
-            </div>
-          </div>
-        </Card>
+          </Card>
+        )}
 
         {/* Calorie Tracker Section */}
         <Card className="border-0 shadow-md" style={{ background: 'white' }}>
