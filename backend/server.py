@@ -1713,6 +1713,187 @@ async def calculate_calorie_needs(
         logger.error(f"Error calculating calorie needs: {e}")
         raise HTTPException(status_code=500, detail=f"Erreur lors du calcul: {str(e)}")
 
+# ==================== PROGRESS/STATS ROUTES ====================
+
+@api_router.post("/progress/session")
+async def complete_session(
+    request: SessionCompleteRequest,
+    user: dict = Depends(get_current_user)
+):
+    """Record a completed workout session"""
+    try:
+        session_id = str(uuid.uuid4())
+        now = datetime.now(timezone.utc)
+        
+        session_doc = {
+            "id": session_id,
+            "user_id": user["id"],
+            "week_id": request.week_id,
+            "seance_id": request.seance_id,
+            "steps": request.steps,
+            "duration_minutes": request.duration_minutes,
+            "phases_completed": request.phases_completed,
+            "completed_at": now.isoformat()
+        }
+        
+        await db.sessions.insert_one(session_doc)
+        
+        # Update user stats
+        await update_user_stats(user["id"], request.steps, request.duration_minutes)
+        
+        return {"message": "Session enregistrée", "session_id": session_id}
+        
+    except Exception as e:
+        logger.error(f"Error recording session: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+async def update_user_stats(user_id: str, steps: int, minutes: int):
+    """Update user's cumulative stats and streak"""
+    now = datetime.now(timezone.utc)
+    today = now.strftime("%Y-%m-%d")
+    
+    # Get current user stats
+    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    current_stats = user.get("stats", {})
+    
+    # Calculate streak
+    last_session_date = current_stats.get("last_session_date")
+    current_streak = current_stats.get("current_streak", 0)
+    best_streak = current_stats.get("best_streak", 0)
+    
+    if last_session_date:
+        last_date = datetime.fromisoformat(last_session_date.replace("Z", "+00:00")).date()
+        today_date = now.date()
+        diff = (today_date - last_date).days
+        
+        if diff == 0:
+            # Same day, don't increment streak
+            pass
+        elif diff == 1:
+            # Consecutive day
+            current_streak += 1
+        else:
+            # Streak broken
+            current_streak = 1
+    else:
+        current_streak = 1
+    
+    best_streak = max(best_streak, current_streak)
+    
+    # Update stats
+    new_stats = {
+        "total_steps": current_stats.get("total_steps", 0) + steps,
+        "total_minutes": current_stats.get("total_minutes", 0) + minutes,
+        "sessions_completed": current_stats.get("sessions_completed", 0) + 1,
+        "current_streak": current_streak,
+        "best_streak": best_streak,
+        "last_session_date": today,
+        "weekly_goal": current_stats.get("weekly_goal", 20000)
+    }
+    
+    await db.users.update_one(
+        {"id": user_id},
+        {"$set": {"stats": new_stats}}
+    )
+
+@api_router.get("/progress/stats", response_model=UserStatsResponse)
+async def get_user_stats(user: dict = Depends(get_current_user)):
+    """Get user's progress statistics"""
+    try:
+        # Get user data
+        user_data = await db.users.find_one({"id": user["id"]}, {"_id": 0})
+        stats = user_data.get("stats", {})
+        
+        # Calculate weekly steps (last 7 days)
+        now = datetime.now(timezone.utc)
+        week_ago = (now - timedelta(days=7)).isoformat()
+        
+        weekly_sessions = await db.sessions.find({
+            "user_id": user["id"],
+            "completed_at": {"$gte": week_ago}
+        }, {"_id": 0}).to_list(100)
+        
+        weekly_steps = sum(s.get("steps", 0) for s in weekly_sessions)
+        
+        return UserStatsResponse(
+            total_steps=stats.get("total_steps", 0),
+            weekly_steps=weekly_steps,
+            weekly_goal=stats.get("weekly_goal", 20000),
+            sessions_completed=stats.get("sessions_completed", 0),
+            total_minutes=stats.get("total_minutes", 0),
+            current_streak=stats.get("current_streak", 0),
+            best_streak=stats.get("best_streak", 0),
+            last_session_date=stats.get("last_session_date")
+        )
+        
+    except Exception as e:
+        logger.error(f"Error getting stats: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/progress/sessions")
+async def get_session_history(
+    limit: int = 20,
+    user: dict = Depends(get_current_user)
+):
+    """Get user's session history"""
+    sessions = await db.sessions.find(
+        {"user_id": user["id"]},
+        {"_id": 0}
+    ).sort("completed_at", -1).to_list(limit)
+    
+    return sessions
+
+@api_router.get("/progress/weekly-activity")
+async def get_weekly_activity(user: dict = Depends(get_current_user)):
+    """Get activity for each day of the current week"""
+    now = datetime.now(timezone.utc)
+    
+    # Get start of week (Monday)
+    start_of_week = now - timedelta(days=now.weekday())
+    start_of_week = start_of_week.replace(hour=0, minute=0, second=0, microsecond=0)
+    
+    # Get sessions for this week
+    sessions = await db.sessions.find({
+        "user_id": user["id"],
+        "completed_at": {"$gte": start_of_week.isoformat()}
+    }, {"_id": 0}).to_list(100)
+    
+    # Create activity map for each day
+    activity = {}
+    for i in range(7):
+        day_date = (start_of_week + timedelta(days=i)).strftime("%Y-%m-%d")
+        activity[day_date] = False
+    
+    for session in sessions:
+        session_date = session["completed_at"][:10]  # Extract YYYY-MM-DD
+        if session_date in activity:
+            activity[session_date] = True
+    
+    # Convert to array format [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+    days = ["L", "M", "M", "J", "V", "S", "D"]
+    result = []
+    for i in range(7):
+        day_date = (start_of_week + timedelta(days=i)).strftime("%Y-%m-%d")
+        result.append({
+            "day": days[i],
+            "date": day_date,
+            "active": activity[day_date]
+        })
+    
+    return result
+
+@api_router.put("/progress/weekly-goal")
+async def update_weekly_goal(
+    goal: int,
+    user: dict = Depends(get_current_user)
+):
+    """Update user's weekly step goal"""
+    await db.users.update_one(
+        {"id": user["id"]},
+        {"$set": {"stats.weekly_goal": goal}}
+    )
+    return {"message": "Objectif mis à jour", "weekly_goal": goal}
+
 @api_router.get("/")
 async def root():
     return {"message": "Amel Fit Coach API", "version": "1.0.0"}
