@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,20 +14,26 @@ import {
   Timer,
   Footprints,
   Loader2,
-  ShieldCheck
+  ShieldCheck,
+  Smartphone
 } from "lucide-react";
 import BottomNavBar from "@/components/BottomNavBar";
+import platformService from "@/services/PlatformService";
+import iapService from "@/services/InAppPurchaseService";
 
 const ProgrammeCheckout = () => {
   const navigate = useNavigate();
   const { token, isAuthenticated, isGuest } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("stripe");
+  const [platformReady, setPlatformReady] = useState(false);
 
   const programme = {
     id: "prog_ramadan",
     title: "Programme Ramadan Marche",
     subtitle: "ALLER BIEN, MÊME À JEUN",
     price: 22.00,
+    iapProductId: "com.beautyfit.amel.programme.ramadan",
     features: [
       "4 semaines de programme complet",
       "30 minutes par séance",
@@ -39,6 +45,22 @@ const ProgrammeCheckout = () => {
     ]
   };
 
+  // Initialize platform detection
+  useEffect(() => {
+    const initPlatform = async () => {
+      await platformService.initialize();
+      setPaymentMethod(platformService.getPaymentMethod());
+      
+      // Initialize IAP if on native iOS
+      if (platformService.useAppleIAP()) {
+        await iapService.initialize();
+      }
+      
+      setPlatformReady(true);
+    };
+    initPlatform();
+  }, []);
+
   const handleCheckout = async () => {
     if (!isAuthenticated || isGuest) {
       toast.error("Connectez-vous pour acheter");
@@ -47,7 +69,22 @@ const ProgrammeCheckout = () => {
     }
 
     setLoading(true);
+    
     try {
+      // Use Apple IAP on native iOS
+      if (paymentMethod === "apple_iap") {
+        const result = await iapService.purchase(programme.iapProductId);
+        if (result.success) {
+          toast.success("Achat réussi ! 🎉");
+          navigate("/account?tab=purchases");
+        } else {
+          toast.error(result.error || "Erreur lors de l'achat");
+        }
+        setLoading(false);
+        return;
+      }
+
+      // Use Stripe on web
       const response = await api.post("/payments/stripe/checkout", {
         course_id: programme.id,
         origin_url: window.location.origin
