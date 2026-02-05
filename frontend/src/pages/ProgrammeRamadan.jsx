@@ -255,7 +255,7 @@ function ProgrammeRamadan() {
   }, [feedbackMode]);
 
   // Request motion permission and start session
-  function startSession(weekId, seanceId) {
+  async function startSession(weekId, seanceId) {
     setSelectedWeekId(weekId);
     setSelectedSeanceId(seanceId);
     const firstPhases = getPhases(weekId, seanceId);
@@ -271,6 +271,16 @@ function ProgrammeRamadan() {
     // Reset accelerometer data
     lastAccelRef.current = { x: 0, y: 0, z: 0 };
     lastStepTimeRef.current = 0;
+    
+    // Try to acquire wake lock to keep screen on during exercise
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLockRef.current = await navigator.wakeLock.request('screen');
+        console.log('Wake lock acquired - screen will stay on');
+      }
+    } catch (err) {
+      console.log('Wake lock not available:', err);
+    }
     
     // Feedback at start
     if (feedbackMode === FEEDBACK_VIBRATION) {
