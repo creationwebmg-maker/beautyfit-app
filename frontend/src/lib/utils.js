@@ -18,7 +18,8 @@ export const api = {
     const response = await fetch(`${API_URL}/api${endpoint}`, { headers });
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      throw new Error(error.detail || "Request failed");
+      const message = translateError(error.detail);
+      throw new Error(message);
     }
     return response.json();
   },
@@ -37,7 +38,8 @@ export const api = {
     });
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      throw new Error(error.detail || "Request failed");
+      const message = translateError(error.detail);
+      throw new Error(message);
     }
     return response.json();
   },
@@ -56,7 +58,8 @@ export const api = {
     });
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      throw new Error(error.detail || "Request failed");
+      const message = translateError(error.detail);
+      throw new Error(message);
     }
     return response.json();
   },
@@ -74,10 +77,29 @@ export const api = {
     });
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      throw new Error(error.detail || "Request failed");
+      const message = translateError(error.detail);
+      throw new Error(message);
     }
     return response.json();
   },
+};
+
+// Translate common API errors to French
+const translateError = (detail) => {
+  if (!detail) return "Une erreur est survenue";
+  
+  const translations = {
+    "Invalid credentials": "Email ou mot de passe incorrect",
+    "Invalid token": "Session expirée, veuillez vous reconnecter",
+    "Token expired": "Session expirée, veuillez vous reconnecter",
+    "User not found": "Utilisateur non trouvé",
+    "Email already registered": "Cet email est déjà utilisé",
+    "Course not found": "Programme non trouvé",
+    "Course already purchased": "Vous avez déjà acheté ce programme",
+    "Request failed": "La requête a échoué",
+  };
+  
+  return translations[detail] || detail;
 };
 
 export const formatPrice = (price) => {
