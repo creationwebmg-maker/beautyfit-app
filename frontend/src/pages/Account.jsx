@@ -565,40 +565,77 @@ const Account = () => {
                   >
                     Aucun achat
                   </h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground mb-6">
                     Ton historique d'achats apparaîtra ici
                   </p>
+                  <Button
+                    onClick={() => navigate("/programme/checkout")}
+                    className="rounded-full"
+                    style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}
+                  >
+                    Découvrir le Programme Ramadan
+                  </Button>
                 </CardContent>
               </Card>
             ) : (
-              <Card className="border-border/50">
-                <CardContent className="p-0">
-                  <div className="divide-y divide-border/50">
-                    {purchases.map((purchase) => (
-                      <div 
-                        key={purchase.id}
-                        className="p-4 flex items-center justify-between hover:bg-secondary/30 transition-colors"
-                        data-testid={`purchase-${purchase.id}`}
-                      >
-                        <div>
-                          <p className="font-medium text-foreground">{purchase.course_title}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {new Date(purchase.created_at).toLocaleDateString('fr-FR', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric'
-                            })}
-                          </p>
+              <div className="space-y-4">
+                {purchases.map((purchase) => (
+                  <Card 
+                    key={purchase.id}
+                    className="border-border/50 overflow-hidden"
+                    data-testid={`purchase-${purchase.id}`}
+                  >
+                    <CardContent className="p-0">
+                      <div className="p-4 flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div 
+                            className="w-14 h-14 rounded-xl flex items-center justify-center"
+                            style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}
+                          >
+                            <Footprints className="w-7 h-7 text-white" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-foreground">{purchase.course_title}</p>
+                            <p className="text-sm text-muted-foreground">
+                              Acheté le {new Date(purchase.created_at).toLocaleDateString('fr-FR', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                              })}
+                            </p>
+                          </div>
                         </div>
                         <div className="text-right">
                           <p className="font-semibold text-foreground">{formatPrice(purchase.amount)}</p>
-                          <p className="text-xs text-green-600 uppercase">{purchase.status}</p>
+                          <span 
+                            className="text-xs px-2 py-1 rounded-full"
+                            style={{ background: '#D1FAE5', color: '#059669' }}
+                          >
+                            {purchase.status === "completed" ? "Payé" : purchase.status}
+                          </span>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                      {/* Action button for Ramadan program */}
+                      {purchase.course_id === "prog_ramadan" && (
+                        <div 
+                          className="px-4 py-3 border-t"
+                          style={{ background: '#FEF7F7', borderColor: '#F3D1D1' }}
+                        >
+                          <Button
+                            onClick={() => navigate("/programme/ramadan")}
+                            className="w-full h-11 rounded-full"
+                            style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}
+                            data-testid="access-ramadan-btn"
+                          >
+                            <Footprints className="w-4 h-4 mr-2" />
+                            Accéder au programme Ramadan
+                          </Button>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             )}
           </TabsContent>
         </Tabs>
