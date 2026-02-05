@@ -640,6 +640,27 @@ function ProgrammeRamadan() {
             </Card>
 
             <div className="space-y-3">
+              {/* Prix et Achat */}
+              <Card className="border-0 shadow-lg overflow-hidden" style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}>
+                <CardContent className="p-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-white/80 text-sm">Programme complet</p>
+                      <p className="text-3xl font-bold text-white">22 €</p>
+                      <p className="text-white/80 text-sm">Accès illimité à vie</p>
+                    </div>
+                    <Button
+                      onClick={() => navigate("/programme/checkout")}
+                      className="rounded-full px-6 h-12 font-semibold"
+                      style={{ background: 'white', color: '#E37E7F' }}
+                      data-testid="buy-programme-btn"
+                    >
+                      Acheter
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
               <h2 className="text-lg font-semibold flex items-center gap-2" style={{ color: '#333', fontFamily: "'Playfair Display', serif" }}>
                 <Timer className="w-5 h-5" style={{ color: '#E37E7F' }} />Choisis ta semaine
               </h2>
