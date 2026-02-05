@@ -18,49 +18,59 @@ import {
   Wheat,
   Droplet,
   Camera,
-  ChevronRight
+  ChevronRight,
+  Loader2
 } from "lucide-react";
 
 const Progres = () => {
   const navigate = useNavigate();
   const { token, isAuthenticated, isGuest } = useAuth();
   
-  // Mock data - à connecter aux vraies données utilisateur
-  const [stats] = useState({
-    totalSteps: 12450,
-    weeklyGoal: 20000,
-    sessionsCompleted: 8,
-    totalMinutes: 240,
-    currentStreak: 5,
-    bestStreak: 12
+  const [stats, setStats] = useState({
+    total_steps: 0,
+    weekly_steps: 0,
+    weekly_goal: 20000,
+    sessions_completed: 0,
+    total_minutes: 0,
+    current_streak: 0,
+    best_streak: 0
   });
-
+  const [weeklyActivity, setWeeklyActivity] = useState([]);
   const [calorieData, setCalorieData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [loadingCalories, setLoadingCalories] = useState(true);
 
   useEffect(() => {
     if (isAuthenticated && !isGuest && token) {
-      fetchCalorieData();
+      fetchAllData();
     } else {
+      setLoading(false);
       setLoadingCalories(false);
     }
   }, [isAuthenticated, isGuest, token]);
 
-  const fetchCalorieData = async () => {
+  const fetchAllData = async () => {
     try {
-      const data = await api.get("/calories/today", token);
-      setCalorieData(data);
+      const [statsData, activityData, caloriesData] = await Promise.all([
+        api.get("/progress/stats", token).catch(() => null),
+        api.get("/progress/weekly-activity", token).catch(() => []),
+        api.get("/calories/today", token).catch(() => null)
+      ]);
+      
+      if (statsData) {
+        setStats(statsData);
+      }
+      setWeeklyActivity(activityData || []);
+      setCalorieData(caloriesData);
     } catch (error) {
-      console.error("Error fetching calorie data:", error);
+      console.error("Error fetching data:", error);
     } finally {
+      setLoading(false);
       setLoadingCalories(false);
     }
   };
 
-  const weekProgress = (stats.totalSteps / stats.weeklyGoal) * 100;
-
-  const weekDays = ["L", "M", "M", "J", "V", "S", "D"];
-  const activityDays = [true, true, false, true, true, false, false]; // Exemple
+  const weekProgress = stats.weekly_goal > 0 ? (stats.weekly_steps / stats.weekly_goal) * 100 : 0;
 
   return (
     <div className="min-h-screen pb-24" style={{ background: '#F7F5F2' }}>
