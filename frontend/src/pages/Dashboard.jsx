@@ -121,24 +121,32 @@ const Dashboard = () => {
       </header>
 
       {/* Hero Banner with Photo */}
-      <section className="relative h-[50vh] md:h-[60vh] overflow-hidden" data-testid="hero-banner">
-        <div className="absolute inset-0">
-          <img 
-            src="https://customer-assets.emergentagent.com/job_amel-management/artifacts/htjn8kqc_image.jpeg"
-            alt="Fitness coaching"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#E37E7F]/30 via-transparent to-[#D5A0A8]/60" />
-        </div>
-        
-        <div className="relative h-full flex flex-col items-center justify-end text-center px-6 pb-12">
-          <h1 
-            className="text-3xl md:text-5xl font-bold text-white leading-tight mb-2"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Beautyfit By Amel
-          </h1>
-          <p className="text-white/90 text-lg mb-4">Ton coach fitness personnel</p>
+      <section className="relative py-8 px-4" style={{ background: 'linear-gradient(135deg, #F7F5F2, #FDF2F8)' }} data-testid="hero-banner">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-6">
+            {/* Photo plus petite */}
+            <div className="flex-shrink-0">
+              <img 
+                src="https://customer-assets.emergentagent.com/job_amel-management/artifacts/htjn8kqc_image.jpeg"
+                alt="Amel - Coach fitness"
+                className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover shadow-lg border-4 border-white"
+              />
+            </div>
+            
+            {/* Texte */}
+            <div className="flex-1">
+              <h1 
+                className="text-xl md:text-2xl font-bold leading-tight mb-3"
+                style={{ fontFamily: "'Playfair Display', serif", color: '#333' }}
+              >
+                Trouver l'équilibre entre<br/>
+                <span style={{ color: '#E37E7F' }}>foi, sport & jeûne</span>
+              </h1>
+              <p className="text-sm md:text-base" style={{ color: '#666' }}>
+                Une coach qui partage ta réalité
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
