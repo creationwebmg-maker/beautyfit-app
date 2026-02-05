@@ -17,13 +17,17 @@ export const api = {
     }
     const response = await fetch(`${API_URL}/api${endpoint}`, { headers });
     if (!response.ok) {
-      const text = await response.text();
+      const cloned = response.clone();
       let errorDetail = null;
       try {
-        const errorData = JSON.parse(text);
+        const errorData = await cloned.json();
         errorDetail = errorData.detail;
       } catch (e) {
-        errorDetail = text || null;
+        try {
+          errorDetail = await response.text();
+        } catch (e2) {
+          errorDetail = null;
+        }
       }
       const message = translateError(errorDetail);
       throw new Error(message);
@@ -44,13 +48,17 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      const text = await response.text();
+      const cloned = response.clone();
       let errorDetail = null;
       try {
-        const errorData = JSON.parse(text);
+        const errorData = await cloned.json();
         errorDetail = errorData.detail;
       } catch (e) {
-        errorDetail = text || null;
+        try {
+          errorDetail = await response.text();
+        } catch (e2) {
+          errorDetail = null;
+        }
       }
       const message = translateError(errorDetail);
       throw new Error(message);
@@ -71,13 +79,17 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      const text = await response.text();
+      const cloned = response.clone();
       let errorDetail = null;
       try {
-        const errorData = JSON.parse(text);
+        const errorData = await cloned.json();
         errorDetail = errorData.detail;
       } catch (e) {
-        errorDetail = text || null;
+        try {
+          errorDetail = await response.text();
+        } catch (e2) {
+          errorDetail = null;
+        }
       }
       const message = translateError(errorDetail);
       throw new Error(message);
@@ -97,13 +109,17 @@ export const api = {
       headers,
     });
     if (!response.ok) {
-      const text = await response.text();
+      const cloned = response.clone();
       let errorDetail = null;
       try {
-        const errorData = JSON.parse(text);
+        const errorData = await cloned.json();
         errorDetail = errorData.detail;
       } catch (e) {
-        errorDetail = text || null;
+        try {
+          errorDetail = await response.text();
+        } catch (e2) {
+          errorDetail = null;
+        }
       }
       const message = translateError(errorDetail);
       throw new Error(message);
