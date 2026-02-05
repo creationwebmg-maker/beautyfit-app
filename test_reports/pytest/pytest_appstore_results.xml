@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="17" time="13.895" timestamp="2026-02-05T10:39:13.320205+00:00" hostname="agent-env-8bfae4d3-e59f-48d2-a84c-738769b5daa0"><testcase classname="backend.tests.test_appstore_features.TestHealthAndBasicEndpoints" name="test_health_endpoint" time="0.593"><failure message="requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)">/root/.venv/lib/python3.11/site-packages/requests/models.py:976: in json
+    return complexjson.loads(self.text, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/json/__init__.py:346: in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/json/decoder.py:355: in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+E   json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+backend/tests/test_appstore_features.py:21: in test_health_endpoint
+    data = response.json()
+           ^^^^^^^^^^^^^^^
+/root/.venv/lib/python3.11/site-packages/requests/models.py:980: in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+E   requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)</failure></testcase><testcase classname="backend.tests.test_appstore_features.TestHealthAndBasicEndpoints" name="test_courses_endpoint" time="0.816" /><testcase classname="backend.tests.test_appstore_features.TestHealthAndBasicEndpoints" name="test_site_content_endpoint" time="0.481" /><testcase classname="backend.tests.test_appstore_features.TestAuthentication" name="test_login_with_valid_credentials" time="0.723" /><testcase classname="backend.tests.test_appstore_features.TestAuthentication" name="test_login_with_invalid_credentials" time="0.703" /><testcase classname="backend.tests.test_appstore_features.TestAuthentication" name="test_login_with_nonexistent_user" time="0.491" /><testcase classname="backend.tests.test_appstore_features.TestRamadanCourseAndCheckout" name="test_ramadan_course_exists" time="0.473" /><testcase classname="backend.tests.test_appstore_features.TestRamadanCourseAndCheckout" name="test_init_ramadan_course_endpoint" time="0.369" /><testcase classname="backend.tests.test_appstore_features.TestRamadanCourseAndCheckout" name="test_stripe_checkout_requires_auth" time="0.474" /><testcase classname="backend.tests.test_appstore_features.TestRamadanCourseAndCheckout" name="test_stripe_checkout_with_auth" time="2.088" /><testcase classname="backend.tests.test_appstore_features.TestRamadanCourseAndCheckout" name="test_stripe_checkout_invalid_course" time="1.543" /><testcase classname="backend.tests.test_appstore_features.TestUserEndpoints" name="test_get_user_profile" time="1.181" /><testcase classname="backend.tests.test_appstore_features.TestUserEndpoints" name="test_get_user_purchases" time="1.183" /><testcase classname="backend.tests.test_appstore_features.TestUserEndpoints" name="test_get_notification_settings" time="1.079" /><testcase classname="backend.tests.test_appstore_features.TestProtectedEndpoints" name="test_profile_requires_auth" time="0.372" /><testcase classname="backend.tests.test_appstore_features.TestProtectedEndpoints" name="test_purchases_requires_auth" time="0.475" /><testcase classname="backend.tests.test_appstore_features.TestProtectedEndpoints" name="test_notifications_requires_auth" time="0.691" /></testsuite></testsuites>
