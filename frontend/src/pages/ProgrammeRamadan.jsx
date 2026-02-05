@@ -580,28 +580,28 @@ function ProgrammeRamadan() {
             <Card className="border-0 rules-card">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <Heart className="w-5 h-5 text-amber-400" />
-                  <span className="font-semibold text-amber-300">Respect du jeûne</span>
+                  <Heart className="w-5 h-5" style={{ color: '#E37E7F' }} />
+                  <span className="font-semibold" style={{ color: '#E37E7F' }}>Respect du jeûne</span>
                 </div>
-                <ul className="space-y-2 text-sm text-white/70">
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-amber-400" />Écoute ton corps</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-amber-400" />Hydrate-toi bien</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-amber-400" />Adapte l'intensité</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-amber-400" />Pas de culpabilité</li>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center gap-2" style={{ color: '#333' }}><CheckCircle2 className="w-4 h-4" style={{ color: '#E37E7F' }} />Écoute ton corps</li>
+                  <li className="flex items-center gap-2" style={{ color: '#333' }}><CheckCircle2 className="w-4 h-4" style={{ color: '#E37E7F' }} />Hydrate-toi bien</li>
+                  <li className="flex items-center gap-2" style={{ color: '#333' }}><CheckCircle2 className="w-4 h-4" style={{ color: '#E37E7F' }} />Adapte l'intensité</li>
+                  <li className="flex items-center gap-2" style={{ color: '#333' }}><CheckCircle2 className="w-4 h-4" style={{ color: '#E37E7F' }} />Pas de culpabilité</li>
                 </ul>
               </CardContent>
             </Card>
 
             {/* Step Detection Info */}
-            <Card className="border-0 bg-white/5">
+            <Card className="border-0 shadow-md" style={{ background: 'white' }}>
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-                    <Footprints className="w-5 h-5 text-amber-400" />
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#FEF2F2' }}>
+                    <Footprints className="w-5 h-5" style={{ color: '#E37E7F' }} />
                   </div>
                   <div>
-                    <h4 className="font-medium text-white">Comptage des pas automatique</h4>
-                    <p className="text-sm text-white/60 mt-1">
+                    <h4 className="font-semibold" style={{ color: '#333' }}>Comptage des pas automatique</h4>
+                    <p className="text-sm mt-1" style={{ color: '#666' }}>
                       Ton téléphone détecte chaque pas et te donne un feedback en temps réel (vibration ou son).
                     </p>
                   </div>
@@ -610,8 +610,8 @@ function ProgrammeRamadan() {
             </Card>
 
             <div className="space-y-3">
-              <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                <Timer className="w-5 h-5 text-amber-400" />Choisis ta semaine
+              <h2 className="text-lg font-semibold flex items-center gap-2" style={{ color: '#333', fontFamily: "'Playfair Display', serif" }}>
+                <Timer className="w-5 h-5" style={{ color: '#E37E7F' }} />Choisis ta semaine
               </h2>
               
               {[1, 2, 3, 4].map((weekId) => (
