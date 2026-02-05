@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useAuth } from "@/context/AuthContext";
+import { api } from "@/lib/utils";
+import { toast } from "sonner";
 import {
   ChevronLeft,
   Play,
@@ -27,6 +30,7 @@ const FEEDBACK_SOUND = "sound";
 
 function ProgrammeRamadan() {
   const navigate = useNavigate();
+  const { token, isAuthenticated, isGuest } = useAuth();
   const [selectedWeekId, setSelectedWeekId] = useState(0);
   const [selectedSeanceId, setSelectedSeanceId] = useState(0);
   const [viewMode, setViewMode] = useState("weeks");
@@ -38,12 +42,35 @@ function ProgrammeRamadan() {
   const [stepCount, setStepCount] = useState(0);
   const [motionPermission, setMotionPermission] = useState(false);
   const [feedbackMode, setFeedbackMode] = useState(FEEDBACK_VIBRATION); // vibration or sound
+  const [sessionStartTime, setSessionStartTime] = useState(null);
 
   const intervalRef = useRef(null);
   const audioContextRef = useRef(null);
   const lastAccelRef = useRef({ x: 0, y: 0, z: 0 });
   const stepThreshold = 10; // Sensitivity for step detection
   const lastStepTimeRef = useRef(0);
+
+  // Save session when complete
+  const saveSession = useCallback(async () => {
+    if (!isAuthenticated || isGuest || !token) return;
+    
+    const duration = sessionStartTime 
+      ? Math.round((Date.now() - sessionStartTime) / 60000) 
+      : 30;
+    
+    try {
+      await api.post("/progress/session", {
+        week_id: selectedWeekId,
+        seance_id: selectedSeanceId,
+        steps: stepCount,
+        duration_minutes: duration,
+        phases_completed: currentPhaseIndex + 1
+      }, token);
+      toast.success("Session enregistrée ! 🎉");
+    } catch (error) {
+      console.error("Error saving session:", error);
+    }
+  }, [isAuthenticated, isGuest, token, selectedWeekId, selectedSeanceId, stepCount, currentPhaseIndex, sessionStartTime]);
 
   // Simple data - phases for each seance [label, duration, isFastPhase]
   const getPhases = useCallback((weekId, seanceId) => {
