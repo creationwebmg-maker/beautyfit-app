@@ -19,7 +19,12 @@ import {
   Calendar,
   LogOut,
   ChevronLeft,
-  Camera
+  Camera,
+  Phone,
+  Scale,
+  Target,
+  Ruler,
+  X
 } from "lucide-react";
 import BottomNavBar from "@/components/BottomNavBar";
 
@@ -32,8 +37,12 @@ const Account = () => {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
-    first_name: user?.first_name || "",
-    fitness_goal: user?.fitness_goal || "",
+    first_name: "",
+    phone: "",
+    height: "",
+    current_weight: "",
+    target_weight: "",
+    fitness_goal: "",
   });
 
   const fitnessGoalLabels = {
@@ -46,17 +55,43 @@ const Account = () => {
   };
 
   useEffect(() => {
+    if (user) {
+      setFormData({
+        first_name: user.first_name || "",
+        phone: user.phone || "",
+        height: user.height || "",
+        current_weight: user.current_weight || "",
+        target_weight: user.target_weight || "",
+        fitness_goal: user.fitness_goal || "",
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
     fetchData();
   }, [token]);
 
   const fetchData = async () => {
     try {
-      const [purchasesData, coursesData] = await Promise.all([
+      const [purchasesData, coursesData, profileData] = await Promise.all([
         api.get("/user/purchases", token),
-        api.get("/user/courses", token)
+        api.get("/user/courses", token),
+        api.get("/user/profile", token).catch(() => null)
       ]);
       setPurchases(purchasesData);
       setPurchasedCourses(coursesData);
+      
+      if (profileData) {
+        setFormData(prev => ({
+          ...prev,
+          first_name: profileData.first_name || prev.first_name,
+          phone: profileData.phone || "",
+          height: profileData.height || "",
+          current_weight: profileData.current_weight || "",
+          target_weight: profileData.target_weight || "",
+          fitness_goal: profileData.fitness_goal || "",
+        }));
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
