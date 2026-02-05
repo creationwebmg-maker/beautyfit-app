@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 import BottomNavBar from "@/components/BottomNavBar";
+import { useAuth } from "@/context/AuthContext";
+import { api } from "@/lib/utils";
 import { 
   TrendingUp, 
   Footprints, 
@@ -9,10 +13,18 @@ import {
   Calendar,
   Trophy,
   Target,
-  Clock
+  Clock,
+  Apple,
+  Wheat,
+  Droplet,
+  Camera,
+  ChevronRight
 } from "lucide-react";
 
 const Progres = () => {
+  const navigate = useNavigate();
+  const { token, isAuthenticated, isGuest } = useAuth();
+  
   // Mock data - à connecter aux vraies données utilisateur
   const [stats] = useState({
     totalSteps: 12450,
@@ -22,6 +34,28 @@ const Progres = () => {
     currentStreak: 5,
     bestStreak: 12
   });
+
+  const [calorieData, setCalorieData] = useState(null);
+  const [loadingCalories, setLoadingCalories] = useState(true);
+
+  useEffect(() => {
+    if (isAuthenticated && !isGuest && token) {
+      fetchCalorieData();
+    } else {
+      setLoadingCalories(false);
+    }
+  }, [isAuthenticated, isGuest, token]);
+
+  const fetchCalorieData = async () => {
+    try {
+      const data = await api.get("/calories/today", token);
+      setCalorieData(data);
+    } catch (error) {
+      console.error("Error fetching calorie data:", error);
+    } finally {
+      setLoadingCalories(false);
+    }
+  };
 
   const weekProgress = (stats.totalSteps / stats.weeklyGoal) * 100;
 
