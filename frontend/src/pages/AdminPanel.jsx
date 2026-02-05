@@ -258,7 +258,7 @@ const AdminPanel = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <img 
-              src="https://customer-assets.emergentagent.com/job_d0f789bc-27a2-4e1a-8509-4380495dce2a/artifacts/1lany50t_BEAUTYFIT.png"
+              src="https://customer-assets.emergentagent.com/job_d0f789bc-27a2-4e1a-8509-4380495dce2a/artifacts/bxz4jtgp_BEAUTYFIT.png"
               alt="BeautyFit"
               className="h-20 w-20 mx-auto mb-4"
             />

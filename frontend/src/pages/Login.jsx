@@ -72,7 +72,7 @@ const Login = () => {
         <div className="bg-white p-8 rounded-2xl border shadow-lg" style={{ borderColor: '#D2DDE7' }}>
           <div className="text-center mb-8">
             <img 
-              src="https://customer-assets.emergentagent.com/job_d0f789bc-27a2-4e1a-8509-4380495dce2a/artifacts/1lany50t_BEAUTYFIT.png" 
+              src="https://customer-assets.emergentagent.com/job_d0f789bc-27a2-4e1a-8509-4380495dce2a/artifacts/bxz4jtgp_BEAUTYFIT.png" 
               alt="Beautyfit" 
               className="h-16 w-16 mx-auto mb-4 object-contain"
             />
