@@ -42,7 +42,7 @@ npx cap open ios
 
 ## ÉTAPE 3 : Configurer dans Xcode (3 min)
 
-1. **Cliquez sur "Beauty Fit by Amel"** dans la barre latérale gauche
+1. **Cliquez sur "Beautyfit By Amel"** dans la barre latérale gauche
 2. **Onglet "Signing & Capabilities"**
 3. **Cochez "Automatically manage signing"**
 4. **Team** : Sélectionnez votre compte développeur
@@ -59,7 +59,7 @@ npx cap open ios
 | Champ | Valeur à copier |
 |-------|-----------------|
 | Plateformes | ✅ iOS |
-| Nom | `Beauty Fit by Amel` |
+| Nom | `Beautyfit By Amel` |
 | Langue principale | Français |
 | Bundle ID | `com.beautyfit.amel` |
 | SKU | `beautyfitbyamel2025` |
@@ -88,7 +88,7 @@ Ton coach fitness personnel
 
 **Description** (copier tout) :
 ```
-Beauty Fit by Amel - Ton coach fitness personnel 💪
+Beautyfit By Amel - Ton coach fitness personnel 💪
 
 Découvre des programmes d'entraînement adaptés à ton rythme de vie, conçus spécialement pour les femmes actives.
 

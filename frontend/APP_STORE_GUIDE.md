@@ -1,8 +1,8 @@
-# 📱 Guide de Publication App Store - Beauty Fit by Amel
+# 📱 Guide de Publication App Store - Beautyfit By Amel
 
 ## 🎯 Informations de l'Application
 
-- **Nom**: Beauty Fit by Amel
+- **Nom**: Beautyfit By Amel
 - **Bundle ID**: com.beautyfit.amel
 - **Catégorie principale**: Santé et fitness
 - **Catégorie secondaire**: Style de vie
@@ -56,7 +56,7 @@ Coach fitness pour femmes
 
 ### Description complète
 ```
-Beauty Fit by Amel - Ton coach fitness personnel 💪
+Beautyfit By Amel - Ton coach fitness personnel 💪
 
 Découvre des programmes d'entraînement adaptés à ton rythme de vie, conçus spécialement pour les femmes actives.
 
@@ -84,7 +84,7 @@ Programme post-partum de 9 mois pour les jeunes mamans.
 • Exercices accessibles à tous niveaux
 • Coach virtuel disponible 24/7
 
-Rejoins des milliers de femmes qui ont transformé leur quotidien avec Beauty Fit by Amel !
+Rejoins des milliers de femmes qui ont transformé leur quotidien avec Beautyfit By Amel !
 
 Des questions ? Contact: support@beautyfitbyamel.com
 ```
@@ -236,4 +236,4 @@ Pour mettre à jour l'application:
 ---
 
 *Document généré le 4 février 2025*
-*Beauty Fit by Amel - Version 1.0.0*
+*Beautyfit By Amel - Version 1.0.0*
