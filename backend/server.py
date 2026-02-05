@@ -1103,7 +1103,7 @@ DEFAULT_SITE_CONTENT = {
             "id": "prog2",
             "title": "PROGRAMME RAMADHÂN",
             "subtitle": "Programme",
-            "price": 27.00,
+            "price": 22.00,
             "image_url": "https://customer-assets.emergentagent.com/job_amelcoach/artifacts/300dg799_IMG_7778.jpeg",
             "badge": "🌙",
             "badge_icon": "moon",
