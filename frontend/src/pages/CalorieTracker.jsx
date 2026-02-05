@@ -443,80 +443,105 @@ const CalorieTracker = () => {
 
         {/* Analysis Result Modal */}
         {showResult && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-            <Card className="w-full max-w-md max-h-[80vh] overflow-y-auto border-0 shadow-xl" style={{ background: 'white' }}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold" style={{ color: '#333', fontFamily: "'Playfair Display', serif" }}>
-                    Résultat de l'analyse
-                  </h3>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+            <Card className="w-full max-w-md max-h-[85vh] overflow-y-auto border-0 shadow-2xl" style={{ background: '#F7F5F2' }}>
+              <CardContent className="p-0">
+                {/* Header with gradient */}
+                <div className="p-5 rounded-t-xl" style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
+                      Résultat de l'analyse
+                    </h3>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => {
+                        setShowResult(null);
+                        setSelectedImage(null);
+                      }}
+                      className="rounded-full bg-white/20 hover:bg-white/30"
+                    >
+                      <X className="w-5 h-5 text-white" />
+                    </Button>
+                  </div>
+                  {showResult.analysis_text && (
+                    <p className="text-white/90 text-sm mt-2">
+                      {showResult.analysis_text}
+                    </p>
+                  )}
+                </div>
+
+                <div className="p-5">
+                  {selectedImage && (
+                    <img 
+                      src={selectedImage} 
+                      alt="Repas analysé" 
+                      className="w-full h-48 object-cover rounded-xl mb-4 shadow-md"
+                    />
+                  )}
+
+                  {/* Foods List */}
+                  <h4 className="text-sm font-semibold mb-3 flex items-center gap-2" style={{ color: '#E37E7F' }}>
+                    <Apple className="w-4 h-4" />
+                    Aliments détectés
+                  </h4>
+                  <div className="space-y-3 mb-5">
+                    {showResult.foods.map((food, index) => (
+                      <div 
+                        key={index} 
+                        className="flex justify-between items-center p-4 rounded-xl border-l-4 shadow-sm"
+                        style={{ background: 'white', borderLeftColor: '#E37E7F' }}
+                      >
+                        <div>
+                          <p className="font-semibold text-base" style={{ color: '#333' }}>{food.name}</p>
+                          <p className="text-sm mt-1" style={{ color: '#888' }}>{food.quantity}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xl font-bold" style={{ color: '#E37E7F' }}>{food.calories}</p>
+                          <p className="text-xs" style={{ color: '#E37E7F' }}>kcal</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Macros Summary */}
+                  <div className="grid grid-cols-3 gap-3 mb-5">
+                    <div className="text-center p-3 rounded-xl" style={{ background: 'white' }}>
+                      <Apple className="w-5 h-5 mx-auto mb-1" style={{ color: '#E37E7F' }} />
+                      <p className="text-lg font-bold" style={{ color: '#333' }}>{showResult.total_proteins}g</p>
+                      <p className="text-xs" style={{ color: '#888' }}>Protéines</p>
+                    </div>
+                    <div className="text-center p-3 rounded-xl" style={{ background: 'white' }}>
+                      <Wheat className="w-5 h-5 mx-auto mb-1" style={{ color: '#EE9F80' }} />
+                      <p className="text-lg font-bold" style={{ color: '#333' }}>{showResult.total_carbs}g</p>
+                      <p className="text-xs" style={{ color: '#888' }}>Glucides</p>
+                    </div>
+                    <div className="text-center p-3 rounded-xl" style={{ background: 'white' }}>
+                      <Droplet className="w-5 h-5 mx-auto mb-1" style={{ color: '#D5A0A8' }} />
+                      <p className="text-lg font-bold" style={{ color: '#333' }}>{showResult.total_fats}g</p>
+                      <p className="text-xs" style={{ color: '#888' }}>Lipides</p>
+                    </div>
+                  </div>
+
+                  {/* Total */}
+                  <div className="p-5 rounded-xl text-center" style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}>
+                    <p className="text-white/80 text-sm mb-1">Total du repas</p>
+                    <p className="text-4xl font-bold text-white">{showResult.total_calories}</p>
+                    <p className="text-white text-lg">kilocalories</p>
+                  </div>
+
                   <Button
-                    variant="ghost"
-                    size="icon"
                     onClick={() => {
                       setShowResult(null);
                       setSelectedImage(null);
                     }}
-                    className="rounded-full"
+                    className="w-full mt-5 h-12 rounded-full text-base font-semibold"
+                    style={{ background: '#333', color: 'white' }}
+                    data-testid="close-result-btn"
                   >
-                    <X className="w-5 h-5" />
+                    Fermer
                   </Button>
                 </div>
-
-                {selectedImage && (
-                  <img 
-                    src={selectedImage} 
-                    alt="Repas analysé" 
-                    className="w-full h-48 object-cover rounded-xl mb-4"
-                  />
-                )}
-
-                <p className="text-sm mb-4" style={{ color: '#666' }}>
-                  {showResult.analysis_text}
-                </p>
-
-                {/* Foods List */}
-                <div className="space-y-3 mb-4">
-                  {showResult.foods.map((food, index) => (
-                    <div key={index} className="flex justify-between items-center p-3 rounded-xl" style={{ background: '#F7F5F2' }}>
-                      <div>
-                        <p className="font-medium" style={{ color: '#333' }}>{food.name}</p>
-                        <p className="text-xs" style={{ color: '#666' }}>{food.quantity}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold" style={{ color: '#E37E7F' }}>{food.calories} kcal</p>
-                        <p className="text-xs" style={{ color: '#666' }}>
-                          P:{food.proteins}g G:{food.carbs}g L:{food.fats}g
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Total */}
-                <div className="p-4 rounded-xl" style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}>
-                  <div className="flex justify-between items-center text-white">
-                    <span className="font-medium">Total</span>
-                    <span className="text-2xl font-bold">{showResult.total_calories} kcal</span>
-                  </div>
-                  <div className="flex justify-between text-white/80 text-sm mt-2">
-                    <span>Protéines: {showResult.total_proteins}g</span>
-                    <span>Glucides: {showResult.total_carbs}g</span>
-                    <span>Lipides: {showResult.total_fats}g</span>
-                  </div>
-                </div>
-
-                <Button
-                  onClick={() => {
-                    setShowResult(null);
-                    setSelectedImage(null);
-                  }}
-                  className="w-full mt-4 rounded-full"
-                  style={{ background: '#E37E7F' }}
-                  data-testid="close-result-btn"
-                >
-                  Fermer
-                </Button>
               </CardContent>
             </Card>
           </div>
