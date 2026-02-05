@@ -82,6 +82,36 @@ function ProgrammeRamadan() {
     checkPurchase();
   }, [isAuthenticated, isGuest, token]);
 
+  // Handle background/foreground mode for continuous step counting
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // App goes to background
+        setIsBackgroundMode(true);
+        if (isRunning && !isPaused && !sessionComplete) {
+          toast.info("Programme en arrière-plan - Les pas continuent d'être comptés", {
+            duration: 2000,
+            id: "background-mode"
+          });
+        }
+      } else {
+        // App comes back to foreground
+        setIsBackgroundMode(false);
+        if (isRunning && !isPaused && !sessionComplete) {
+          toast.success(`De retour ! ${stepCount} pas comptés`, {
+            duration: 2000,
+            id: "foreground-mode"
+          });
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [isRunning, isPaused, sessionComplete, stepCount]);
+
   // Save session when complete
   const saveSession = useCallback(async () => {
     if (!isAuthenticated || isGuest || !token) return;
