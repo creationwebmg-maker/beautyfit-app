@@ -20,7 +20,9 @@ import {
   Moon,
   Battery,
   Sparkles,
-  Smartphone
+  Smartphone,
+  Lock,
+  Loader2
 } from "lucide-react";
 import "./ProgrammeRamadan.css";
 
