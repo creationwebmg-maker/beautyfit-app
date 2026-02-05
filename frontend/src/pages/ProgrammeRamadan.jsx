@@ -55,6 +55,7 @@ function ProgrammeRamadan() {
   const stepThreshold = 10; // Sensitivity for step detection
   const lastStepTimeRef = useRef(0);
   const backgroundStepsRef = useRef(0); // Steps counted while in background
+  const wakeLockRef = useRef(null); // Wake lock to keep screen on
 
   // Check if user has purchased the program
   useEffect(() => {
