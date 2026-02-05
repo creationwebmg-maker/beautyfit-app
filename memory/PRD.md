@@ -129,4 +129,12 @@ Application de sport "Beautyfit By Amel" pour accompagner les utilisateurs dans 
 - Messages d'erreur traduits automatiquement en français via HTTP status codes
 
 ## Dernière mise à jour
-5 février 2026 - Intégration paiement Stripe complète
+5 février 2026 - Intégration paiement Stripe complète + Mode arrière-plan
+
+## Changelog récent
+### 5 février 2026
+- ✅ Mode arrière-plan pour comptage des pas (Wake Lock API + visibilitychange)
+- ✅ Redirection après paiement vers "Mon espace > Achats" au lieu de la vidéo
+- ✅ Bouton "Accéder au programme Ramadan" dans les achats
+- ✅ Messages d'erreur traduits en français
+- ✅ Stripe Checkout fonctionnel avec Carte bancaire + Apple Pay/Google Pay
