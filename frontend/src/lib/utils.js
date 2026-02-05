@@ -17,20 +17,7 @@ export const api = {
     }
     const response = await fetch(`${API_URL}/api${endpoint}`, { headers });
     if (!response.ok) {
-      const cloned = response.clone();
-      let errorDetail = null;
-      try {
-        const errorData = await cloned.json();
-        errorDetail = errorData.detail;
-      } catch (e) {
-        try {
-          errorDetail = await response.text();
-        } catch (e2) {
-          errorDetail = null;
-        }
-      }
-      const message = translateError(errorDetail);
-      throw new Error(message);
+      throw new Error(await getErrorMessage(response));
     }
     return response.json();
   },
@@ -48,20 +35,7 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      const cloned = response.clone();
-      let errorDetail = null;
-      try {
-        const errorData = await cloned.json();
-        errorDetail = errorData.detail;
-      } catch (e) {
-        try {
-          errorDetail = await response.text();
-        } catch (e2) {
-          errorDetail = null;
-        }
-      }
-      const message = translateError(errorDetail);
-      throw new Error(message);
+      throw new Error(await getErrorMessage(response));
     }
     return response.json();
   },
@@ -79,20 +53,7 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      const cloned = response.clone();
-      let errorDetail = null;
-      try {
-        const errorData = await cloned.json();
-        errorDetail = errorData.detail;
-      } catch (e) {
-        try {
-          errorDetail = await response.text();
-        } catch (e2) {
-          errorDetail = null;
-        }
-      }
-      const message = translateError(errorDetail);
-      throw new Error(message);
+      throw new Error(await getErrorMessage(response));
     }
     return response.json();
   },
@@ -109,41 +70,27 @@ export const api = {
       headers,
     });
     if (!response.ok) {
-      const cloned = response.clone();
-      let errorDetail = null;
-      try {
-        const errorData = await cloned.json();
-        errorDetail = errorData.detail;
-      } catch (e) {
-        try {
-          errorDetail = await response.text();
-        } catch (e2) {
-          errorDetail = null;
-        }
-      }
-      const message = translateError(errorDetail);
-      throw new Error(message);
+      throw new Error(await getErrorMessage(response));
     }
     return response.json();
   },
 };
 
-// Translate common API errors to French
-const translateError = (detail) => {
-  if (!detail) return "Une erreur est survenue";
-  
-  const translations = {
-    "Invalid credentials": "Email ou mot de passe incorrect",
-    "Invalid token": "Session expirée, veuillez vous reconnecter",
-    "Token expired": "Session expirée, veuillez vous reconnecter",
-    "User not found": "Utilisateur non trouvé",
-    "Email already registered": "Cet email est déjà utilisé",
-    "Course not found": "Programme non trouvé",
-    "Course already purchased": "Vous avez déjà acheté ce programme",
-    "Request failed": "La requête a échoué",
+// Helper to extract error message from response
+const getErrorMessage = async (response) => {
+  // Map HTTP status codes to French messages
+  const statusMessages = {
+    400: "Requête invalide",
+    401: "Email ou mot de passe incorrect",
+    403: "Accès non autorisé",
+    404: "Ressource non trouvée",
+    409: "Cet email est déjà utilisé",
+    422: "Données invalides",
+    500: "Erreur serveur",
   };
   
-  return translations[detail] || detail;
+  // Return status-based message as primary
+  return statusMessages[response.status] || "Une erreur est survenue";
 };
 
 export const formatPrice = (price) => {
