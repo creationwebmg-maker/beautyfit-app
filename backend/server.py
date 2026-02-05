@@ -1523,6 +1523,167 @@ async def delete_meal(
     
     return {"message": "Repas supprimé"}
 
+@api_router.post("/calories/calculate-needs", response_model=CalorieNeedsResponse)
+async def calculate_calorie_needs(
+    profile: CalorieProfileRequest,
+    user: dict = Depends(get_current_user)
+):
+    """Calculate personalized calorie needs based on profile"""
+    try:
+        # Parse numeric values
+        age = int(profile.age)
+        height = float(profile.height)
+        current_weight = float(profile.current_weight)
+        target_weight = float(profile.target_weight)
+        
+        # Calculate BMR (Mifflin-St Jeor formula for women)
+        if profile.gender == "femme":
+            bmr = (10 * current_weight) + (6.25 * height) - (5 * age) - 161
+        else:
+            bmr = (10 * current_weight) + (6.25 * height) - (5 * age) + 5
+        
+        # Activity multipliers
+        activity_multipliers = {
+            "sedentary": 1.2,
+            "light": 1.375,
+            "active": 1.55,
+            "very_active": 1.725
+        }
+        
+        multiplier = activity_multipliers.get(profile.activity_level, 1.375)
+        tdee = int(bmr * multiplier)
+        
+        # Adjust based on goal
+        goal_adjustments = {
+            "weight_loss": -500,  # Deficit of 500 kcal
+            "maintain": 0,
+            "muscle_gain": 300,  # Surplus of 300 kcal
+            "wellness": -200  # Slight deficit for well-being
+        }
+        
+        adjustment = goal_adjustments.get(profile.goal, 0)
+        daily_calories = max(1200, tdee + adjustment)  # Minimum 1200 kcal
+        
+        # Calculate macros
+        # For weight loss: higher protein, moderate carbs, lower fat
+        # For muscle gain: high protein, high carbs, moderate fat
+        if profile.goal == "weight_loss":
+            proteins = int(current_weight * 1.8)  # 1.8g per kg
+            fats = int(daily_calories * 0.25 / 9)  # 25% from fat
+            carbs = int((daily_calories - (proteins * 4) - (fats * 9)) / 4)
+        elif profile.goal == "muscle_gain":
+            proteins = int(current_weight * 2.0)  # 2g per kg
+            fats = int(daily_calories * 0.25 / 9)
+            carbs = int((daily_calories - (proteins * 4) - (fats * 9)) / 4)
+        else:
+            proteins = int(current_weight * 1.5)  # 1.5g per kg
+            fats = int(daily_calories * 0.30 / 9)  # 30% from fat
+            carbs = int((daily_calories - (proteins * 4) - (fats * 9)) / 4)
+        
+        # Generate recommendations based on profile
+        recommendations = []
+        
+        # Hydration recommendations
+        if profile.hydration in ["less_1l", "1_1.5l"]:
+            recommendations.append("Augmente ton hydratation ! Vise au moins 2L d'eau entre l'iftar et le suhoor.")
+        
+        # Sleep recommendations
+        if profile.sleep_hours in ["less_5h", "5_6h"]:
+            recommendations.append("Essaie de dormir plus ! Le manque de sommeil augmente la faim et le stockage des graisses.")
+        
+        # Suhoor recommendations
+        if profile.does_suhoor == "no":
+            recommendations.append("Le suhoor est important ! Il t'aide à maintenir ton énergie pendant la journée.")
+        elif profile.does_suhoor == "sometimes":
+            recommendations.append("Essaie de faire le suhoor tous les jours pour plus d'énergie.")
+        
+        # Eating habits recommendations
+        if "Je mange souvent frit pendant Ramadan" in profile.eating_habits:
+            recommendations.append("Limite les fritures. Privilégie les cuissons au four ou à la vapeur.")
+        if "Je consomme beaucoup de sucre" in profile.eating_habits:
+            recommendations.append("Réduis le sucre progressivement. Remplace par des fruits frais.")
+        if "Je grignote après l'iftar" in profile.eating_habits:
+            recommendations.append("Prends un iftar complet pour éviter les grignotages.")
+        if "Je mange tard la nuit" in profile.eating_habits:
+            recommendations.append("Essaie de terminer tes repas 2h avant de dormir.")
+        if "J'ai souvent des envies incontrôlées" in profile.eating_habits:
+            recommendations.append("Les envies sont souvent liées à la déshydratation. Bois d'abord !")
+        
+        # Feelings recommendations
+        if "Fatigue intense" in profile.ramadan_feelings:
+            recommendations.append("La fatigue peut être liée au manque de fer. Mange des lentilles et épinards.")
+        if "Constipation" in profile.ramadan_feelings:
+            recommendations.append("Ajoute plus de fibres : légumes, fruits secs, son d'avoine.")
+        if "Ballonnements" in profile.ramadan_feelings:
+            recommendations.append("Mange lentement à l'iftar et évite les boissons gazeuses.")
+        
+        # General recommendations
+        if profile.goal == "weight_loss":
+            recommendations.append("Pour perdre du poids sainement, vise une perte de 0.5kg par semaine maximum.")
+        
+        # If no specific recommendations, add generic ones
+        if len(recommendations) < 3:
+            recommendations.append("Commence l'iftar par des dattes et de l'eau, puis attends 15 min avant le repas.")
+            recommendations.append("Privilégie les protéines à chaque repas pour maintenir ta masse musculaire.")
+        
+        # Meal distribution based on meals_count
+        meals_count = int(profile.meals_count)
+        if meals_count == 1:
+            meal_distribution = {"Iftar": daily_calories}
+        elif meals_count == 2:
+            if profile.does_suhoor == "yes":
+                meal_distribution = {
+                    "Iftar": int(daily_calories * 0.65),
+                    "Suhoor": int(daily_calories * 0.35)
+                }
+            else:
+                meal_distribution = {
+                    "Iftar": int(daily_calories * 0.60),
+                    "Collation": int(daily_calories * 0.40)
+                }
+        else:
+            if profile.does_suhoor == "yes":
+                meal_distribution = {
+                    "Iftar": int(daily_calories * 0.45),
+                    "Collation": int(daily_calories * 0.25),
+                    "Suhoor": int(daily_calories * 0.30)
+                }
+            else:
+                meal_distribution = {
+                    "Iftar": int(daily_calories * 0.50),
+                    "Collation 1": int(daily_calories * 0.25),
+                    "Collation 2": int(daily_calories * 0.25)
+                }
+        
+        # Save profile to user
+        await db.users.update_one(
+            {"id": user["id"]},
+            {"$set": {
+                "calorie_profile": profile.model_dump(),
+                "daily_goal": {
+                    "calories": daily_calories,
+                    "proteins": float(proteins),
+                    "carbs": float(carbs),
+                    "fats": float(fats)
+                }
+            }}
+        )
+        
+        return CalorieNeedsResponse(
+            daily_calories=daily_calories,
+            proteins=proteins,
+            carbs=carbs,
+            fats=fats,
+            bmr=int(bmr),
+            tdee=tdee,
+            recommendations=recommendations[:6],  # Max 6 recommendations
+            meal_distribution=meal_distribution
+        )
+        
+    except Exception as e:
+        logger.error(f"Error calculating calorie needs: {e}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors du calcul: {str(e)}")
+
 @api_router.get("/")
 async def root():
     return {"message": "Amel Fit Coach API", "version": "1.0.0"}
