@@ -137,7 +137,7 @@ const ProgrammeCheckout = () => {
             </h3>
             
             {/* Carte bancaire */}
-            <div className="p-4 rounded-xl border-2 mb-3" style={{ borderColor: '#E5E5E5', background: 'white' }}>
+            <div className="p-4 rounded-xl border-2 mb-3" style={{ borderColor: '#E37E7F', background: '#FEF7F7' }}>
               <div className="flex items-center gap-3">
                 <div className="flex gap-2">
                   <div className="w-10 h-7 rounded bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center">
@@ -157,31 +157,20 @@ const ProgrammeCheckout = () => {
               </div>
             </div>
 
-            {/* Apple Pay */}
-            <div className="p-4 rounded-xl border-2 mb-3" style={{ borderColor: '#E5E5E5', background: 'white' }}>
-              <div className="flex items-center gap-3">
-                <div className="w-14 h-7 rounded bg-black flex items-center justify-center">
-                  <span className="text-white text-[10px] font-bold"> Pay</span>
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium text-sm" style={{ color: '#333' }}>Apple Pay</p>
-                  <p className="text-xs" style={{ color: '#666' }}>Paiement rapide et sécurisé</p>
-                </div>
-                <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
-                  <Check className="w-3 h-3 text-white" />
-                </div>
-              </div>
-            </div>
-
-            {/* PayPal */}
+            {/* Apple Pay / Google Pay via Link */}
             <div className="p-4 rounded-xl border-2 mb-4" style={{ borderColor: '#E5E5E5', background: 'white' }}>
               <div className="flex items-center gap-3">
-                <div className="w-14 h-7 rounded flex items-center justify-center" style={{ background: '#003087' }}>
-                  <span className="text-white text-[10px] font-bold">PayPal</span>
+                <div className="flex gap-2">
+                  <div className="w-10 h-7 rounded bg-black flex items-center justify-center">
+                    <span className="text-white text-[10px] font-bold"> Pay</span>
+                  </div>
+                  <div className="w-10 h-7 rounded bg-white border flex items-center justify-center">
+                    <span className="text-[10px] font-bold">G Pay</span>
+                  </div>
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-sm" style={{ color: '#333' }}>PayPal</p>
-                  <p className="text-xs" style={{ color: '#666' }}>Compte PayPal ou carte</p>
+                  <p className="font-medium text-sm" style={{ color: '#333' }}>Apple Pay / Google Pay</p>
+                  <p className="text-xs" style={{ color: '#666' }}>Paiement rapide et sécurisé</p>
                 </div>
                 <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
                   <Check className="w-3 h-3 text-white" />
