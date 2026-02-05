@@ -291,35 +291,161 @@ const Account = () => {
                 </div>
 
                 <div className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Prénom & Email */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label>Prénom</Label>
+                      <Label className="flex items-center gap-2">
+                        <User className="w-4 h-4" style={{ color: '#E37E7F' }} />
+                        Prénom
+                      </Label>
                       {editing ? (
                         <Input
                           value={formData.first_name}
                           onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                          className="h-12"
+                          className="h-12 rounded-xl"
+                          style={{ borderColor: '#D5A0A8' }}
                           data-testid="edit-firstname-input"
                         />
                       ) : (
-                        <p className="text-foreground font-medium py-3">{user?.first_name}</p>
+                        <p className="text-foreground font-medium py-3 px-3 rounded-xl" style={{ background: '#F7F5F2' }}>
+                          {user?.first_name || "-"}
+                        </p>
                       )}
                     </div>
                     <div className="space-y-2">
-                      <Label>Email</Label>
-                      <p className="text-foreground font-medium py-3">{user?.email}</p>
+                      <Label className="flex items-center gap-2">
+                        <span style={{ color: '#E37E7F' }}>@</span>
+                        Email
+                      </Label>
+                      <p className="text-foreground font-medium py-3 px-3 rounded-xl" style={{ background: '#F7F5F2' }}>
+                        {user?.email}
+                      </p>
                     </div>
                   </div>
+
+                  {/* Téléphone */}
                   <div className="space-y-2">
-                    <Label>Objectif sportif</Label>
-                    <p className="text-foreground font-medium py-3">
-                      {fitnessGoalLabels[user?.fitness_goal] || "Non défini"}
-                    </p>
+                    <Label className="flex items-center gap-2">
+                      <Phone className="w-4 h-4" style={{ color: '#E37E7F' }} />
+                      Numéro de téléphone
+                    </Label>
+                    {editing ? (
+                      <Input
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="+33 6 12 34 56 78"
+                        className="h-12 rounded-xl"
+                        style={{ borderColor: '#D5A0A8' }}
+                        data-testid="edit-phone-input"
+                      />
+                    ) : (
+                      <p className="text-foreground font-medium py-3 px-3 rounded-xl" style={{ background: '#F7F5F2' }}>
+                        {user?.phone || formData.phone || "Non renseigné"}
+                      </p>
+                    )}
                   </div>
+
+                  {/* Taille & Poids */}
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Ruler className="w-4 h-4" style={{ color: '#E37E7F' }} />
+                        Taille (cm)
+                      </Label>
+                      {editing ? (
+                        <Input
+                          type="number"
+                          value={formData.height}
+                          onChange={(e) => setFormData({ ...formData, height: e.target.value })}
+                          placeholder="165"
+                          className="h-12 rounded-xl"
+                          style={{ borderColor: '#D5A0A8' }}
+                          data-testid="edit-height-input"
+                        />
+                      ) : (
+                        <p className="text-foreground font-medium py-3 px-3 rounded-xl text-center" style={{ background: '#F7F5F2' }}>
+                          {user?.height || formData.height || "-"} {(user?.height || formData.height) && "cm"}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Scale className="w-4 h-4" style={{ color: '#E37E7F' }} />
+                        Poids (kg)
+                      </Label>
+                      {editing ? (
+                        <Input
+                          type="number"
+                          value={formData.current_weight}
+                          onChange={(e) => setFormData({ ...formData, current_weight: e.target.value })}
+                          placeholder="65"
+                          className="h-12 rounded-xl"
+                          style={{ borderColor: '#D5A0A8' }}
+                          data-testid="edit-weight-input"
+                        />
+                      ) : (
+                        <p className="text-foreground font-medium py-3 px-3 rounded-xl text-center" style={{ background: '#F7F5F2' }}>
+                          {user?.current_weight || formData.current_weight || "-"} {(user?.current_weight || formData.current_weight) && "kg"}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Target className="w-4 h-4" style={{ color: '#E37E7F' }} />
+                        Objectif (kg)
+                      </Label>
+                      {editing ? (
+                        <Input
+                          type="number"
+                          value={formData.target_weight}
+                          onChange={(e) => setFormData({ ...formData, target_weight: e.target.value })}
+                          placeholder="58"
+                          className="h-12 rounded-xl"
+                          style={{ borderColor: '#D5A0A8' }}
+                          data-testid="edit-target-weight-input"
+                        />
+                      ) : (
+                        <p className="text-foreground font-medium py-3 px-3 rounded-xl text-center" style={{ background: '#F7F5F2' }}>
+                          {user?.target_weight || formData.target_weight || "-"} {(user?.target_weight || formData.target_weight) && "kg"}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Objectif sportif */}
                   <div className="space-y-2">
-                    <Label>Membre depuis</Label>
-                    <p className="text-muted-foreground py-3 flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
+                    <Label className="flex items-center gap-2">
+                      <span style={{ color: '#E37E7F' }}>🎯</span>
+                      Objectif sportif
+                    </Label>
+                    {editing ? (
+                      <select
+                        value={formData.fitness_goal}
+                        onChange={(e) => setFormData({ ...formData, fitness_goal: e.target.value })}
+                        className="w-full h-12 rounded-xl px-3 border"
+                        style={{ borderColor: '#D5A0A8' }}
+                        data-testid="edit-goal-select"
+                      >
+                        <option value="">Sélectionner un objectif</option>
+                        {Object.entries(fitnessGoalLabels).map(([key, label]) => (
+                          <option key={key} value={key}>{label}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <p className="text-foreground font-medium py-3 px-3 rounded-xl" style={{ background: '#F7F5F2' }}>
+                        {fitnessGoalLabels[user?.fitness_goal || formData.fitness_goal] || "Non défini"}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Membre depuis */}
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4" style={{ color: '#E37E7F' }} />
+                      Membre depuis
+                    </Label>
+                    <p className="text-muted-foreground py-3 px-3 rounded-xl" style={{ background: '#F7F5F2' }}>
                       {user?.created_at ? new Date(user.created_at).toLocaleDateString('fr-FR', {
                         year: 'numeric',
                         month: 'long',
