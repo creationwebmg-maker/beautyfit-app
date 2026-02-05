@@ -84,26 +84,49 @@ const PaymentSuccess = () => {
               Paiement réussi !
             </h1>
             <p className="text-muted-foreground mb-6">
-              Merci pour ton achat. Tu as maintenant accès au cours !
+              Merci pour ton achat ! Le programme Ramadan Marche est maintenant débloqué.
             </p>
             <div className="space-y-3">
-              {courseId && (
-                <Button
-                  onClick={() => navigate(`/watch/${courseId}`)}
-                  className="w-full h-12 rounded-full bg-foreground text-background"
-                  data-testid="watch-course-btn"
-                >
-                  Regarder le cours maintenant
-                </Button>
+              {courseId === "prog_ramadan" ? (
+                <>
+                  <Button
+                    onClick={() => navigate("/programme/ramadan")}
+                    className="w-full h-12 rounded-full"
+                    style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}
+                    data-testid="go-programme-btn"
+                  >
+                    Accéder au programme
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => navigate("/account?tab=purchases")}
+                    className="w-full h-12 rounded-full"
+                    style={{ borderColor: '#D5A0A8', color: '#D5A0A8' }}
+                    data-testid="go-purchases-btn"
+                  >
+                    Voir mes achats
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={() => navigate("/account?tab=purchases")}
+                    className="w-full h-12 rounded-full"
+                    style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}
+                    data-testid="go-purchases-btn"
+                  >
+                    Voir mes achats
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => navigate("/dashboard")}
+                    className="w-full h-12 rounded-full"
+                    data-testid="go-dashboard-btn"
+                  >
+                    Retour au tableau de bord
+                  </Button>
+                </>
               )}
-              <Button
-                variant="outline"
-                onClick={() => navigate("/dashboard")}
-                className="w-full h-12 rounded-full"
-                data-testid="go-dashboard-btn"
-              >
-                Retour au tableau de bord
-              </Button>
             </div>
           </>
         )}
