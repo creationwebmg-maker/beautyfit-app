@@ -54,6 +54,12 @@ THUMBNAILS_DIR.mkdir(parents=True, exist_ok=True)
 # Create the main app
 app = FastAPI(title="Amel Fit Coach API")
 
+# Health check endpoint for Kubernetes (must be at root level, not under /api)
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Kubernetes liveness/readiness probes"""
+    return {"status": "healthy", "service": "beautyfit-api"}
+
 # Mount static files for uploads
 app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
 
