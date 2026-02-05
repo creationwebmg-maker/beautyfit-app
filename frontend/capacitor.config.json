@@ -1,6 +1,6 @@
 {
   "appId": "com.beautyfit.amel",
-  "appName": "Beauty Fit by Amel",
+  "appName": "Beautyfit By Amel",
   "webDir": "build",
   "server": {
     "androidScheme": "https",
@@ -9,7 +9,7 @@
   "ios": {
     "contentInset": "automatic",
     "preferredContentMode": "mobile",
-    "scheme": "Beauty Fit",
+    "scheme": "Beautyfit",
     "allowsLinkPreview": true
   },
   "android": {
