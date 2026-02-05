@@ -965,7 +965,7 @@ async def init_ramadan_course():
     """Ensure the Ramadan course exists in the database"""
     existing = await db.courses.find_one({"id": "prog_ramadan"}, {"_id": 0})
     if existing:
-        return {"message": "Ramadan course already exists", "course": existing}
+        return {"message": "Ramadan course already exists", "course_id": existing["id"]}
     
     ramadan_course = {
         "id": "prog_ramadan",
@@ -982,7 +982,7 @@ async def init_ramadan_course():
     }
     
     await db.courses.insert_one(ramadan_course)
-    return {"message": "Ramadan course created", "course": ramadan_course}
+    return {"message": "Ramadan course created", "course_id": "prog_ramadan"}
 
 # ==================== ADMIN ROUTES ====================
 
