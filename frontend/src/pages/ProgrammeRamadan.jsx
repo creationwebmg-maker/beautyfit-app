@@ -133,6 +133,12 @@ function ProgrammeRamadan() {
     } catch (error) {
       console.error("Error saving session:", error);
     }
+    
+    // Release wake lock when session completes
+    if (wakeLockRef.current) {
+      wakeLockRef.current.release();
+      wakeLockRef.current = null;
+    }
   }, [isAuthenticated, isGuest, token, selectedWeekId, selectedSeanceId, stepCount, currentPhaseIndex, sessionStartTime]);
 
   // Simple data - phases for each seance [label, duration, isFastPhase]
