@@ -103,6 +103,32 @@ const CalorieTracker = () => {
     }
   };
 
+  const analyzeText = async () => {
+    if (!mealText.trim()) {
+      toast.error("Décrivez votre repas");
+      return;
+    }
+    
+    setAnalyzingText(true);
+    try {
+      const result = await api.post("/calories/analyze", {
+        meal_description: mealText,
+        meal_type: getMealType()
+      }, token);
+      
+      setShowResult(result);
+      setMealText("");
+      toast.success("Analyse terminée !");
+      
+      // Refresh data
+      fetchData();
+    } catch (error) {
+      toast.error(error.message || "Erreur lors de l'analyse");
+    } finally {
+      setAnalyzingText(false);
+    }
+  };
+
   const getMealType = () => {
     const hour = new Date().getHours();
     if (hour < 10) return "petit-dejeuner";
