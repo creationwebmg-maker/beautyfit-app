@@ -18,8 +18,11 @@ import {
   Trash2,
   Calendar,
   Target,
-  X
+  X,
+  PenLine,
+  Send
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import BottomNavBar from "@/components/BottomNavBar";
 
 const CalorieTracker = () => {
