@@ -38,6 +38,9 @@ import CalorieTracker from "@/pages/CalorieTracker";
 // Calorie Profile
 import CalorieProfile from "@/pages/CalorieProfile";
 
+// Programme Checkout
+import ProgrammeCheckout from "@/pages/ProgrammeCheckout";
+
 // Auth Callback
 import AuthCallback from "@/pages/AuthCallback";
 
