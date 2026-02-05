@@ -1242,17 +1242,42 @@ async def analyze_meal_calories(
     request: CalorieAnalysisRequest,
     user: dict = Depends(get_current_user)
 ):
-    """Analyze a meal photo and return nutritional information using GPT-4o"""
+    """Analyze a meal photo or text description and return nutritional information using GPT-4o"""
     if not EMERGENT_LLM_KEY:
         raise HTTPException(status_code=500, detail="AI service not configured")
+    
+    # Validate that we have either image or text
+    if not request.image_base64 and not request.meal_description:
+        raise HTTPException(status_code=400, detail="Veuillez fournir une image ou une description du repas")
     
     try:
         # Initialize GPT-4o chat
         session_id = f"calorie_analysis_{user['id']}_{uuid.uuid4().hex[:8]}"
-        chat = LlmChat(
-            api_key=EMERGENT_LLM_KEY,
-            session_id=session_id,
-            system_message="""Tu es un expert nutritionniste. Analyse l'image du repas et identifie tous les aliments visibles.
+        
+        # Different system message based on input type
+        if request.meal_description:
+            system_msg = """Tu es un expert nutritionniste. Analyse la description du repas fournie par l'utilisateur.
+Pour chaque aliment mentionné, estime:
+- Le nom de l'aliment
+- La quantité approximative (en grammes ou portions standard)
+- Les calories
+- Les protéines (g)
+- Les glucides (g)
+- Les lipides (g)
+
+Réponds UNIQUEMENT en JSON valide avec ce format exact:
+{
+    "foods": [
+        {"name": "nom", "quantity": "100g", "calories": 150, "proteins": 5.0, "carbs": 20.0, "fats": 3.0}
+    ],
+    "total_calories": 150,
+    "total_proteins": 5.0,
+    "total_carbs": 20.0,
+    "total_fats": 3.0,
+    "analysis_text": "Description courte du repas analysé"
+}"""
+        else:
+            system_msg = """Tu es un expert nutritionniste. Analyse l'image du repas et identifie tous les aliments visibles.
 Pour chaque aliment, estime:
 - Le nom de l'aliment
 - La quantité approximative (en grammes ou portions)
@@ -1272,17 +1297,27 @@ Réponds UNIQUEMENT en JSON valide avec ce format exact:
     "total_fats": 3.0,
     "analysis_text": "Description courte du repas analysé"
 }"""
+        
+        chat = LlmChat(
+            api_key=EMERGENT_LLM_KEY,
+            session_id=session_id,
+            system_message=system_msg
         )
         chat.with_model("openai", "gpt-4o")
         
-        # Create image content
-        image_content = ImageContent(image_base64=request.image_base64)
-        
-        # Send message with image
-        user_message = UserMessage(
-            text="Analyse ce repas et donne-moi les informations nutritionnelles détaillées en JSON.",
-            file_contents=[image_content]
-        )
+        # Create message based on input type
+        if request.meal_description:
+            # Text-based analysis
+            user_message = UserMessage(
+                text=f"Analyse ce repas et donne-moi les informations nutritionnelles en JSON: {request.meal_description}"
+            )
+        else:
+            # Image-based analysis
+            image_content = ImageContent(image_base64=request.image_base64)
+            user_message = UserMessage(
+                text="Analyse ce repas et donne-moi les informations nutritionnelles détaillées en JSON.",
+                file_contents=[image_content]
+            )
         
         response = await chat.send_message(user_message)
         
