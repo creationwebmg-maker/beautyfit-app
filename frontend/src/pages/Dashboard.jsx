@@ -62,7 +62,7 @@ const Dashboard = () => {
               {/* App Icon */}
               <div className="flex-shrink-0">
                 <img 
-                  src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
+                  src="https://customer-assets.emergentagent.com/job_d0f789bc-27a2-4e1a-8509-4380495dce2a/artifacts/1lany50t_BEAUTYFIT.png" 
                   alt="Beautyfit" 
                   className="w-12 h-12 rounded-xl object-contain"
                   style={{ background: '#F7F5F2' }}
@@ -104,7 +104,7 @@ const Dashboard = () => {
             <div className="w-16" />
             <div className="flex flex-col items-center">
               <img 
-                src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
+                src="https://customer-assets.emergentagent.com/job_d0f789bc-27a2-4e1a-8509-4380495dce2a/artifacts/1lany50t_BEAUTYFIT.png" 
                 alt="Beautyfit By Amel" 
                 className="h-16 w-16 md:h-20 md:w-20 object-contain"
               />
@@ -306,7 +306,7 @@ const Dashboard = () => {
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex flex-col items-center gap-4">
             <img 
-              src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
+              src="https://customer-assets.emergentagent.com/job_d0f789bc-27a2-4e1a-8509-4380495dce2a/artifacts/1lany50t_BEAUTYFIT.png" 
               alt="Beautyfit By Amel" 
               className="h-12 w-12 object-contain opacity-60"
             />
