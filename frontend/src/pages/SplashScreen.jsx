@@ -39,7 +39,7 @@ const SplashScreen = () => {
         >
           <img 
             src="https://customer-assets.emergentagent.com/job_amelcoach/artifacts/fru1zare_BEAUTYFIT.png" 
-            alt="Beauty Fit by Amel" 
+            alt="Beautyfit By Amel" 
             className="w-32 h-32 md:w-40 md:h-40 object-contain"
           />
         </div>
@@ -55,7 +55,7 @@ const SplashScreen = () => {
           className="text-3xl md:text-4xl font-bold text-foreground"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          Beauty Fit by Amel
+          Beautyfit By Amel
         </h1>
         <p className="text-muted-foreground mt-2 font-handwritten text-lg">
           Ton coach, ta motivation, ton rythme
