@@ -128,32 +128,63 @@ const ProgrammeCheckout = () => {
           </CardContent>
         </Card>
 
-        {/* Payment Method */}
+        {/* Payment Methods */}
         <Card className="border-0 shadow-md" style={{ background: 'white' }}>
           <CardContent className="p-6">
             <h3 className="font-semibold mb-4 flex items-center gap-2" style={{ color: '#333' }}>
               <CreditCard className="w-5 h-5" style={{ color: '#E37E7F' }} />
-              Mode de paiement
+              Modes de paiement acceptés
             </h3>
             
-            {/* Stripe Card Option */}
-            <div 
-              className="p-4 rounded-xl border-2 mb-4"
-              style={{ borderColor: '#E37E7F', background: '#FEF2F2' }}
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-8 rounded bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">VISA</span>
-                </div>
-                <div className="w-12 h-8 rounded bg-gradient-to-r from-red-500 to-yellow-500 flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">MC</span>
+            {/* Carte bancaire */}
+            <div className="p-4 rounded-xl border-2 mb-3" style={{ borderColor: '#E5E5E5', background: 'white' }}>
+              <div className="flex items-center gap-3">
+                <div className="flex gap-2">
+                  <div className="w-10 h-7 rounded bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center">
+                    <span className="text-white text-[10px] font-bold">VISA</span>
+                  </div>
+                  <div className="w-10 h-7 rounded bg-gradient-to-r from-red-500 to-yellow-500 flex items-center justify-center">
+                    <span className="text-white text-[10px] font-bold">MC</span>
+                  </div>
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium" style={{ color: '#333' }}>Carte bancaire</p>
-                  <p className="text-sm" style={{ color: '#666' }}>Visa, Mastercard, CB</p>
+                  <p className="font-medium text-sm" style={{ color: '#333' }}>Carte bancaire</p>
+                  <p className="text-xs" style={{ color: '#666' }}>Visa, Mastercard, CB</p>
                 </div>
-                <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
-                  <Check className="w-4 h-4 text-white" />
+                <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
+                  <Check className="w-3 h-3 text-white" />
+                </div>
+              </div>
+            </div>
+
+            {/* Apple Pay */}
+            <div className="p-4 rounded-xl border-2 mb-3" style={{ borderColor: '#E5E5E5', background: 'white' }}>
+              <div className="flex items-center gap-3">
+                <div className="w-14 h-7 rounded bg-black flex items-center justify-center">
+                  <span className="text-white text-[10px] font-bold"> Pay</span>
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-sm" style={{ color: '#333' }}>Apple Pay</p>
+                  <p className="text-xs" style={{ color: '#666' }}>Paiement rapide et sécurisé</p>
+                </div>
+                <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
+                  <Check className="w-3 h-3 text-white" />
+                </div>
+              </div>
+            </div>
+
+            {/* PayPal */}
+            <div className="p-4 rounded-xl border-2 mb-4" style={{ borderColor: '#E5E5E5', background: 'white' }}>
+              <div className="flex items-center gap-3">
+                <div className="w-14 h-7 rounded flex items-center justify-center" style={{ background: '#003087' }}>
+                  <span className="text-white text-[10px] font-bold">PayPal</span>
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-sm" style={{ color: '#333' }}>PayPal</p>
+                  <p className="text-xs" style={{ color: '#666' }}>Compte PayPal ou carte</p>
+                </div>
+                <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
+                  <Check className="w-3 h-3 text-white" />
                 </div>
               </div>
             </div>
