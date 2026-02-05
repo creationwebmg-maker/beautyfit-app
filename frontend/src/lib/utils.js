@@ -17,8 +17,14 @@ export const api = {
     }
     const response = await fetch(`${API_URL}/api${endpoint}`, { headers });
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      const message = translateError(error.detail);
+      let errorDetail = null;
+      try {
+        const errorData = await response.json();
+        errorDetail = errorData.detail;
+      } catch (e) {
+        errorDetail = null;
+      }
+      const message = translateError(errorDetail);
       throw new Error(message);
     }
     return response.json();
@@ -37,8 +43,14 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      const message = translateError(error.detail);
+      let errorDetail = null;
+      try {
+        const errorData = await response.json();
+        errorDetail = errorData.detail;
+      } catch (e) {
+        errorDetail = null;
+      }
+      const message = translateError(errorDetail);
       throw new Error(message);
     }
     return response.json();
@@ -57,8 +69,14 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      const message = translateError(error.detail);
+      let errorDetail = null;
+      try {
+        const errorData = await response.json();
+        errorDetail = errorData.detail;
+      } catch (e) {
+        errorDetail = null;
+      }
+      const message = translateError(errorDetail);
       throw new Error(message);
     }
     return response.json();
@@ -76,8 +94,14 @@ export const api = {
       headers,
     });
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      const message = translateError(error.detail);
+      let errorDetail = null;
+      try {
+        const errorData = await response.json();
+        errorDetail = errorData.detail;
+      } catch (e) {
+        errorDetail = null;
+      }
+      const message = translateError(errorDetail);
       throw new Error(message);
     }
     return response.json();
