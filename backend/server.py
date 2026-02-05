@@ -220,6 +220,35 @@ class DailyGoalUpdate(BaseModel):
     carbs: Optional[float] = None
     fats: Optional[float] = None
 
+# ==================== PROGRESS/STATS MODELS ====================
+
+class SessionCompleteRequest(BaseModel):
+    week_id: int
+    seance_id: int
+    steps: int
+    duration_minutes: int
+    phases_completed: int
+
+class SessionRecord(BaseModel):
+    id: str
+    user_id: str
+    week_id: int
+    seance_id: int
+    steps: int
+    duration_minutes: int
+    phases_completed: int
+    completed_at: str
+
+class UserStatsResponse(BaseModel):
+    total_steps: int
+    weekly_steps: int
+    weekly_goal: int
+    sessions_completed: int
+    total_minutes: int
+    current_streak: int
+    best_streak: int
+    last_session_date: Optional[str]
+
 # ==================== CALORIE PROFILE MODELS ====================
 
 class CalorieProfileRequest(BaseModel):
