@@ -688,7 +688,7 @@ async def create_stripe_checkout(
         success_url=success_url,
         cancel_url=cancel_url,
         metadata=metadata,
-        payment_methods=["card", "paypal", "link"]
+        payment_methods=["card", "link"]
     )
     
     session: CheckoutSessionResponse = await stripe_checkout.create_checkout_session(checkout_request)
