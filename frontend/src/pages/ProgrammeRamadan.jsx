@@ -409,6 +409,12 @@ function ProgrammeRamadan() {
     lastStepTimeRef.current = 0;
     clearInterval(intervalRef.current);
     setViewMode("seances");
+    
+    // Release wake lock when session ends
+    if (wakeLockRef.current) {
+      wakeLockRef.current.release();
+      wakeLockRef.current = null;
+    }
   }
 
   function formatTime(s) {
