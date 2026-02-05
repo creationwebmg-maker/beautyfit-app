@@ -221,7 +221,7 @@ const Account = () => {
               </CardContent>
             </Card>
 
-            <Tabs defaultValue="profile" className="space-y-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
               <TabsList className="bg-white p-1 rounded-full shadow-sm w-full">
                 <TabsTrigger 
                   value="profile" 
