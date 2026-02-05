@@ -99,6 +99,142 @@ const Progres = () => {
           </div>
         </Card>
 
+        {/* Calorie Tracker Section */}
+        <Card className="border-0 shadow-md" style={{ background: 'white' }}>
+          <CardContent className="p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold flex items-center gap-2" style={{ color: '#333', fontFamily: "'Playfair Display', serif" }}>
+                <Flame className="w-5 h-5" style={{ color: '#E37E7F' }} />
+                Calories du jour
+              </h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/calories")}
+                className="text-sm rounded-full"
+                style={{ color: '#E37E7F' }}
+              >
+                Voir plus
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
+            </div>
+
+            {loadingCalories ? (
+              <div className="h-32 flex items-center justify-center">
+                <div className="w-8 h-8 border-4 border-[#E37E7F] border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : !isAuthenticated || isGuest ? (
+              <div className="text-center py-6">
+                <Camera className="w-10 h-10 mx-auto mb-3" style={{ color: '#D5A0A8' }} />
+                <p className="text-sm mb-3" style={{ color: '#666' }}>Connectez-vous pour suivre vos calories</p>
+                <Button
+                  onClick={() => navigate("/login")}
+                  size="sm"
+                  className="rounded-full"
+                  style={{ background: '#E37E7F' }}
+                >
+                  Se connecter
+                </Button>
+              </div>
+            ) : calorieData ? (
+              <>
+                {/* Calories Progress Circle */}
+                <div className="flex items-center gap-6 mb-4">
+                  <div className="relative">
+                    <div 
+                      className="w-24 h-24 rounded-full flex flex-col items-center justify-center"
+                      style={{ 
+                        background: `conic-gradient(#E37E7F ${Math.min((calorieData.consumed.calories / calorieData.goal.calories) * 360, 360)}deg, #f0f0f0 0deg)`,
+                        padding: '6px'
+                      }}
+                    >
+                      <div className="w-full h-full rounded-full bg-white flex flex-col items-center justify-center">
+                        <span className="text-xl font-bold" style={{ color: '#333' }}>
+                          {calorieData.consumed.calories}
+                        </span>
+                        <span className="text-xs" style={{ color: '#666' }}>
+                          / {calorieData.goal.calories}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 space-y-3">
+                    {/* Proteins */}
+                    <div>
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <span className="flex items-center gap-1" style={{ color: '#666' }}>
+                          <Apple className="w-3 h-3" style={{ color: '#E37E7F' }} />
+                          Protéines
+                        </span>
+                        <span style={{ color: '#333' }}>{calorieData.consumed.proteins}g / {calorieData.goal.proteins}g</span>
+                      </div>
+                      <Progress 
+                        value={Math.min((calorieData.consumed.proteins / calorieData.goal.proteins) * 100, 100)} 
+                        className="h-2"
+                      />
+                    </div>
+                    
+                    {/* Carbs */}
+                    <div>
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <span className="flex items-center gap-1" style={{ color: '#666' }}>
+                          <Wheat className="w-3 h-3" style={{ color: '#EE9F80' }} />
+                          Glucides
+                        </span>
+                        <span style={{ color: '#333' }}>{calorieData.consumed.carbs}g / {calorieData.goal.carbs}g</span>
+                      </div>
+                      <Progress 
+                        value={Math.min((calorieData.consumed.carbs / calorieData.goal.carbs) * 100, 100)} 
+                        className="h-2"
+                      />
+                    </div>
+                    
+                    {/* Fats */}
+                    <div>
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <span className="flex items-center gap-1" style={{ color: '#666' }}>
+                          <Droplet className="w-3 h-3" style={{ color: '#D5A0A8' }} />
+                          Lipides
+                        </span>
+                        <span style={{ color: '#333' }}>{calorieData.consumed.fats}g / {calorieData.goal.fats}g</span>
+                      </div>
+                      <Progress 
+                        value={Math.min((calorieData.consumed.fats / calorieData.goal.fats) * 100, 100)} 
+                        className="h-2"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick Add Button */}
+                <Button
+                  onClick={() => navigate("/calories")}
+                  className="w-full rounded-full"
+                  style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  Ajouter un repas
+                </Button>
+              </>
+            ) : (
+              <div className="text-center py-6">
+                <Flame className="w-10 h-10 mx-auto mb-3" style={{ color: '#D5A0A8' }} />
+                <p className="text-sm mb-3" style={{ color: '#666' }}>Aucun repas enregistré aujourd'hui</p>
+                <Button
+                  onClick={() => navigate("/calories")}
+                  size="sm"
+                  className="rounded-full"
+                  style={{ background: '#E37E7F' }}
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  Ajouter un repas
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
         {/* Activity Calendar */}
         <Card className="border-0 shadow-md" style={{ background: 'white' }}>
           <CardContent className="p-5">
