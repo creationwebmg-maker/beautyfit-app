@@ -194,7 +194,7 @@ contact@beautyfitbyamel.com
 
 ### L'app contient-elle des achats intégrés ?
 ```
-Non (pour l'instant)
+Oui - Programme Ramadan à 22€
 ```
 
 ### L'app utilise-t-elle la localisation ?
