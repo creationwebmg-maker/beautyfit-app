@@ -176,6 +176,14 @@ const Register = () => {
                 "Créer mon compte"
               )}
             </Button>
+
+            {/* Legal notice */}
+            <p className="text-xs text-center mt-4" style={{ color: '#999' }}>
+              En créant un compte, tu acceptes nos{" "}
+              <Link to="/conditions-generales" className="underline">CGU</Link>
+              {" "}et notre{" "}
+              <Link to="/confidentialite" className="underline">politique de confidentialité</Link>.
+            </p>
           </form>
 
           <div className="mt-6 text-center">
