@@ -43,12 +43,40 @@ function ProgrammeRamadan() {
   const [motionPermission, setMotionPermission] = useState(false);
   const [feedbackMode, setFeedbackMode] = useState(FEEDBACK_VIBRATION); // vibration or sound
   const [sessionStartTime, setSessionStartTime] = useState(null);
+  const [hasPurchased, setHasPurchased] = useState(false);
+  const [checkingPurchase, setCheckingPurchase] = useState(true);
 
   const intervalRef = useRef(null);
   const audioContextRef = useRef(null);
   const lastAccelRef = useRef({ x: 0, y: 0, z: 0 });
   const stepThreshold = 10; // Sensitivity for step detection
   const lastStepTimeRef = useRef(0);
+
+  // Check if user has purchased the program
+  useEffect(() => {
+    const checkPurchase = async () => {
+      if (!isAuthenticated || isGuest || !token) {
+        setCheckingPurchase(false);
+        return;
+      }
+      
+      try {
+        const purchases = await api.get("/user/purchases", token);
+        const hasRamadanPurchase = purchases.some(p => 
+          p.course_id === "prog_ramadan" || 
+          p.course_id === "prog2" ||
+          p.product_name?.toLowerCase().includes("ramadan")
+        );
+        setHasPurchased(hasRamadanPurchase);
+      } catch (error) {
+        console.error("Error checking purchase:", error);
+      } finally {
+        setCheckingPurchase(false);
+      }
+    };
+    
+    checkPurchase();
+  }, [isAuthenticated, isGuest, token]);
 
   // Save session when complete
   const saveSession = useCallback(async () => {
