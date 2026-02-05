@@ -260,7 +260,7 @@ const Settings = () => {
             <div className="space-y-3">
               <button 
                 className="w-full flex items-center gap-3 p-4 rounded-xl hover:bg-secondary/50 transition-colors text-left"
-                onClick={() => toast.info("Contacter le support: support@amelfitcoach.com")}
+                onClick={() => window.location.href = "mailto:contact@beautyfitbyamel.com"}
                 data-testid="contact-support-btn"
               >
                 <Mail className="w-5 h-5 text-muted-foreground" />
@@ -268,11 +268,19 @@ const Settings = () => {
               </button>
               <button 
                 className="w-full flex items-center gap-3 p-4 rounded-xl hover:bg-secondary/50 transition-colors text-left"
-                onClick={() => toast.info("Politique de confidentialité")}
+                onClick={() => navigate("/confidentialite")}
                 data-testid="privacy-policy-btn"
               >
                 <FileText className="w-5 h-5 text-muted-foreground" />
                 <span className="text-foreground">Politique de confidentialité</span>
+              </button>
+              <button 
+                className="w-full flex items-center gap-3 p-4 rounded-xl hover:bg-secondary/50 transition-colors text-left"
+                onClick={() => navigate("/conditions-generales")}
+                data-testid="terms-btn"
+              >
+                <Shield className="w-5 h-5 text-muted-foreground" />
+                <span className="text-foreground">Conditions générales</span>
               </button>
             </div>
           </CardContent>
