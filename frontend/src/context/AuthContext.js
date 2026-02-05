@@ -17,10 +17,23 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(false);
 
+  // Helper to get storage based on remember me preference
+  const getStorage = () => {
+    const rememberMe = localStorage.getItem("amel_fit_remember") === "true";
+    return rememberMe ? localStorage : sessionStorage;
+  };
+
   useEffect(() => {
-    const storedToken = localStorage.getItem("amel_fit_token");
-    const storedUser = localStorage.getItem("amel_fit_user");
+    // Check localStorage first (for "remember me"), then sessionStorage
+    let storedToken = localStorage.getItem("amel_fit_token");
+    let storedUser = localStorage.getItem("amel_fit_user");
     const storedGuest = localStorage.getItem("amel_fit_guest");
+    
+    // If not in localStorage, check sessionStorage
+    if (!storedToken) {
+      storedToken = sessionStorage.getItem("amel_fit_token");
+      storedUser = sessionStorage.getItem("amel_fit_user");
+    }
     
     if (storedGuest === "true") {
       setIsGuest(true);
@@ -32,14 +45,29 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (email, password, rememberMe = true) => {
     const response = await api.post("/auth/login", { email, password });
     setToken(response.access_token);
     setUser(response.user);
     setIsGuest(false);
-    localStorage.setItem("amel_fit_token", response.access_token);
-    localStorage.setItem("amel_fit_user", JSON.stringify(response.user));
+    
+    // Choose storage based on remember me preference
+    const storage = rememberMe ? localStorage : sessionStorage;
+    
+    // Clear both storages first to avoid conflicts
+    localStorage.removeItem("amel_fit_token");
+    localStorage.removeItem("amel_fit_user");
+    sessionStorage.removeItem("amel_fit_token");
+    sessionStorage.removeItem("amel_fit_user");
     localStorage.removeItem("amel_fit_guest");
+    
+    // Save to appropriate storage
+    storage.setItem("amel_fit_token", response.access_token);
+    storage.setItem("amel_fit_user", JSON.stringify(response.user));
+    
+    // Remember the preference in localStorage
+    localStorage.setItem("amel_fit_remember", rememberMe ? "true" : "false");
+    
     return response;
   };
 
@@ -121,14 +149,21 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     setIsGuest(false);
+    // Clear both storages
     localStorage.removeItem("amel_fit_token");
     localStorage.removeItem("amel_fit_user");
     localStorage.removeItem("amel_fit_guest");
+    localStorage.removeItem("amel_fit_remember");
+    sessionStorage.removeItem("amel_fit_token");
+    sessionStorage.removeItem("amel_fit_user");
   };
 
   const updateUser = (userData) => {
     setUser(userData);
-    localStorage.setItem("amel_fit_user", JSON.stringify(userData));
+    // Update in appropriate storage
+    const rememberMe = localStorage.getItem("amel_fit_remember") === "true";
+    const storage = rememberMe ? localStorage : sessionStorage;
+    storage.setItem("amel_fit_user", JSON.stringify(userData));
   };
 
   const value = {
