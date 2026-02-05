@@ -246,21 +246,23 @@ const CalorieTracker = () => {
       <main className="max-w-4xl mx-auto px-4 py-6 space-y-6">
         {/* Calorie Profile CTA */}
         <Card 
-          className="border-0 shadow-md cursor-pointer hover:shadow-lg transition-shadow"
-          style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}
+          className="border-0 shadow-md cursor-pointer hover:shadow-lg transition-shadow overflow-hidden"
+          style={{ background: 'white' }}
           onClick={() => navigate("/calorie-profile")}
           data-testid="calorie-profile-cta"
         >
-          <CardContent className="p-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                <Target className="w-6 h-6 text-white" />
+          <CardContent className="p-0">
+            <div className="p-4 flex items-center gap-4">
+              <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E37E7F, #EE9F80)' }}>
+                <Target className="w-7 h-7 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-white">Calcule tes besoins</h3>
-                <p className="text-white/80 text-sm">Questionnaire personnalisé Ramadan</p>
+                <h3 className="font-bold text-lg" style={{ color: '#333', fontFamily: "'Playfair Display', serif" }}>Calcule tes besoins</h3>
+                <p className="text-sm" style={{ color: '#E37E7F' }}>Questionnaire personnalisé Ramadan</p>
               </div>
-              <ChevronLeft className="w-5 h-5 text-white rotate-180" />
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: '#FEF2F2' }}>
+                <ChevronLeft className="w-5 h-5 rotate-180" style={{ color: '#E37E7F' }} />
+              </div>
             </div>
           </CardContent>
         </Card>
