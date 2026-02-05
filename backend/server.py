@@ -865,6 +865,19 @@ async def seed_data():
     
     courses = [
         {
+            "id": "prog_ramadan",
+            "title": "Programme Ramadan Marche",
+            "description": "Aller bien, même à jeun. Un programme de marche adapté au jeûne avec 4 semaines progressives.",
+            "category": "Ramadan",
+            "duration_minutes": 30,
+            "level": "Tous niveaux",
+            "price": 22.00,
+            "thumbnail_url": "https://customer-assets.emergentagent.com/job_amelcoach/artifacts/300dg799_IMG_7778.jpeg",
+            "teaser_url": None,
+            "video_url": None,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        },
+        {
             "id": str(uuid.uuid4()),
             "title": "Cardio Brûle-Graisses",
             "description": "Une séance intense pour brûler un maximum de calories et booster votre métabolisme.",
