@@ -10,10 +10,13 @@
     "contentInset": "automatic",
     "preferredContentMode": "mobile",
     "scheme": "Beautyfit",
-    "allowsLinkPreview": true
+    "allowsLinkPreview": true,
+    "backgroundColor": "#F7F5F2",
+    "scrollEnabled": true
   },
   "android": {
-    "allowMixedContent": true
+    "allowMixedContent": true,
+    "backgroundColor": "#F7F5F2"
   },
   "plugins": {
     "SplashScreen": {
@@ -32,6 +35,14 @@
     },
     "Haptics": {
       "enabled": true
+    },
+    "Motion": {
+      "enabled": true
+    },
+    "Keyboard": {
+      "resize": "body",
+      "style": "dark",
+      "resizeOnFullScreen": true
     }
   }
 }
