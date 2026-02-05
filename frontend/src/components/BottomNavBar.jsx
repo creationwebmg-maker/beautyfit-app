@@ -1,12 +1,18 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Dumbbell, TrendingUp, User } from "lucide-react";
+import { Home, Dumbbell, TrendingUp, User } from "lucide-react";
 
 const BottomNavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const navItems = [
+    {
+      id: "accueil",
+      label: "Accueil",
+      icon: Home,
+      path: "/dashboard"
+    },
     {
       id: "programme",
       label: "Programme",
@@ -28,10 +34,13 @@ const BottomNavBar = () => {
   ];
 
   const isActive = (path) => {
-    if (path === "/programme/ramadan") {
-      return location.pathname === "/" || location.pathname === "/dashboard" || location.pathname.startsWith("/programme");
+    if (path === "/dashboard") {
+      return location.pathname === "/" || location.pathname === "/dashboard";
     }
-    return location.pathname === path;
+    if (path === "/programme/ramadan") {
+      return location.pathname.startsWith("/programme");
+    }
+    return location.pathname === path || location.pathname.startsWith(path);
   };
 
   return (
