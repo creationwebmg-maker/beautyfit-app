@@ -261,19 +261,31 @@ const Progres = () => {
               Activité de la semaine
             </h3>
             <div className="flex justify-between">
-              {weekDays.map((day, idx) => (
-                <div key={idx} className="flex flex-col items-center gap-2">
-                  <span className="text-xs" style={{ color: '#999' }}>{day}</span>
-                  <div 
-                    className="w-10 h-10 rounded-full flex items-center justify-center"
-                    style={{ 
-                      background: activityDays[idx] ? 'linear-gradient(135deg, #E37E7F, #EE9F80)' : '#f0f0f0'
-                    }}
-                  >
-                    {activityDays[idx] && <Flame className="w-5 h-5 text-white" />}
+              {weeklyActivity.length > 0 ? (
+                weeklyActivity.map((day, idx) => (
+                  <div key={idx} className="flex flex-col items-center gap-2">
+                    <span className="text-xs" style={{ color: '#999' }}>{day.day}</span>
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center"
+                      style={{ 
+                        background: day.active ? 'linear-gradient(135deg, #E37E7F, #EE9F80)' : '#f0f0f0'
+                      }}
+                    >
+                      {day.active && <Flame className="w-5 h-5 text-white" />}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                ["L", "M", "M", "J", "V", "S", "D"].map((day, idx) => (
+                  <div key={idx} className="flex flex-col items-center gap-2">
+                    <span className="text-xs" style={{ color: '#999' }}>{day}</span>
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center"
+                      style={{ background: '#f0f0f0' }}
+                    />
+                  </div>
+                ))
+              )}
             </div>
           </CardContent>
         </Card>
@@ -285,7 +297,7 @@ const Progres = () => {
               <div className="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: '#D5A0A8' }}>
                 <Trophy className="w-6 h-6 text-white" />
               </div>
-              <p className="text-2xl font-bold" style={{ color: '#333' }}>{stats.sessionsCompleted}</p>
+              <p className="text-2xl font-bold" style={{ color: '#333' }}>{stats.sessions_completed}</p>
               <p className="text-sm" style={{ color: '#666' }}>Séances complétées</p>
             </CardContent>
           </Card>
@@ -295,7 +307,7 @@ const Progres = () => {
               <div className="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: '#EE9F80' }}>
                 <Clock className="w-6 h-6 text-white" />
               </div>
-              <p className="text-2xl font-bold" style={{ color: '#333' }}>{stats.totalMinutes}</p>
+              <p className="text-2xl font-bold" style={{ color: '#333' }}>{stats.total_minutes}</p>
               <p className="text-sm" style={{ color: '#666' }}>Minutes d'activité</p>
             </CardContent>
           </Card>
@@ -305,7 +317,7 @@ const Progres = () => {
               <div className="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
                 <Flame className="w-6 h-6 text-white" />
               </div>
-              <p className="text-2xl font-bold" style={{ color: '#333' }}>{stats.currentStreak}</p>
+              <p className="text-2xl font-bold" style={{ color: '#333' }}>{stats.current_streak}</p>
               <p className="text-sm" style={{ color: '#666' }}>Jours d'affilée</p>
             </CardContent>
           </Card>
@@ -315,7 +327,7 @@ const Progres = () => {
               <div className="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: '#D5A0A8' }}>
                 <Target className="w-6 h-6 text-white" />
               </div>
-              <p className="text-2xl font-bold" style={{ color: '#333' }}>{stats.bestStreak}</p>
+              <p className="text-2xl font-bold" style={{ color: '#333' }}>{stats.best_streak}</p>
               <p className="text-sm" style={{ color: '#666' }}>Meilleure série</p>
             </CardContent>
           </Card>
