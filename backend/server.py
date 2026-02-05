@@ -161,6 +161,10 @@ class ResetPasswordRequest(BaseModel):
 
 class ProfileUpdate(BaseModel):
     first_name: Optional[str] = None
+    phone: Optional[str] = None
+    height: Optional[str] = None
+    current_weight: Optional[str] = None
+    target_weight: Optional[str] = None
     fitness_goal: Optional[str] = None
 
 class GoogleAuthRequest(BaseModel):
