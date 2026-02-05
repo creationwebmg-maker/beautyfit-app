@@ -31,12 +31,14 @@ import BottomNavBar from "@/components/BottomNavBar";
 
 const Account = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user, token, updateUser, logout, isGuest } = useAuth();
   const [purchases, setPurchases] = useState([]);
   const [purchasedCourses, setPurchasedCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState("profile");
   const [formData, setFormData] = useState({
     first_name: "",
     phone: "",
@@ -45,6 +47,14 @@ const Account = () => {
     target_weight: "",
     fitness_goal: "",
   });
+
+  // Read tab from URL params
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab && ["profile", "courses", "purchases"].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
 
   const fitnessGoalLabels = {
     weight_loss: "Perte de poids",
