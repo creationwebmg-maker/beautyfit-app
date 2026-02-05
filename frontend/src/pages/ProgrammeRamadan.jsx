@@ -588,6 +588,17 @@ function ProgrammeRamadan() {
                 </CardContent>
               </Card>
             )}
+
+            {/* Background Mode Indicator */}
+            {isRunning && !sessionComplete && (
+              <Card className="border-0" style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
+                <CardContent className="p-3 text-center">
+                  <p className="text-sm" style={{ color: '#15803d' }}>
+                    ✅ Mode arrière-plan activé - Tu peux verrouiller ton écran, les pas continuent d'être comptés !
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         ) : viewMode === "seances" ? (
           <div className="space-y-4">
