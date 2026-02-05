@@ -269,9 +269,9 @@ const ProgrammeCheckout = () => {
         {/* Terms */}
         <p className="text-center text-xs" style={{ color: '#999' }}>
           En cliquant sur "Payer", vous acceptez nos{" "}
-          <a href="/terms" className="underline">conditions générales</a>
+          <a href="/conditions-generales" className="underline">conditions générales</a>
           {" "}et notre{" "}
-          <a href="/privacy" className="underline">politique de confidentialité</a>.
+          <a href="/confidentialite" className="underline">politique de confidentialité</a>.
         </p>
       </main>
 
