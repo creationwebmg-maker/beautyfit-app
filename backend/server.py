@@ -960,6 +960,30 @@ async def seed_data():
     await db.courses.insert_many(courses)
     return {"message": "Data seeded successfully", "courses_created": len(courses)}
 
+@api_router.post("/init-ramadan-course")
+async def init_ramadan_course():
+    """Ensure the Ramadan course exists in the database"""
+    existing = await db.courses.find_one({"id": "prog_ramadan"}, {"_id": 0})
+    if existing:
+        return {"message": "Ramadan course already exists", "course": existing}
+    
+    ramadan_course = {
+        "id": "prog_ramadan",
+        "title": "Programme Ramadan Marche",
+        "description": "Aller bien, même à jeun. Un programme de marche adapté au jeûne avec 4 semaines progressives.",
+        "category": "Ramadan",
+        "duration_minutes": 30,
+        "level": "Tous niveaux",
+        "price": 22.00,
+        "thumbnail_url": "https://customer-assets.emergentagent.com/job_amelcoach/artifacts/300dg799_IMG_7778.jpeg",
+        "teaser_url": None,
+        "video_url": None,
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    await db.courses.insert_one(ramadan_course)
+    return {"message": "Ramadan course created", "course": ramadan_course}
+
 # ==================== ADMIN ROUTES ====================
 
 class AdminLogin(BaseModel):
