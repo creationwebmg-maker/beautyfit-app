@@ -37,6 +37,8 @@ const CalorieTracker = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showResult, setShowResult] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [mealText, setMealText] = useState("");
+  const [analyzingText, setAnalyzingText] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated && !isGuest) {
