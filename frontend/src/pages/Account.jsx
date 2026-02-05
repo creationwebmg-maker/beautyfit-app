@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -24,7 +24,8 @@ import {
   Scale,
   Target,
   Ruler,
-  X
+  X,
+  Footprints
 } from "lucide-react";
 import BottomNavBar from "@/components/BottomNavBar";
 
