@@ -166,7 +166,8 @@ class GoogleAuthRequest(BaseModel):
 # ==================== CALORIE TRACKER MODELS ====================
 
 class CalorieAnalysisRequest(BaseModel):
-    image_base64: str
+    image_base64: Optional[str] = None
+    meal_description: Optional[str] = None  # Pour l'analyse par texte
     meal_type: Optional[str] = "repas"  # petit-dejeuner, dejeuner, diner, collation
 
 class FoodItem(BaseModel):
