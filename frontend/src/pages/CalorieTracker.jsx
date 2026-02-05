@@ -340,6 +340,45 @@ const CalorieTracker = () => {
               Analyser un repas
             </h2>
             
+            {/* Text Input Section */}
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-2">
+                <PenLine className="w-4 h-4" style={{ color: '#E37E7F' }} />
+                <span className="text-sm font-medium" style={{ color: '#333' }}>Décrivez votre repas</span>
+              </div>
+              <div className="flex gap-2">
+                <Input
+                  value={mealText}
+                  onChange={(e) => setMealText(e.target.value)}
+                  placeholder="Ex: Salade de tomates, chorizo, pain..."
+                  className="flex-1 rounded-xl border-[#D5A0A8] focus:border-[#E37E7F]"
+                  onKeyPress={(e) => e.key === 'Enter' && analyzeText()}
+                  disabled={analyzingText}
+                  data-testid="meal-text-input"
+                />
+                <Button
+                  onClick={analyzeText}
+                  disabled={analyzingText || !mealText.trim()}
+                  className="rounded-xl px-4"
+                  style={{ background: '#E37E7F' }}
+                  data-testid="analyze-text-btn"
+                >
+                  {analyzingText ? (
+                    <Loader2 className="w-5 h-5 animate-spin text-white" />
+                  ) : (
+                    <Send className="w-5 h-5 text-white" />
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="flex items-center gap-4 mb-6">
+              <div className="flex-1 h-px" style={{ background: '#E5E5E5' }}></div>
+              <span className="text-xs" style={{ color: '#999' }}>ou</span>
+              <div className="flex-1 h-px" style={{ background: '#E5E5E5' }}></div>
+            </div>
+            
             <div className="flex gap-4 justify-center">
               {/* Camera Button */}
               <Button
@@ -392,7 +431,7 @@ const CalorieTracker = () => {
               className="hidden"
             />
 
-            {analyzing && (
+            {(analyzing || analyzingText) && (
               <div className="mt-4 text-center">
                 <p className="text-sm" style={{ color: '#666' }}>
                   Analyse en cours... Cela peut prendre quelques secondes.
