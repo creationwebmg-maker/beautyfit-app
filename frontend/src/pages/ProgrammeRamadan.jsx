@@ -292,6 +292,8 @@ function ProgrammeRamadan() {
           if (nextIdx >= currentPhases.length) {
             setIsRunning(false);
             setSessionComplete(true);
+            // Save session to backend
+            saveSession();
             if (feedbackMode === FEEDBACK_VIBRATION) {
               vibrate([500, 200, 500]);
             } else {
