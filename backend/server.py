@@ -220,6 +220,33 @@ class DailyGoalUpdate(BaseModel):
     carbs: Optional[float] = None
     fats: Optional[float] = None
 
+# ==================== CALORIE PROFILE MODELS ====================
+
+class CalorieProfileRequest(BaseModel):
+    age: str
+    height: str
+    current_weight: str
+    target_weight: str
+    gender: Optional[str] = "femme"
+    activity_level: str
+    goal: str
+    does_suhoor: str
+    meals_count: str
+    eating_habits: List[str] = []
+    hydration: str
+    sleep_hours: str
+    ramadan_feelings: List[str] = []
+
+class CalorieNeedsResponse(BaseModel):
+    daily_calories: int
+    proteins: int
+    carbs: int
+    fats: int
+    bmr: int
+    tdee: int
+    recommendations: List[str]
+    meal_distribution: Dict[str, int]
+
 # ==================== SITE CONTENT MODELS ====================
 
 class ProgramContent(BaseModel):
