@@ -237,6 +237,17 @@ const Login = () => {
                 Inscris-toi
               </Link>
             </p>
+
+            {/* Legal Links */}
+            <div className="flex justify-center gap-4 mt-4 text-xs" style={{ color: '#999' }}>
+              <Link to="/confidentialite" className="hover:underline">
+                Confidentialité
+              </Link>
+              <span>•</span>
+              <Link to="/conditions-generales" className="hover:underline">
+                CGU
+              </Link>
+            </div>
           </div>
         </div>
       </div>
