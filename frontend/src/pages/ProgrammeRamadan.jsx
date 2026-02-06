@@ -67,6 +67,7 @@ function ProgrammeRamadan() {
   const [hasPurchased, setHasPurchased] = useState(false);
   const [checkingPurchase, setCheckingPurchase] = useState(true);
   const [isBackgroundMode, setIsBackgroundMode] = useState(false);
+  const [animationFrame, setAnimationFrame] = useState(0);
 
   const intervalRef = useRef(null);
   const audioContextRef = useRef(null);
@@ -75,6 +76,7 @@ function ProgrammeRamadan() {
   const lastStepTimeRef = useRef(0);
   const backgroundStepsRef = useRef(0); // Steps counted while in background
   const wakeLockRef = useRef(null); // Wake lock to keep screen on
+  const animationIntervalRef = useRef(null); // For silhouette animation
 
   // Check if user has purchased the program
   useEffect(() => {
