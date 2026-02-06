@@ -44,6 +44,12 @@ ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'amel2024admin')
 # Emergent LLM Key for GPT-4o
 EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY')
 
+# Resend Email Config
+RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
+FROM_EMAIL = os.environ.get('FROM_EMAIL', 'contact@beautyfitbyamel.fr')
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
+
 # Upload directories
 UPLOAD_DIR = ROOT_DIR / "uploads"
 VIDEOS_DIR = UPLOAD_DIR / "videos"
