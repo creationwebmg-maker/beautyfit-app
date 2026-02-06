@@ -237,6 +237,10 @@ function ProgrammeRamadan() {
     return "walk";
   };
 
+  // Define phases first (needed for animation effect)
+  const phases = getPhases(selectedWeekId, selectedSeanceId);
+  const currentPhase = phases[currentPhaseIndex];
+
   // Animation effect for silhouettes
   useEffect(() => {
     if (isRunning && !isPaused && !sessionComplete) {
@@ -260,9 +264,6 @@ function ProgrammeRamadan() {
       }
     }
   }, [isRunning, isPaused, sessionComplete, currentPhase]);
-
-  const phases = getPhases(selectedWeekId, selectedSeanceId);
-  const currentPhase = phases[currentPhaseIndex];
 
   // Initialize audio context
   useEffect(function initAudio() {
