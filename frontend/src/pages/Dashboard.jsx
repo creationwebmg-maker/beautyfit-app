@@ -77,10 +77,10 @@ const Dashboard = () => {
                   <span className="text-xs" style={{ color: '#999' }}>maintenant</span>
                 </div>
                 <p className="mt-1 text-sm font-semibold" style={{ color: '#333' }}>
-                  💪 Rappel du jour
+                  💪 Citation du jour
                 </p>
                 <p className="mt-0.5 text-sm leading-snug" style={{ color: '#666' }}>
-                  Tes courbatures d'aujourd'hui sont tes muscles de demain 🔥
+                  {dailyQuote}
                 </p>
               </div>
               
