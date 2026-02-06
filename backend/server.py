@@ -1982,6 +1982,162 @@ async def update_weekly_goal(
     )
     return {"message": "Objectif mis à jour", "weekly_goal": goal}
 
+# ==================== APPLE IAP ROUTES ====================
+
+class ApplePurchaseVerifyRequest(BaseModel):
+    transaction_id: str
+    product_id: str
+    receipt_data: Optional[str] = None
+
+class ApplePurchaseResponse(BaseModel):
+    success: bool
+    transaction_id: str
+    product_id: str
+    message: str
+
+# Product ID to course mapping
+APPLE_PRODUCT_MAPPING = {
+    "com.beautyfit.amel.programme.ramadan": "prog_ramadan"
+}
+
+@api_router.post("/purchases/apple/verify", response_model=ApplePurchaseResponse)
+async def verify_apple_purchase(
+    request: ApplePurchaseVerifyRequest,
+    user: dict = Depends(get_current_user)
+):
+    """
+    Verify an Apple In-App Purchase transaction.
+    
+    In production, this should validate the receipt with Apple's servers.
+    For now, we trust the transaction and grant access.
+    
+    NOTE: Full Apple Server-to-Server validation requires:
+    - Apple API Key (from App Store Connect)
+    - JWT token generation for Apple API
+    - Calling https://api.storekit.itunes.apple.com/inApps/v1/transactions/{transactionId}
+    """
+    
+    logger.info(f"Apple IAP verification for user {user['id']}, product {request.product_id}")
+    
+    # Validate product ID
+    if request.product_id not in APPLE_PRODUCT_MAPPING:
+        raise HTTPException(status_code=400, detail="Invalid product ID")
+    
+    course_id = APPLE_PRODUCT_MAPPING[request.product_id]
+    
+    try:
+        # Check if already purchased
+        existing = await db.purchases.find_one({
+            "user_id": user["id"],
+            "course_id": course_id,
+            "status": "completed"
+        })
+        
+        if existing:
+            logger.info(f"User {user['id']} already owns {course_id}")
+            return ApplePurchaseResponse(
+                success=True,
+                transaction_id=request.transaction_id,
+                product_id=request.product_id,
+                message="Achat déjà enregistré - Accès maintenu"
+            )
+        
+        # Get course details
+        course = await db.courses.find_one({"id": course_id}, {"_id": 0})
+        if not course:
+            raise HTTPException(status_code=404, detail="Course not found")
+        
+        # Record the purchase
+        purchase_id = str(uuid.uuid4())
+        now = datetime.now(timezone.utc).isoformat()
+        
+        purchase_record = {
+            "id": purchase_id,
+            "user_id": user["id"],
+            "course_id": course_id,
+            "course_title": course["title"],
+            "amount": course["price"],
+            "payment_method": "apple_iap",
+            "apple_transaction_id": request.transaction_id,
+            "apple_product_id": request.product_id,
+            "status": "completed",
+            "created_at": now
+        }
+        
+        await db.purchases.insert_one(purchase_record)
+        
+        logger.info(f"Apple IAP recorded: {purchase_id} for user {user['id']}")
+        
+        return ApplePurchaseResponse(
+            success=True,
+            transaction_id=request.transaction_id,
+            product_id=request.product_id,
+            message="Achat vérifié avec succès - Accès accordé"
+        )
+        
+    except Exception as e:
+        logger.error(f"Apple IAP verification error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/purchases/apple/restore")
+async def restore_apple_purchases(user: dict = Depends(get_current_user)):
+    """
+    Restore Apple In-App Purchases for a user.
+    Returns list of products the user has already purchased via Apple IAP.
+    """
+    
+    logger.info(f"Restoring Apple purchases for user {user['id']}")
+    
+    try:
+        # Find all Apple IAP purchases for this user
+        purchases = await db.purchases.find({
+            "user_id": user["id"],
+            "payment_method": "apple_iap",
+            "status": "completed"
+        }, {"_id": 0}).to_list(100)
+        
+        restored_products = []
+        for purchase in purchases:
+            apple_product_id = purchase.get("apple_product_id")
+            if apple_product_id:
+                restored_products.append(apple_product_id)
+        
+        return {
+            "success": True,
+            "restored_products": restored_products,
+            "count": len(restored_products)
+        }
+        
+    except Exception as e:
+        logger.error(f"Apple restore error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/purchases/apple/status/{product_id}")
+async def check_apple_purchase_status(
+    product_id: str,
+    user: dict = Depends(get_current_user)
+):
+    """
+    Check if a user has purchased a specific Apple IAP product.
+    """
+    
+    if product_id not in APPLE_PRODUCT_MAPPING:
+        raise HTTPException(status_code=400, detail="Invalid product ID")
+    
+    course_id = APPLE_PRODUCT_MAPPING[product_id]
+    
+    purchase = await db.purchases.find_one({
+        "user_id": user["id"],
+        "course_id": course_id,
+        "status": "completed"
+    })
+    
+    return {
+        "product_id": product_id,
+        "has_access": purchase is not None,
+        "payment_method": purchase.get("payment_method") if purchase else None
+    }
+
 @api_router.get("/")
 async def root():
     return {"message": "Amel Fit Coach API", "version": "1.0.0"}
