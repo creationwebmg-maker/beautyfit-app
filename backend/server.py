@@ -472,20 +472,59 @@ async def google_auth(request: GoogleAuthRequest):
 async def forgot_password(request: ForgotPasswordRequest):
     user = await db.users.find_one({"email": request.email})
     if not user:
-        return {"message": "If the email exists, a reset link will be sent"}
+        # Return same message to prevent email enumeration
+        return {"message": "Si l'email existe, un lien de réinitialisation sera envoyé"}
     
-    reset_token = str(uuid.uuid4())
+    # Generate a secure reset code (6 digits)
+    reset_code = ''.join([str(secrets.randbelow(10)) for _ in range(6)])
     expires = datetime.now(timezone.utc) + timedelta(hours=1)
     
+    await db.password_resets.delete_many({"email": request.email})
     await db.password_resets.insert_one({
         "email": request.email,
-        "token": reset_token,
+        "token": reset_code,
         "expires": expires.isoformat(),
         "used": False
     })
     
-    logger.info(f"Password reset token for {request.email}: {reset_token}")
-    return {"message": "If the email exists, a reset link will be sent", "reset_token": reset_token}
+    # Send email via Resend
+    if RESEND_API_KEY:
+        try:
+            resend.Emails.send({
+                "from": f"Beautyfit By Amel <{FROM_EMAIL}>",
+                "to": [request.email],
+                "subject": "Réinitialisation de ton mot de passe - Beautyfit",
+                "html": f"""
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h1 style="color: #E37E7F; font-family: 'Playfair Display', serif;">Beautyfit By Amel</h1>
+                    </div>
+                    
+                    <p style="color: #333;">Bonjour {user.get('first_name', 'toi')} 👋</p>
+                    
+                    <p style="color: #666;">Tu as demandé à réinitialiser ton mot de passe. Voici ton code de vérification :</p>
+                    
+                    <div style="background: linear-gradient(135deg, #E37E7F, #EE9F80); padding: 20px; border-radius: 12px; text-align: center; margin: 30px 0;">
+                        <span style="font-size: 32px; font-weight: bold; color: white; letter-spacing: 8px;">{reset_code}</span>
+                    </div>
+                    
+                    <p style="color: #666;">Ce code expire dans <strong>1 heure</strong>.</p>
+                    
+                    <p style="color: #999; font-size: 14px;">Si tu n'as pas demandé cette réinitialisation, ignore simplement cet email.</p>
+                    
+                    <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+                    
+                    <p style="color: #999; font-size: 12px; text-align: center;">
+                        © 2025 Beautyfit By Amel - Ton coach fitness personnel
+                    </p>
+                </div>
+                """
+            })
+            logger.info(f"Password reset email sent to {request.email}")
+        except Exception as e:
+            logger.error(f"Failed to send reset email: {e}")
+    
+    return {"message": "Si l'email existe, un code de réinitialisation sera envoyé"}
 
 @api_router.post("/auth/reset-password")
 async def reset_password(request: ResetPasswordRequest):
