@@ -34,19 +34,19 @@ const FEEDBACK_SOUND = "sound";
 // Nouvelles silhouettes de femmes aux formes généreuses qui font les mouvements
 const SILHOUETTES = {
   walk: [
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/0ff6e5071e01b73ec5b5ca9f8dbad2b7560e1da7ac8ad18e979a5bba332b7f69.png",
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/8e68144f801540535dc979eebddda70c6a8ee49f52e61d5906e4d66e5ee166e3.png"
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/111d956414f6eb8e5be3892e88a525c2dbf179d461f5b67e2a0b13e1571f7dd1.png",
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/30d66d8ed02bb824f235295c399a1d957d2030fa0a21242d47b4c2c9f131ee49.png"
   ],
   fast_walk: [
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/7b0634250da62f006e7061db488d7f77b5e7efc4a89abd5c95c211641f2d10ac.png",
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/0774ecf29a1d020eb3bc04fa4e58ed7baa74fc17afa79cffd0d2fdaaabf2e37b.png"
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/db6af3ebfb4cfa5afdaa14d6cd3e545cd8df89ee893756c5214ed7f9ac322661.png",
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/aed66a136a21fc8d9bfcbfc9972dcc389bd68c3bf52fcb7267da8f65c738af7e.png"
   ],
   squat: [
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/787a47f2b79167d5b82f63dcb23a6aebacab1fc41e33b2c6faef1639de761ba8.png",
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/e672f128c251a59b5f0215a495e0a309f17570a485b1358863c5e6cb2b62f6bb.png"
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/5083e2689df6811a61a1c73897130ff7d7ace6f5b9db7650034c66bf76dd953a.png",
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/69d105120dcbbcbb23015b2ffb573e0102892ea5f65a6a587d43662c991b1c8f.png"
   ],
   rest: [
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/aad4c4f9b9b701442bb8fc31865fb4bb5888d766b5031bb26d222982b716c94a.png"
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/786496a6e10c93377099f8580981482697b3e41ffc3a0cceb6acd8f5bbdb46be.png"
   ]
 };
 
