@@ -532,6 +532,28 @@ function ProgrammeRamadan() {
             </div>
 
             <div className="flex flex-col items-center py-4">
+              {/* Silhouette Animation */}
+              {!sessionComplete && currentPhase && (
+                <div className="mb-4 relative">
+                  <img 
+                    src={getSilhouette(currentPhase[0], currentPhase[2])} 
+                    alt="Mouvement"
+                    className={`h-32 w-auto object-contain ${!isPaused && isRunning ? 'animate-pulse' : ''}`}
+                    style={{ 
+                      filter: 'drop-shadow(0 4px 6px rgba(227, 126, 127, 0.3))',
+                      transition: 'all 0.5s ease'
+                    }}
+                  />
+                  {currentPhase[2] && !isPaused && (
+                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                      <span className="text-xs px-2 py-1 rounded-full text-white" style={{ background: '#E37E7F' }}>
+                        Rythme rapide
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               <div className={sessionComplete ? "timer-circle phase-complete" : `timer-circle ${phaseColorClass}`}>
                 <div className="timer-inner">
                   {sessionComplete ? (
