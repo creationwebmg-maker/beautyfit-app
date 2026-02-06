@@ -19,6 +19,8 @@ from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
 import base64
 import json
 import re
+import resend
+import secrets
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
