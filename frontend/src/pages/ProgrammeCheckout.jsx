@@ -56,10 +56,15 @@ const ProgrammeCheckout = () => {
         await iapService.initialize();
       }
       
+      // Set auth token for IAP backend verification
+      if (token) {
+        iapService.setAuthToken(token);
+      }
+      
       setPlatformReady(true);
     };
     initPlatform();
-  }, []);
+  }, [token]);
 
   const handleCheckout = async () => {
     if (!isAuthenticated || isGuest) {
