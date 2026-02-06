@@ -198,7 +198,15 @@ function ProgrammeRamadan() {
       ["Fractionnés légers (x5)", 450, true],
       ["Allure modérée", 600, true]
     ];
-  
+    if (seanceId === 2) return [
+      ["Marche libre", 300, false],
+      ["Fractionnés doux (x4)", 260, true],
+      ["Allure modérée", 300, true],
+      ["Lente + bras", 300, false]
+    ];
+    return [["Marche modérée", 900, false]];
+  }, []);
+
   // Get silhouette image based on current phase
   const getSilhouette = (phaseName, isFast) => {
     const nameLower = phaseName.toLowerCase();
@@ -210,14 +218,6 @@ function ProgrammeRamadan() {
     }
     return SILHOUETTES.walk;
   };
-    if (seanceId === 2) return [
-      ["Marche libre", 300, false],
-      ["Fractionnés doux (x4)", 260, true],
-      ["Allure modérée", 300, true],
-      ["Lente + bras", 300, false]
-    ];
-    return [["Marche modérée", 900, false]];
-  }, []);
 
   const phases = getPhases(selectedWeekId, selectedSeanceId);
   const currentPhase = phases[currentPhaseIndex];
