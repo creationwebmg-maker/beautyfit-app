@@ -693,19 +693,10 @@ function ProgrammeRamadan() {
                 <div className="mb-4 relative">
                   {(() => {
                     const silhouetteType = getSilhouetteType(currentPhase[0], currentPhase[2]);
-                    const frames = SILHOUETTES[silhouetteType] || SILHOUETTES.walk;
-                    const currentFrame = frames[animationFrame % frames.length];
                     return (
-                      <img 
-                        src={currentFrame} 
-                        alt="Mouvement"
-                        className="h-36 w-auto object-contain"
-                        style={{ 
-                          filter: 'drop-shadow(0 4px 8px rgba(227, 126, 127, 0.3))',
-                          transition: 'opacity 0.15s ease',
-                          mixBlendMode: 'multiply'
-                        }}
-                      />
+                      <div style={{ filter: 'drop-shadow(0 4px 8px rgba(227, 126, 127, 0.3))' }}>
+                        <SilhouetteSVG type={silhouetteType} frame={animationFrame} />
+                      </div>
                     );
                   })()}
                   {currentPhase[2] && !isPaused && (
