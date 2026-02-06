@@ -573,21 +573,28 @@ function ProgrammeRamadan() {
             </div>
 
             <div className="flex flex-col items-center py-4">
-              {/* Silhouette Animation */}
+              {/* Animated Silhouette */}
               {!sessionComplete && currentPhase && (
                 <div className="mb-4 relative">
-                  <img 
-                    src={getSilhouette(currentPhase[0], currentPhase[2])} 
-                    alt="Mouvement"
-                    className={`h-32 w-auto object-contain ${!isPaused && isRunning ? 'animate-pulse' : ''}`}
-                    style={{ 
-                      filter: 'drop-shadow(0 4px 6px rgba(227, 126, 127, 0.3))',
-                      transition: 'all 0.5s ease'
-                    }}
-                  />
+                  {(() => {
+                    const silhouetteType = getSilhouetteType(currentPhase[0], currentPhase[2]);
+                    const frames = SILHOUETTES[silhouetteType] || SILHOUETTES.walk;
+                    const currentFrame = frames[animationFrame % frames.length];
+                    return (
+                      <img 
+                        src={currentFrame} 
+                        alt="Mouvement"
+                        className="h-36 w-auto object-contain"
+                        style={{ 
+                          filter: 'drop-shadow(0 4px 8px rgba(227, 126, 127, 0.4))',
+                          transition: 'opacity 0.15s ease'
+                        }}
+                      />
+                    );
+                  })()}
                   {currentPhase[2] && !isPaused && (
                     <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-                      <span className="text-xs px-2 py-1 rounded-full text-white" style={{ background: '#E37E7F' }}>
+                      <span className="text-xs px-3 py-1 rounded-full text-white font-medium animate-pulse" style={{ background: '#E37E7F' }}>
                         Rythme rapide
                       </span>
                     </div>
