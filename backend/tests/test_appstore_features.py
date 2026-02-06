@@ -110,7 +110,7 @@ class TestRamadanCourseAndCheckout:
         """Test that Stripe checkout requires authentication"""
         response = requests.post(f"{BASE_URL}/api/payments/stripe/checkout", json={
             "course_id": "prog_ramadan",
-            "origin_url": "https://calorie-counter-201.preview.emergentagent.com"
+            "origin_url": "https://beautyfitapp.preview.emergentagent.com"
         })
         assert response.status_code in [401, 403]
         print("SUCCESS: Stripe checkout correctly requires authentication")
@@ -122,7 +122,7 @@ class TestRamadanCourseAndCheckout:
             f"{BASE_URL}/api/payments/stripe/checkout",
             json={
                 "course_id": "prog_ramadan",
-                "origin_url": "https://calorie-counter-201.preview.emergentagent.com"
+                "origin_url": "https://beautyfitapp.preview.emergentagent.com"
             },
             headers=headers
         )
@@ -144,7 +144,7 @@ class TestRamadanCourseAndCheckout:
             f"{BASE_URL}/api/payments/stripe/checkout",
             json={
                 "course_id": "invalid_course_id",
-                "origin_url": "https://calorie-counter-201.preview.emergentagent.com"
+                "origin_url": "https://beautyfitapp.preview.emergentagent.com"
             },
             headers=headers
         )
