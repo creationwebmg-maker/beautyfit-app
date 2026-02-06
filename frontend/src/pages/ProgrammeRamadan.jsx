@@ -221,17 +221,44 @@ function ProgrammeRamadan() {
     return [["Marche modérée", 900, false]];
   }, []);
 
-  // Get silhouette image based on current phase
-  const getSilhouette = (phaseName, isFast) => {
+  // Get silhouette type based on current phase
+  const getSilhouetteType = (phaseName, isFast) => {
     const nameLower = phaseName.toLowerCase();
-    if (nameLower.includes("calme") || nameLower.includes("respiration") || nameLower.includes("échauffement") || nameLower.includes("retour")) {
-      return SILHOUETTES.rest;
+    if (nameLower.includes("calme") || nameLower.includes("respiration") || nameLower.includes("retour") || nameLower.includes("échauffement")) {
+      return "rest";
     }
-    if (isFast || nameLower.includes("fractionné") || nameLower.includes("intense") || nameLower.includes("active")) {
-      return SILHOUETTES.fast_walk;
+    if (nameLower.includes("squat")) {
+      return "squat";
     }
-    return SILHOUETTES.walk;
+    if (isFast || nameLower.includes("fractionné") || nameLower.includes("intense") || nameLower.includes("active") || nameLower.includes("rapide")) {
+      return "fast_walk";
+    }
+    return "walk";
   };
+
+  // Animation effect for silhouettes
+  useEffect(() => {
+    if (isRunning && !isPaused && !sessionComplete) {
+      const silhouetteType = currentPhase ? getSilhouetteType(currentPhase[0], currentPhase[2]) : "walk";
+      const frames = SILHOUETTES[silhouetteType] || SILHOUETTES.walk;
+      const speed = silhouetteType === "fast_walk" ? 300 : silhouetteType === "squat" ? 800 : 500;
+      
+      animationIntervalRef.current = setInterval(() => {
+        setAnimationFrame(prev => (prev + 1) % frames.length);
+      }, speed);
+      
+      return () => {
+        if (animationIntervalRef.current) {
+          clearInterval(animationIntervalRef.current);
+        }
+      };
+    } else {
+      setAnimationFrame(0);
+      if (animationIntervalRef.current) {
+        clearInterval(animationIntervalRef.current);
+      }
+    }
+  }, [isRunning, isPaused, sessionComplete, currentPhase]);
 
   const phases = getPhases(selectedWeekId, selectedSeanceId);
   const currentPhase = phases[currentPhaseIndex];
