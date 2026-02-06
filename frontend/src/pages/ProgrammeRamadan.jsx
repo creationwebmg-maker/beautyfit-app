@@ -198,6 +198,18 @@ function ProgrammeRamadan() {
       ["Fractionnés légers (x5)", 450, true],
       ["Allure modérée", 600, true]
     ];
+  
+  // Get silhouette image based on current phase
+  const getSilhouette = (phaseName, isFast) => {
+    const nameLower = phaseName.toLowerCase();
+    if (nameLower.includes("calme") || nameLower.includes("respiration") || nameLower.includes("échauffement") || nameLower.includes("retour")) {
+      return SILHOUETTES.rest;
+    }
+    if (isFast || nameLower.includes("fractionné") || nameLower.includes("intense") || nameLower.includes("active")) {
+      return SILHOUETTES.fast_walk;
+    }
+    return SILHOUETTES.walk;
+  };
     if (seanceId === 2) return [
       ["Marche libre", 300, false],
       ["Fractionnés doux (x4)", 260, true],
