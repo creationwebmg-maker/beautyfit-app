@@ -588,8 +588,9 @@ function ProgrammeRamadan() {
                         alt="Mouvement"
                         className="h-36 w-auto object-contain"
                         style={{ 
-                          filter: 'drop-shadow(0 4px 8px rgba(227, 126, 127, 0.4))',
-                          transition: 'opacity 0.15s ease'
+                          filter: 'drop-shadow(0 4px 8px rgba(227, 126, 127, 0.3))',
+                          transition: 'opacity 0.15s ease',
+                          mixBlendMode: 'multiply'
                         }}
                       />
                     );
