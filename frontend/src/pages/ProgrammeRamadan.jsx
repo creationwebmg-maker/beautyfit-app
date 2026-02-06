@@ -30,11 +30,23 @@ import "./ProgrammeRamadan.css";
 const FEEDBACK_VIBRATION = "vibration";
 const FEEDBACK_SOUND = "sound";
 
-// Silhouette images for different phases
+// Silhouette images for different phases - animation frames
 const SILHOUETTES = {
-  walk: "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/4b3b2b0abc5e351c0499a15e1b3dff2994030dc8f1be0e3d588d4e2d26213090.png",
-  fast_walk: "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/0ed0cf66d9e2e6a8b334130149239e74bc82ad244324c4d69dab0a5a0441decb.png",
-  rest: "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/a29796073b5298f6ae1d980d9f0d21393f4d8ca97a06bca3a8e78c22856f2549.png"
+  walk: [
+    "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/9abf7bc62dc9fddeb36cb4872faff90b7fafbb8185495730c362d30c2a7de249.png",
+    "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/e83feb29698f69278618072af2440232fb6d3f512620a01530e505e061f40384.png"
+  ],
+  fast_walk: [
+    "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/9abf7bc62dc9fddeb36cb4872faff90b7fafbb8185495730c362d30c2a7de249.png",
+    "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/e83feb29698f69278618072af2440232fb6d3f512620a01530e505e061f40384.png"
+  ],
+  squat: [
+    "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/4276a4327fefa7a26bf930b42f331e719dd32c2f8e01eb7e49dbb2f45aa9c0e4.png",
+    "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/6bd1f1cbf8ccea8f3549c6766ffd883fcc3dfa05cb0d6906a48cb96f1c9b3e14.png"
+  ],
+  rest: [
+    "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/4276a4327fefa7a26bf930b42f331e719dd32c2f8e01eb7e49dbb2f45aa9c0e4.png"
+  ]
 };
 
 function ProgrammeRamadan() {
