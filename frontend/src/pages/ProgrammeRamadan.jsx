@@ -30,6 +30,13 @@ import "./ProgrammeRamadan.css";
 const FEEDBACK_VIBRATION = "vibration";
 const FEEDBACK_SOUND = "sound";
 
+// Silhouette images for different phases
+const SILHOUETTES = {
+  walk: "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/d7e1fae84b28cd55d5de7575bc04f3e8d06558fd027a832b5f8aed20c0ab85e9.png",
+  fast_walk: "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/11c7fa75ae751b3ffcc069590a6ffbc25f051f00df6ef60625ce5062454b7353.png",
+  rest: "https://static.prod-images.emergentagent.com/jobs/abf886d8-0214-4db8-8bd9-a771888e9e78/images/623f40ebceb6f11d335c00139fcb7334af517262db5b0f371c306736db9f439a.png"
+};
+
 function ProgrammeRamadan() {
   const navigate = useNavigate();
   const { token, isAuthenticated, isGuest } = useAuth();
