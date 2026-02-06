@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/context/AuthContext";
 import BottomNavBar from "@/components/BottomNavBar";
-import { getDailyQuote } from "@/services/NotificationService";
+import { getDailyQuote, MOTIVATIONAL_QUOTES } from "@/services/NotificationService";
 import { 
   User,
   Play, 
@@ -22,6 +22,15 @@ const Dashboard = () => {
   const isAuthenticated = !!token;
   const [showNotification, setShowNotification] = useState(false);
   const [dailyQuote, setDailyQuote] = useState("");
+
+  // Citations pour le bandeau défilant
+  const motivationalQuotes = [
+    "✨ Chaque pas compte vers ta meilleure version ✨",
+    "💪 Le jeûne n'est pas une excuse, c'est une force 💪",
+    "🌙 Ramadan Mubarak - Reste active ! 🌙",
+    "⭐ Ton corps te remerciera ⭐",
+    "🔥 30 minutes pour transformer ta journée 🔥"
+  ];
 
   // Get today's motivational quote
   useEffect(() => {
