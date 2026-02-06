@@ -30,24 +30,137 @@ import "./ProgrammeRamadan.css";
 const FEEDBACK_VIBRATION = "vibration";
 const FEEDBACK_SOUND = "sound";
 
-// Silhouette images for different phases - animation frames
-// Nouvelles silhouettes de femmes aux formes généreuses qui font les mouvements
-const SILHOUETTES = {
-  walk: [
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/111d956414f6eb8e5be3892e88a525c2dbf179d461f5b67e2a0b13e1571f7dd1.png",
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/30d66d8ed02bb824f235295c399a1d957d2030fa0a21242d47b4c2c9f131ee49.png"
-  ],
-  fast_walk: [
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/db6af3ebfb4cfa5afdaa14d6cd3e545cd8df89ee893756c5214ed7f9ac322661.png",
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/aed66a136a21fc8d9bfcbfc9972dcc389bd68c3bf52fcb7267da8f65c738af7e.png"
-  ],
-  squat: [
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/5083e2689df6811a61a1c73897130ff7d7ace6f5b9db7650034c66bf76dd953a.png",
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/69d105120dcbbcbb23015b2ffb573e0102892ea5f65a6a587d43662c991b1c8f.png"
-  ],
-  rest: [
-    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/786496a6e10c93377099f8580981482697b3e41ffc3a0cceb6acd8f5bbdb46be.png"
-  ]
+// Silhouette SVG components for different phases - truly transparent
+const SilhouetteSVG = ({ type, frame }) => {
+  const color = "#E37E7F";
+  
+  // Walking silhouette - frame 1 (left foot forward)
+  const walkFrame1 = (
+    <svg viewBox="0 0 100 150" className="h-36 w-auto">
+      {/* Head */}
+      <circle cx="50" cy="20" r="12" fill={color} />
+      {/* Hair/ponytail */}
+      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
+      {/* Body - curvy torso */}
+      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
+      {/* Hips - wider */}
+      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
+      {/* Left leg (forward) */}
+      <ellipse cx="38" cy="105" rx="8" ry="25" fill={color} transform="rotate(-15 38 105)" />
+      {/* Right leg (back) */}
+      <ellipse cx="62" cy="100" rx="8" ry="25" fill={color} transform="rotate(20 62 100)" />
+      {/* Left arm (back) */}
+      <ellipse cx="30" cy="55" rx="5" ry="18" fill={color} transform="rotate(25 30 55)" />
+      {/* Right arm (forward) */}
+      <ellipse cx="70" cy="50" rx="5" ry="18" fill={color} transform="rotate(-20 70 50)" />
+    </svg>
+  );
+  
+  // Walking silhouette - frame 2 (right foot forward)
+  const walkFrame2 = (
+    <svg viewBox="0 0 100 150" className="h-36 w-auto">
+      <circle cx="50" cy="20" r="12" fill={color} />
+      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
+      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
+      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
+      {/* Right leg (forward) */}
+      <ellipse cx="62" cy="105" rx="8" ry="25" fill={color} transform="rotate(15 62 105)" />
+      {/* Left leg (back) */}
+      <ellipse cx="38" cy="100" rx="8" ry="25" fill={color} transform="rotate(-20 38 100)" />
+      {/* Right arm (back) */}
+      <ellipse cx="70" cy="55" rx="5" ry="18" fill={color} transform="rotate(-25 70 55)" />
+      {/* Left arm (forward) */}
+      <ellipse cx="30" cy="50" rx="5" ry="18" fill={color} transform="rotate(20 30 50)" />
+    </svg>
+  );
+  
+  // Fast walking - frame 1
+  const fastWalkFrame1 = (
+    <svg viewBox="0 0 100 150" className="h-36 w-auto">
+      <circle cx="50" cy="20" r="12" fill={color} />
+      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
+      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
+      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
+      {/* Dynamic legs - wider stride */}
+      <ellipse cx="32" cy="108" rx="8" ry="28" fill={color} transform="rotate(-25 32 108)" />
+      <ellipse cx="68" cy="98" rx="8" ry="28" fill={color} transform="rotate(30 68 98)" />
+      {/* Arms pumping more */}
+      <ellipse cx="25" cy="50" rx="5" ry="20" fill={color} transform="rotate(35 25 50)" />
+      <ellipse cx="75" cy="45" rx="5" ry="20" fill={color} transform="rotate(-30 75 45)" />
+    </svg>
+  );
+  
+  // Fast walking - frame 2
+  const fastWalkFrame2 = (
+    <svg viewBox="0 0 100 150" className="h-36 w-auto">
+      <circle cx="50" cy="20" r="12" fill={color} />
+      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
+      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
+      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
+      <ellipse cx="68" cy="108" rx="8" ry="28" fill={color} transform="rotate(25 68 108)" />
+      <ellipse cx="32" cy="98" rx="8" ry="28" fill={color} transform="rotate(-30 32 98)" />
+      <ellipse cx="75" cy="50" rx="5" ry="20" fill={color} transform="rotate(-35 75 50)" />
+      <ellipse cx="25" cy="45" rx="5" ry="20" fill={color} transform="rotate(30 25 45)" />
+    </svg>
+  );
+  
+  // Squat - standing
+  const squatUp = (
+    <svg viewBox="0 0 100 150" className="h-36 w-auto">
+      <circle cx="50" cy="20" r="12" fill={color} />
+      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
+      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
+      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
+      {/* Straight legs */}
+      <ellipse cx="40" cy="110" rx="9" ry="30" fill={color} />
+      <ellipse cx="60" cy="110" rx="9" ry="30" fill={color} />
+      {/* Arms forward */}
+      <ellipse cx="25" cy="55" rx="5" ry="18" fill={color} transform="rotate(-70 25 55)" />
+      <ellipse cx="75" cy="55" rx="5" ry="18" fill={color} transform="rotate(70 75 55)" />
+    </svg>
+  );
+  
+  // Squat - down position
+  const squatDown = (
+    <svg viewBox="0 0 100 150" className="h-36 w-auto">
+      <circle cx="50" cy="35" r="12" fill={color} />
+      <ellipse cx="58" cy="30" rx="8" ry="5" fill={color} />
+      <ellipse cx="50" cy="65" rx="18" ry="22" fill={color} />
+      <ellipse cx="50" cy="85" rx="24" ry="14" fill={color} />
+      {/* Bent legs */}
+      <ellipse cx="30" cy="110" rx="10" ry="22" fill={color} transform="rotate(-30 30 110)" />
+      <ellipse cx="70" cy="110" rx="10" ry="22" fill={color} transform="rotate(30 70 110)" />
+      {/* Arms forward for balance */}
+      <ellipse cx="20" cy="65" rx="5" ry="18" fill={color} transform="rotate(-80 20 65)" />
+      <ellipse cx="80" cy="65" rx="5" ry="18" fill={color} transform="rotate(80 80 65)" />
+    </svg>
+  );
+  
+  // Rest - standing relaxed
+  const restPose = (
+    <svg viewBox="0 0 100 150" className="h-36 w-auto">
+      <circle cx="50" cy="20" r="12" fill={color} />
+      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
+      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
+      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
+      {/* Relaxed legs */}
+      <ellipse cx="42" cy="110" rx="9" ry="28" fill={color} />
+      <ellipse cx="58" cy="110" rx="9" ry="28" fill={color} />
+      {/* Hands on hips */}
+      <ellipse cx="28" cy="70" rx="5" ry="12" fill={color} transform="rotate(-15 28 70)" />
+      <ellipse cx="72" cy="70" rx="5" ry="12" fill={color} transform="rotate(15 72 70)" />
+    </svg>
+  );
+  
+  const frames = {
+    walk: [walkFrame1, walkFrame2],
+    fast_walk: [fastWalkFrame1, fastWalkFrame2],
+    squat: [squatUp, squatDown],
+    rest: [restPose]
+  };
+  
+  const selectedFrames = frames[type] || frames.walk;
+  return selectedFrames[frame % selectedFrames.length];
 };
 
 function ProgrammeRamadan() {
