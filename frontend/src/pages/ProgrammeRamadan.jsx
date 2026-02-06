@@ -358,11 +358,11 @@ function ProgrammeRamadan() {
   useEffect(() => {
     if (isRunning && !isPaused && !sessionComplete) {
       const silhouetteType = currentPhase ? getSilhouetteType(currentPhase[0], currentPhase[2]) : "walk";
-      const frames = SILHOUETTES[silhouetteType] || SILHOUETTES.walk;
+      // Animation speed based on movement type
       const speed = silhouetteType === "fast_walk" ? 300 : silhouetteType === "squat" ? 800 : 500;
       
       animationIntervalRef.current = setInterval(() => {
-        setAnimationFrame(prev => (prev + 1) % frames.length);
+        setAnimationFrame(prev => (prev + 1) % 2); // 2 frames per animation
       }, speed);
       
       return () => {
