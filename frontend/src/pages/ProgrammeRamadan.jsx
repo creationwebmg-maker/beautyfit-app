@@ -623,7 +623,7 @@ function ProgrammeRamadan() {
                   })()}
                   {currentPhase[2] && !isPaused && (
                     <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-                      <span className="text-xs px-3 py-1 rounded-full text-white font-medium animate-pulse" style={{ background: '#E37E7F' }}>
+                      <span className="text-xs px-3 py-1 rounded-full text-white font-medium animate-pulse whitespace-nowrap" style={{ background: '#E37E7F' }}>
                         Rythme rapide
                       </span>
                     </div>
