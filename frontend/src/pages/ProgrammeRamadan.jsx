@@ -279,20 +279,6 @@ const SilhouetteSVG = ({ type, frame }) => {
   const selectedFrames = frames[type] || frames.walk;
   return selectedFrames[frame % selectedFrames.length];
 };
-      <ellipse cx="72" cy="70" rx="5" ry="12" fill={color} transform="rotate(15 72 70)" />
-    </svg>
-  );
-  
-  const frames = {
-    walk: [walkFrame1, walkFrame2],
-    fast_walk: [fastWalkFrame1, fastWalkFrame2],
-    squat: [squatUp, squatDown],
-    rest: [restPose]
-  };
-  
-  const selectedFrames = frames[type] || frames.walk;
-  return selectedFrames[frame % selectedFrames.length];
-};
 
 function ProgrammeRamadan() {
   const navigate = useNavigate();
