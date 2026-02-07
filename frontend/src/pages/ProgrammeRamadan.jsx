@@ -181,63 +181,154 @@ function ProgrammeRamadan() {
     }
   }, [isAuthenticated, isGuest, token, selectedWeekId, selectedSeanceId, stepCount, currentPhaseIndex, sessionStartTime]);
 
-  // Simple data - phases for each seance [label, duration, isFastPhase]
+  // Programme fractionné réel avec alternances accélération/récupération
+  // Format: [label, duration en secondes, isFastPhase, alertType]
+  // alertType: "warmup", "acceleration", "recovery", "cooldown"
   const getPhases = useCallback((weekId, seanceId) => {
     if (weekId === 1) {
       if (seanceId === 1) return [
-        ["Marche lente", 300, false],
-        ["Fractionné (x4)", 480, true],
-        ["Marche bras actifs", 420, true],
-        ["Retour au calme", 300, false]
+        // 5 min échauffement + 8x (30s accélération + 30s récupération) + 1 min retour au calme
+        ["Échauffement", 300, false, "warmup"],
+        ["Accélération", 30, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 30, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 30, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 30, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 30, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 30, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 30, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 30, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Retour au calme", 60, false, "cooldown"]
       ];
       if (seanceId === 2) return [
-        ["Échauffement", 300, false],
-        ["Marche active", 900, true],
-        ["Fractionnés courts (x5)", 300, true],
-        ["Respiration lente", 300, false]
+        ["Échauffement", 300, false, "warmup"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 45, false, "recovery"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 45, false, "recovery"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 45, false, "recovery"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 45, false, "recovery"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 45, false, "recovery"],
+        ["Retour au calme", 60, false, "cooldown"]
       ];
-      return [["Marche libre", 1800, false]];
+      return [
+        ["Échauffement", 300, false, "warmup"],
+        ["Marche libre", 1440, false, "warmup"],
+        ["Retour au calme", 60, false, "cooldown"]
+      ];
     }
     if (weekId === 2) {
       if (seanceId === 1) return [
-        ["Échauffement", 300, false],
-        ["Fractionnés intenses (x5)", 600, true],
-        ["Retour au calme", 480, false]
+        ["Échauffement", 300, false, "warmup"],
+        ["Accélération", 40, true, "acceleration"],
+        ["Récupération", 20, false, "recovery"],
+        ["Accélération", 40, true, "acceleration"],
+        ["Récupération", 20, false, "recovery"],
+        ["Accélération", 40, true, "acceleration"],
+        ["Récupération", 20, false, "recovery"],
+        ["Accélération", 40, true, "acceleration"],
+        ["Récupération", 20, false, "recovery"],
+        ["Accélération", 40, true, "acceleration"],
+        ["Récupération", 20, false, "recovery"],
+        ["Accélération", 40, true, "acceleration"],
+        ["Récupération", 20, false, "recovery"],
+        ["Retour au calme", 60, false, "cooldown"]
       ];
       if (seanceId === 2) return [
-        ["Marche fluide", 300, false],
-        ["Alternance (x4)", 360, true],
-        ["Marche + bras", 300, true],
-        ["Marche lente", 300, false]
+        ["Échauffement", 300, false, "warmup"],
+        ["Accélération", 60, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 60, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 60, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 60, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Retour au calme", 60, false, "cooldown"]
       ];
-      return [["Marche active", 1800, true]];
+      return [
+        ["Échauffement", 300, false, "warmup"],
+        ["Marche active", 1440, true, "acceleration"],
+        ["Retour au calme", 60, false, "cooldown"]
+      ];
     }
     if (weekId === 3) {
       if (seanceId === 1) return [
-        ["Échauffement", 300, false],
-        ["Fractionnés intensifs (x5)", 600, true],
-        ["Marche libre", 420, false]
+        ["Échauffement", 300, false, "warmup"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 15, false, "recovery"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 15, false, "recovery"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 15, false, "recovery"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 15, false, "recovery"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 15, false, "recovery"],
+        ["Accélération", 45, true, "acceleration"],
+        ["Récupération", 15, false, "recovery"],
+        ["Retour au calme", 60, false, "cooldown"]
       ];
       if (seanceId === 2) return [
-        ["Marche cool", 300, false],
-        ["Blocs longs (x4)", 720, true],
-        ["Marche lente", 600, false]
+        ["Échauffement", 300, false, "warmup"],
+        ["Accélération", 90, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 90, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 90, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Accélération", 90, true, "acceleration"],
+        ["Récupération", 30, false, "recovery"],
+        ["Retour au calme", 60, false, "cooldown"]
       ];
-      return [["Marche continue", 1200, false]];
+      return [
+        ["Échauffement", 180, false, "warmup"],
+        ["Marche continue", 960, false, "warmup"],
+        ["Retour au calme", 60, false, "cooldown"]
+      ];
     }
-    // Week 4
+    // Week 4 - Plus doux pour fin de Ramadan
     if (seanceId === 1) return [
-      ["Marche lente", 600, false],
-      ["Fractionnés légers (x5)", 450, true],
-      ["Allure modérée", 600, true]
+      ["Échauffement", 300, false, "warmup"],
+      ["Accélération", 30, true, "acceleration"],
+      ["Récupération", 30, false, "recovery"],
+      ["Accélération", 30, true, "acceleration"],
+      ["Récupération", 30, false, "recovery"],
+      ["Accélération", 30, true, "acceleration"],
+      ["Récupération", 30, false, "recovery"],
+      ["Accélération", 30, true, "acceleration"],
+      ["Récupération", 30, false, "recovery"],
+      ["Accélération", 30, true, "acceleration"],
+      ["Récupération", 30, false, "recovery"],
+      ["Retour au calme", 60, false, "cooldown"]
     ];
     if (seanceId === 2) return [
-      ["Marche libre", 300, false],
-      ["Fractionnés doux (x4)", 260, true],
-      ["Allure modérée", 300, true],
-      ["Lente + bras", 300, false]
+      ["Échauffement", 300, false, "warmup"],
+      ["Accélération", 20, true, "acceleration"],
+      ["Récupération", 40, false, "recovery"],
+      ["Accélération", 20, true, "acceleration"],
+      ["Récupération", 40, false, "recovery"],
+      ["Accélération", 20, true, "acceleration"],
+      ["Récupération", 40, false, "recovery"],
+      ["Accélération", 20, true, "acceleration"],
+      ["Récupération", 40, false, "recovery"],
+      ["Retour au calme", 60, false, "cooldown"]
     ];
-    return [["Marche modérée", 900, false]];
+    return [
+      ["Échauffement", 180, false, "warmup"],
+      ["Marche modérée", 660, false, "warmup"],
+      ["Retour au calme", 60, false, "cooldown"]
+    ];
   }, []);
 
   // Get silhouette type based on current phase
