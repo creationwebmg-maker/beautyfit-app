@@ -550,6 +550,80 @@ function ProgrammeRamadan() {
     };
   }, [isRunning, isPaused, sessionComplete, motionPermission, viewMode, selectedWeekId, selectedSeanceId, currentPhaseIndex, feedbackMode, getPhases, vibrateStep, playStepSound, minStepInterval]);
 
+  // Fonction pour afficher l'alerte de changement de phase
+  const showPhaseAlert = useCallback((alertType, phaseName) => {
+    let alertMessage = "";
+    let alertEmoji = "";
+    
+    switch(alertType) {
+      case "acceleration":
+        alertMessage = "ACCÉLÉRATION !";
+        alertEmoji = "🔥";
+        break;
+      case "recovery":
+        alertMessage = "RÉCUPÉRATION";
+        alertEmoji = "💨";
+        break;
+      case "cooldown":
+        alertMessage = "RETOUR AU CALME";
+        alertEmoji = "🧘‍♀️";
+        break;
+      case "warmup":
+        alertMessage = phaseName.toUpperCase();
+        alertEmoji = "🚶‍♀️";
+        break;
+      default:
+        alertMessage = phaseName.toUpperCase();
+        alertEmoji = "👟";
+    }
+    
+    setPhaseAlert({ message: alertMessage, emoji: alertEmoji, type: alertType });
+    
+    // Vibration forte pour le changement de phase
+    if (feedbackMode === FEEDBACK_VIBRATION) {
+      if (alertType === "acceleration") {
+        // Triple vibration forte pour accélération
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Haptics) {
+          window.Capacitor.Plugins.Haptics.notification({ type: 'warning' });
+          setTimeout(() => window.Capacitor.Plugins.Haptics.notification({ type: 'warning' }), 200);
+          setTimeout(() => window.Capacitor.Plugins.Haptics.notification({ type: 'warning' }), 400);
+        } else if (navigator.vibrate) {
+          navigator.vibrate([200, 100, 200, 100, 200]);
+        }
+      } else if (alertType === "recovery") {
+        // Double vibration douce pour récupération
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Haptics) {
+          window.Capacitor.Plugins.Haptics.notification({ type: 'success' });
+          setTimeout(() => window.Capacitor.Plugins.Haptics.notification({ type: 'success' }), 300);
+        } else if (navigator.vibrate) {
+          navigator.vibrate([150, 150, 150]);
+        }
+      } else if (alertType === "cooldown") {
+        // Vibration longue et douce pour retour au calme
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Haptics) {
+          window.Capacitor.Plugins.Haptics.notification({ type: 'success' });
+        } else if (navigator.vibrate) {
+          navigator.vibrate([500]);
+        }
+      }
+    } else {
+      // Mode son
+      if (alertType === "acceleration") {
+        playBeep(1000, 200);
+        setTimeout(() => playBeep(1200, 200), 250);
+        setTimeout(() => playBeep(1400, 300), 500);
+      } else if (alertType === "recovery") {
+        playBeep(600, 300);
+        setTimeout(() => playBeep(500, 300), 350);
+      } else if (alertType === "cooldown") {
+        playBeep(400, 500);
+      }
+    }
+    
+    // Masquer l'alerte après 2 secondes
+    setTimeout(() => setPhaseAlert(null), 2000);
+  }, [feedbackMode, playBeep]);
+
   // Timer logic
   useEffect(function timerEffect() {
     if (!isRunning || isPaused || viewMode !== "session") return;
