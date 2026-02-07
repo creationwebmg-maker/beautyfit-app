@@ -755,6 +755,52 @@ function ProgrammeRamadan() {
               </CardContent>
             </Card>
 
+            {/* Motion Permission Button - IMPORTANT pour le comptage des pas */}
+            <Card className="border-0 shadow-md" style={{ background: motionPermission ? 'rgba(34, 197, 94, 0.1)' : 'rgba(227, 126, 127, 0.1)', border: motionPermission ? '2px solid rgba(34, 197, 94, 0.5)' : '2px solid #E37E7F' }}>
+              <CardContent className="p-4">
+                <div className="text-center">
+                  <p className="text-sm mb-3 font-semibold" style={{ color: motionPermission ? '#15803d' : '#E37E7F' }}>
+                    {motionPermission ? '✅ Capteur de mouvement activé' : '📱 Comptage automatique des pas'}
+                  </p>
+                  {!motionPermission ? (
+                    <>
+                      <p className="text-xs mb-3" style={{ color: '#666' }}>
+                        Pour compter tes pas automatiquement, autorise l'accès au capteur de mouvement
+                      </p>
+                      <Button 
+                        className="rounded-full text-white font-semibold px-6 py-2"
+                        style={{ background: '#E37E7F' }}
+                        onClick={async () => {
+                          try {
+                            if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+                              const response = await DeviceMotionEvent.requestPermission();
+                              if (response === 'granted') {
+                                setMotionPermission(true);
+                              } else {
+                                alert("Permission refusée. Va dans Réglages > Safari > Mouvement et orientation pour l'activer.");
+                              }
+                            } else {
+                              // Android ou navigateur qui n'a pas besoin de permission
+                              setMotionPermission(true);
+                            }
+                          } catch (error) {
+                            console.error('Erreur permission:', error);
+                            alert("Erreur lors de la demande d'autorisation. Vérifie les réglages de ton navigateur.");
+                          }
+                        }}
+                      >
+                        🚶‍♀️ Autoriser le comptage des pas
+                      </Button>
+                    </>
+                  ) : (
+                    <p className="text-xs" style={{ color: '#15803d' }}>
+                      Tes pas seront comptés automatiquement pendant la séance
+                    </p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
             <Card className="seance-card cursor-pointer hover:scale-[1.02] transition-all" onClick={() => startSession(selectedWeekId, 1)}>
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
