@@ -563,18 +563,34 @@ function ProgrammeRamadan() {
 
   // Vibrate device
   const vibrate = useCallback(function vib(pattern) {
-    if (feedbackMode !== FEEDBACK_VIBRATION || !navigator.vibrate) return;
+    if (feedbackMode !== FEEDBACK_VIBRATION) return;
     try {
-      navigator.vibrate(pattern);
-    } catch(e) {}
+      // Essayer Capacitor Haptics d'abord (plus fiable sur iOS)
+      if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Haptics) {
+        window.Capacitor.Plugins.Haptics.vibrate({ duration: Array.isArray(pattern) ? pattern[0] : pattern });
+      } else if (navigator.vibrate) {
+        navigator.vibrate(pattern);
+      }
+    } catch(e) {
+      console.log('Vibration error:', e);
+    }
   }, [feedbackMode]);
 
-  // Vibrate for each step
+  // Vibrate for each step - vibration forte et perceptible
   const vibrateStep = useCallback(function stepVib(isFast) {
-    if (feedbackMode !== FEEDBACK_VIBRATION || !navigator.vibrate) return;
+    if (feedbackMode !== FEEDBACK_VIBRATION) return;
     try {
-      navigator.vibrate(isFast ? [50] : [30]);
-    } catch(e) {}
+      const duration = isFast ? 80 : 50; // Durée plus longue pour être perceptible
+      
+      // Essayer Capacitor Haptics d'abord (plus fiable sur iOS)
+      if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Haptics) {
+        window.Capacitor.Plugins.Haptics.impact({ style: isFast ? 'heavy' : 'medium' });
+      } else if (navigator.vibrate) {
+        navigator.vibrate([duration]);
+      }
+    } catch(e) {
+      console.log('Step vibration error:', e);
+    }
   }, [feedbackMode]);
 
   // Request motion permission and start session
