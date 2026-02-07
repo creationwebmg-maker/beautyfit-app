@@ -61,7 +61,7 @@ const SilhouetteSVG = ({ type, frame }) => {
       className="h-44 w-auto object-contain"
       style={{ 
         maxWidth: '160px',
-        background: 'transparent'
+        mixBlendMode: 'multiply'
       }}
     />
   );
