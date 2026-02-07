@@ -257,7 +257,7 @@ class TestRamadanProgramCheckout:
             f"{BASE_URL}/api/payments/stripe/checkout",
             json={
                 "course_id": "prog_ramadan",
-                "origin_url": "https://beautyfitapp.preview.emergentagent.com"
+                "origin_url": "https://beautyfit-preview.preview.emergentagent.com"
             },
             headers=headers
         )
