@@ -646,12 +646,12 @@ function ProgrammeRamadan() {
             }
             return 0;
           }
+          // Afficher l'alerte pour la nouvelle phase
+          const nextPhase = currentPhases[nextIdx];
+          const alertType = nextPhase[3] || "warmup";
+          showPhaseAlert(alertType, nextPhase[0]);
+          
           setCurrentPhaseIndex(nextIdx);
-          if (feedbackMode === FEEDBACK_VIBRATION) {
-            vibrate([300, 150, 300]);
-          } else {
-            playBeep(1000, 400);
-          }
           return currentPhases[nextIdx][1];
         }
         // Countdown beep in last 3 seconds
@@ -667,7 +667,7 @@ function ProgrammeRamadan() {
     }, 1000);
     
     return function cleanupTimer() { clearInterval(intervalRef.current); };
-  }, [isRunning, isPaused, viewMode, selectedWeekId, selectedSeanceId, currentPhaseIndex, feedbackMode, getPhases, vibrate, playBeep]);
+  }, [isRunning, isPaused, viewMode, selectedWeekId, selectedSeanceId, currentPhaseIndex, feedbackMode, getPhases, vibrate, playBeep, showPhaseAlert]);
 
   function resetSession() {
     setIsRunning(false);
