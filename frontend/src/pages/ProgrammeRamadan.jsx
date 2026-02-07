@@ -90,7 +90,8 @@ function ProgrammeRamadan() {
   const intervalRef = useRef(null);
   const audioContextRef = useRef(null);
   const lastAccelRef = useRef({ x: 0, y: 0, z: 0 });
-  const stepThreshold = 6; // Sensibilité pour détection de pas (réduit pour meilleure détection)
+  const stepThreshold = 4; // Sensibilité pour détection de pas (très sensible)
+  const minStepInterval = 250; // Minimum 250ms entre deux pas (course rapide)
   const lastStepTimeRef = useRef(0);
   const backgroundStepsRef = useRef(0); // Steps counted while in background
   const wakeLockRef = useRef(null); // Wake lock to keep screen on
