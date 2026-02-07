@@ -31,123 +31,254 @@ const FEEDBACK_VIBRATION = "vibration";
 const FEEDBACK_SOUND = "sound";
 
 // Silhouette SVG components for different phases - truly transparent
+// Silhouettes féminines aux formes généreuses
 const SilhouetteSVG = ({ type, frame }) => {
   const color = "#E37E7F";
   
   // Walking silhouette - frame 1 (left foot forward)
   const walkFrame1 = (
-    <svg viewBox="0 0 100 150" className="h-36 w-auto">
-      {/* Head */}
-      <circle cx="50" cy="20" r="12" fill={color} />
-      {/* Hair/ponytail */}
-      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
-      {/* Body - curvy torso */}
-      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
-      {/* Hips - wider */}
-      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
-      {/* Left leg (forward) */}
-      <ellipse cx="38" cy="105" rx="8" ry="25" fill={color} transform="rotate(-15 38 105)" />
-      {/* Right leg (back) */}
-      <ellipse cx="62" cy="100" rx="8" ry="25" fill={color} transform="rotate(20 62 100)" />
-      {/* Left arm (back) */}
-      <ellipse cx="30" cy="55" rx="5" ry="18" fill={color} transform="rotate(25 30 55)" />
-      {/* Right arm (forward) */}
-      <ellipse cx="70" cy="50" rx="5" ry="18" fill={color} transform="rotate(-20 70 50)" />
+    <svg viewBox="0 0 120 200" className="h-40 w-auto">
+      {/* Cheveux longs */}
+      <ellipse cx="60" cy="28" rx="18" ry="22" fill={color} />
+      <ellipse cx="72" cy="35" rx="12" ry="18" fill={color} />
+      <ellipse cx="75" cy="55" rx="8" ry="20" fill={color} />
+      {/* Tête */}
+      <circle cx="60" cy="30" r="16" fill={color} />
+      {/* Cou */}
+      <ellipse cx="60" cy="50" rx="6" ry="8" fill={color} />
+      {/* Poitrine */}
+      <ellipse cx="52" cy="68" rx="12" ry="14" fill={color} />
+      <ellipse cx="68" cy="68" rx="12" ry="14" fill={color} />
+      {/* Torse */}
+      <ellipse cx="60" cy="85" rx="20" ry="22" fill={color} />
+      {/* Ventre rond */}
+      <ellipse cx="60" cy="105" rx="22" ry="18" fill={color} />
+      {/* Hanches larges */}
+      <ellipse cx="60" cy="122" rx="28" ry="16" fill={color} />
+      {/* Fesses */}
+      <ellipse cx="68" cy="130" rx="14" ry="12" fill={color} />
+      {/* Jambe gauche (avant) - cuisse */}
+      <ellipse cx="48" cy="148" rx="14" ry="22" fill={color} transform="rotate(-12 48 148)" />
+      {/* Jambe gauche - mollet */}
+      <ellipse cx="42" cy="178" rx="8" ry="18" fill={color} transform="rotate(-8 42 178)" />
+      {/* Jambe droite (arrière) - cuisse */}
+      <ellipse cx="72" cy="145" rx="14" ry="22" fill={color} transform="rotate(18 72 145)" />
+      {/* Jambe droite - mollet */}
+      <ellipse cx="80" cy="172" rx="8" ry="18" fill={color} transform="rotate(12 80 172)" />
+      {/* Bras gauche (arrière) */}
+      <ellipse cx="35" cy="75" rx="7" ry="22" fill={color} transform="rotate(20 35 75)" />
+      {/* Bras droit (avant) */}
+      <ellipse cx="85" cy="70" rx="7" ry="22" fill={color} transform="rotate(-15 85 70)" />
     </svg>
   );
   
   // Walking silhouette - frame 2 (right foot forward)
   const walkFrame2 = (
-    <svg viewBox="0 0 100 150" className="h-36 w-auto">
-      <circle cx="50" cy="20" r="12" fill={color} />
-      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
-      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
-      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
-      {/* Right leg (forward) */}
-      <ellipse cx="62" cy="105" rx="8" ry="25" fill={color} transform="rotate(15 62 105)" />
-      {/* Left leg (back) */}
-      <ellipse cx="38" cy="100" rx="8" ry="25" fill={color} transform="rotate(-20 38 100)" />
-      {/* Right arm (back) */}
-      <ellipse cx="70" cy="55" rx="5" ry="18" fill={color} transform="rotate(-25 70 55)" />
-      {/* Left arm (forward) */}
-      <ellipse cx="30" cy="50" rx="5" ry="18" fill={color} transform="rotate(20 30 50)" />
+    <svg viewBox="0 0 120 200" className="h-40 w-auto">
+      {/* Cheveux longs */}
+      <ellipse cx="60" cy="28" rx="18" ry="22" fill={color} />
+      <ellipse cx="72" cy="35" rx="12" ry="18" fill={color} />
+      <ellipse cx="75" cy="55" rx="8" ry="20" fill={color} />
+      {/* Tête */}
+      <circle cx="60" cy="30" r="16" fill={color} />
+      {/* Cou */}
+      <ellipse cx="60" cy="50" rx="6" ry="8" fill={color} />
+      {/* Poitrine */}
+      <ellipse cx="52" cy="68" rx="12" ry="14" fill={color} />
+      <ellipse cx="68" cy="68" rx="12" ry="14" fill={color} />
+      {/* Torse */}
+      <ellipse cx="60" cy="85" rx="20" ry="22" fill={color} />
+      {/* Ventre rond */}
+      <ellipse cx="60" cy="105" rx="22" ry="18" fill={color} />
+      {/* Hanches larges */}
+      <ellipse cx="60" cy="122" rx="28" ry="16" fill={color} />
+      {/* Fesses */}
+      <ellipse cx="52" cy="130" rx="14" ry="12" fill={color} />
+      {/* Jambe droite (avant) - cuisse */}
+      <ellipse cx="72" cy="148" rx="14" ry="22" fill={color} transform="rotate(12 72 148)" />
+      {/* Jambe droite - mollet */}
+      <ellipse cx="78" cy="178" rx="8" ry="18" fill={color} transform="rotate(8 78 178)" />
+      {/* Jambe gauche (arrière) - cuisse */}
+      <ellipse cx="48" cy="145" rx="14" ry="22" fill={color} transform="rotate(-18 48 145)" />
+      {/* Jambe gauche - mollet */}
+      <ellipse cx="40" cy="172" rx="8" ry="18" fill={color} transform="rotate(-12 40 172)" />
+      {/* Bras droit (arrière) */}
+      <ellipse cx="85" cy="75" rx="7" ry="22" fill={color} transform="rotate(-20 85 75)" />
+      {/* Bras gauche (avant) */}
+      <ellipse cx="35" cy="70" rx="7" ry="22" fill={color} transform="rotate(15 35 70)" />
     </svg>
   );
   
   // Fast walking - frame 1
   const fastWalkFrame1 = (
-    <svg viewBox="0 0 100 150" className="h-36 w-auto">
-      <circle cx="50" cy="20" r="12" fill={color} />
-      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
-      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
-      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
-      {/* Dynamic legs - wider stride */}
-      <ellipse cx="32" cy="108" rx="8" ry="28" fill={color} transform="rotate(-25 32 108)" />
-      <ellipse cx="68" cy="98" rx="8" ry="28" fill={color} transform="rotate(30 68 98)" />
-      {/* Arms pumping more */}
-      <ellipse cx="25" cy="50" rx="5" ry="20" fill={color} transform="rotate(35 25 50)" />
-      <ellipse cx="75" cy="45" rx="5" ry="20" fill={color} transform="rotate(-30 75 45)" />
+    <svg viewBox="0 0 140 200" className="h-40 w-auto">
+      {/* Cheveux en mouvement */}
+      <ellipse cx="70" cy="28" rx="18" ry="22" fill={color} />
+      <ellipse cx="85" cy="32" rx="14" ry="20" fill={color} />
+      <ellipse cx="92" cy="50" rx="10" ry="22" fill={color} />
+      {/* Tête */}
+      <circle cx="70" cy="30" r="16" fill={color} />
+      {/* Cou */}
+      <ellipse cx="70" cy="50" rx="6" ry="8" fill={color} />
+      {/* Poitrine */}
+      <ellipse cx="62" cy="68" rx="12" ry="14" fill={color} />
+      <ellipse cx="78" cy="68" rx="12" ry="14" fill={color} />
+      {/* Torse */}
+      <ellipse cx="70" cy="85" rx="20" ry="22" fill={color} />
+      {/* Ventre */}
+      <ellipse cx="70" cy="105" rx="22" ry="18" fill={color} />
+      {/* Hanches */}
+      <ellipse cx="70" cy="122" rx="28" ry="16" fill={color} />
+      {/* Jambe gauche (grande foulée avant) */}
+      <ellipse cx="45" cy="150" rx="14" ry="26" fill={color} transform="rotate(-25 45 150)" />
+      <ellipse cx="32" cy="182" rx="8" ry="20" fill={color} transform="rotate(-15 32 182)" />
+      {/* Jambe droite (grande foulée arrière) */}
+      <ellipse cx="95" cy="145" rx="14" ry="26" fill={color} transform="rotate(30 95 145)" />
+      <ellipse cx="108" cy="175" rx="8" ry="20" fill={color} transform="rotate(20 108 175)" />
+      {/* Bras gauche (pump arrière) */}
+      <ellipse cx="40" cy="65" rx="7" ry="24" fill={color} transform="rotate(35 40 65)" />
+      {/* Bras droit (pump avant) */}
+      <ellipse cx="100" cy="60" rx="7" ry="24" fill={color} transform="rotate(-30 100 60)" />
     </svg>
   );
   
   // Fast walking - frame 2
   const fastWalkFrame2 = (
-    <svg viewBox="0 0 100 150" className="h-36 w-auto">
-      <circle cx="50" cy="20" r="12" fill={color} />
-      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
-      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
-      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
-      <ellipse cx="68" cy="108" rx="8" ry="28" fill={color} transform="rotate(25 68 108)" />
-      <ellipse cx="32" cy="98" rx="8" ry="28" fill={color} transform="rotate(-30 32 98)" />
-      <ellipse cx="75" cy="50" rx="5" ry="20" fill={color} transform="rotate(-35 75 50)" />
-      <ellipse cx="25" cy="45" rx="5" ry="20" fill={color} transform="rotate(30 25 45)" />
+    <svg viewBox="0 0 140 200" className="h-40 w-auto">
+      {/* Cheveux en mouvement */}
+      <ellipse cx="70" cy="28" rx="18" ry="22" fill={color} />
+      <ellipse cx="85" cy="32" rx="14" ry="20" fill={color} />
+      <ellipse cx="92" cy="50" rx="10" ry="22" fill={color} />
+      {/* Tête */}
+      <circle cx="70" cy="30" r="16" fill={color} />
+      {/* Cou */}
+      <ellipse cx="70" cy="50" rx="6" ry="8" fill={color} />
+      {/* Poitrine */}
+      <ellipse cx="62" cy="68" rx="12" ry="14" fill={color} />
+      <ellipse cx="78" cy="68" rx="12" ry="14" fill={color} />
+      {/* Torse */}
+      <ellipse cx="70" cy="85" rx="20" ry="22" fill={color} />
+      {/* Ventre */}
+      <ellipse cx="70" cy="105" rx="22" ry="18" fill={color} />
+      {/* Hanches */}
+      <ellipse cx="70" cy="122" rx="28" ry="16" fill={color} />
+      {/* Jambe droite (grande foulée avant) */}
+      <ellipse cx="95" cy="150" rx="14" ry="26" fill={color} transform="rotate(25 95 150)" />
+      <ellipse cx="108" cy="182" rx="8" ry="20" fill={color} transform="rotate(15 108 182)" />
+      {/* Jambe gauche (grande foulée arrière) */}
+      <ellipse cx="45" cy="145" rx="14" ry="26" fill={color} transform="rotate(-30 45 145)" />
+      <ellipse cx="32" cy="175" rx="8" ry="20" fill={color} transform="rotate(-20 32 175)" />
+      {/* Bras droit (pump arrière) */}
+      <ellipse cx="100" cy="65" rx="7" ry="24" fill={color} transform="rotate(-35 100 65)" />
+      {/* Bras gauche (pump avant) */}
+      <ellipse cx="40" cy="60" rx="7" ry="24" fill={color} transform="rotate(30 40 60)" />
     </svg>
   );
   
-  // Squat - standing
+  // Squat - standing position
   const squatUp = (
-    <svg viewBox="0 0 100 150" className="h-36 w-auto">
-      <circle cx="50" cy="20" r="12" fill={color} />
-      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
-      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
-      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
-      {/* Straight legs */}
-      <ellipse cx="40" cy="110" rx="9" ry="30" fill={color} />
-      <ellipse cx="60" cy="110" rx="9" ry="30" fill={color} />
-      {/* Arms forward */}
-      <ellipse cx="25" cy="55" rx="5" ry="18" fill={color} transform="rotate(-70 25 55)" />
-      <ellipse cx="75" cy="55" rx="5" ry="18" fill={color} transform="rotate(70 75 55)" />
+    <svg viewBox="0 0 120 200" className="h-40 w-auto">
+      {/* Cheveux */}
+      <ellipse cx="60" cy="25" rx="18" ry="20" fill={color} />
+      <ellipse cx="72" cy="32" rx="12" ry="18" fill={color} />
+      <ellipse cx="75" cy="50" rx="8" ry="18" fill={color} />
+      {/* Tête */}
+      <circle cx="60" cy="28" r="16" fill={color} />
+      {/* Cou */}
+      <ellipse cx="60" cy="48" rx="6" ry="8" fill={color} />
+      {/* Poitrine */}
+      <ellipse cx="52" cy="66" rx="12" ry="14" fill={color} />
+      <ellipse cx="68" cy="66" rx="12" ry="14" fill={color} />
+      {/* Torse */}
+      <ellipse cx="60" cy="82" rx="20" ry="20" fill={color} />
+      {/* Ventre */}
+      <ellipse cx="60" cy="100" rx="22" ry="16" fill={color} />
+      {/* Hanches */}
+      <ellipse cx="60" cy="115" rx="28" ry="14" fill={color} />
+      {/* Jambes droites */}
+      <ellipse cx="45" cy="148" rx="14" ry="30" fill={color} />
+      <ellipse cx="45" cy="182" rx="8" ry="18" fill={color} />
+      <ellipse cx="75" cy="148" rx="14" ry="30" fill={color} />
+      <ellipse cx="75" cy="182" rx="8" ry="18" fill={color} />
+      {/* Bras tendus devant */}
+      <ellipse cx="25" cy="72" rx="6" ry="25" fill={color} transform="rotate(-75 25 72)" />
+      <ellipse cx="95" cy="72" rx="6" ry="25" fill={color} transform="rotate(75 95 72)" />
     </svg>
   );
   
   // Squat - down position
   const squatDown = (
-    <svg viewBox="0 0 100 150" className="h-36 w-auto">
-      <circle cx="50" cy="35" r="12" fill={color} />
-      <ellipse cx="58" cy="30" rx="8" ry="5" fill={color} />
-      <ellipse cx="50" cy="65" rx="18" ry="22" fill={color} />
-      <ellipse cx="50" cy="85" rx="24" ry="14" fill={color} />
-      {/* Bent legs */}
-      <ellipse cx="30" cy="110" rx="10" ry="22" fill={color} transform="rotate(-30 30 110)" />
-      <ellipse cx="70" cy="110" rx="10" ry="22" fill={color} transform="rotate(30 70 110)" />
-      {/* Arms forward for balance */}
-      <ellipse cx="20" cy="65" rx="5" ry="18" fill={color} transform="rotate(-80 20 65)" />
-      <ellipse cx="80" cy="65" rx="5" ry="18" fill={color} transform="rotate(80 80 65)" />
+    <svg viewBox="0 0 130 180" className="h-40 w-auto">
+      {/* Cheveux */}
+      <ellipse cx="65" cy="22" rx="18" ry="20" fill={color} />
+      <ellipse cx="77" cy="28" rx="12" ry="18" fill={color} />
+      <ellipse cx="80" cy="45" rx="8" ry="16" fill={color} />
+      {/* Tête */}
+      <circle cx="65" cy="25" r="16" fill={color} />
+      {/* Cou */}
+      <ellipse cx="65" cy="44" rx="6" ry="7" fill={color} />
+      {/* Poitrine */}
+      <ellipse cx="57" cy="60" rx="12" ry="13" fill={color} />
+      <ellipse cx="73" cy="60" rx="12" ry="13" fill={color} />
+      {/* Torse penché */}
+      <ellipse cx="65" cy="75" rx="20" ry="18" fill={color} />
+      {/* Ventre */}
+      <ellipse cx="65" cy="92" rx="24" ry="16" fill={color} />
+      {/* Hanches écartées */}
+      <ellipse cx="65" cy="108" rx="32" ry="16" fill={color} />
+      {/* Cuisses pliées */}
+      <ellipse cx="38" cy="125" rx="16" ry="20" fill={color} transform="rotate(-40 38 125)" />
+      <ellipse cx="92" cy="125" rx="16" ry="20" fill={color} transform="rotate(40 92 125)" />
+      {/* Mollets */}
+      <ellipse cx="25" cy="155" rx="9" ry="18" fill={color} transform="rotate(-20 25 155)" />
+      <ellipse cx="105" cy="155" rx="9" ry="18" fill={color} transform="rotate(20 105 155)" />
+      {/* Bras tendus pour équilibre */}
+      <ellipse cx="15" cy="65" rx="6" ry="25" fill={color} transform="rotate(-85 15 65)" />
+      <ellipse cx="115" cy="65" rx="6" ry="25" fill={color} transform="rotate(85 115 65)" />
     </svg>
   );
   
-  // Rest - standing relaxed
+  // Rest - standing relaxed with hands on hips
   const restPose = (
-    <svg viewBox="0 0 100 150" className="h-36 w-auto">
-      <circle cx="50" cy="20" r="12" fill={color} />
-      <ellipse cx="58" cy="15" rx="8" ry="5" fill={color} />
-      <ellipse cx="50" cy="55" rx="18" ry="25" fill={color} />
-      <ellipse cx="50" cy="75" rx="22" ry="12" fill={color} />
-      {/* Relaxed legs */}
-      <ellipse cx="42" cy="110" rx="9" ry="28" fill={color} />
-      <ellipse cx="58" cy="110" rx="9" ry="28" fill={color} />
-      {/* Hands on hips */}
-      <ellipse cx="28" cy="70" rx="5" ry="12" fill={color} transform="rotate(-15 28 70)" />
+    <svg viewBox="0 0 120 200" className="h-40 w-auto">
+      {/* Cheveux */}
+      <ellipse cx="60" cy="25" rx="18" ry="20" fill={color} />
+      <ellipse cx="72" cy="32" rx="12" ry="18" fill={color} />
+      <ellipse cx="75" cy="50" rx="8" ry="18" fill={color} />
+      {/* Tête */}
+      <circle cx="60" cy="28" r="16" fill={color} />
+      {/* Cou */}
+      <ellipse cx="60" cy="48" rx="6" ry="8" fill={color} />
+      {/* Poitrine */}
+      <ellipse cx="52" cy="66" rx="12" ry="14" fill={color} />
+      <ellipse cx="68" cy="66" rx="12" ry="14" fill={color} />
+      {/* Torse */}
+      <ellipse cx="60" cy="82" rx="20" ry="20" fill={color} />
+      {/* Ventre */}
+      <ellipse cx="60" cy="100" rx="22" ry="16" fill={color} />
+      {/* Hanches */}
+      <ellipse cx="60" cy="115" rx="28" ry="14" fill={color} />
+      {/* Jambes détendues */}
+      <ellipse cx="48" cy="148" rx="14" ry="30" fill={color} />
+      <ellipse cx="48" cy="182" rx="8" ry="18" fill={color} />
+      <ellipse cx="72" cy="148" rx="14" ry="30" fill={color} />
+      <ellipse cx="72" cy="182" rx="8" ry="18" fill={color} />
+      {/* Mains sur les hanches */}
+      <ellipse cx="32" cy="95" rx="6" ry="16" fill={color} transform="rotate(-25 32 95)" />
+      <ellipse cx="88" cy="95" rx="6" ry="16" fill={color} transform="rotate(25 88 95)" />
+    </svg>
+  );
+  
+  const frames = {
+    walk: [walkFrame1, walkFrame2],
+    fast_walk: [fastWalkFrame1, fastWalkFrame2],
+    squat: [squatUp, squatDown],
+    rest: [restPose]
+  };
+  
+  const selectedFrames = frames[type] || frames.walk;
+  return selectedFrames[frame % selectedFrames.length];
+};
       <ellipse cx="72" cy="70" rx="5" ry="12" fill={color} transform="rotate(15 72 70)" />
     </svg>
   );
