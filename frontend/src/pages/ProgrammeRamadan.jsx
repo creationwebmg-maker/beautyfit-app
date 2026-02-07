@@ -476,12 +476,28 @@ function ProgrammeRamadan() {
       console.log('Wake lock not available:', err);
     }
     
-    // Feedback at start
-    if (feedbackMode === FEEDBACK_VIBRATION) {
-      vibrate([300, 100, 300]);
-    } else {
-      playBeep(1000, 300);
-    }
+    // Afficher l'alerte pour la première phase
+    const firstPhase = firstPhases[0];
+    const alertType = firstPhase[3] || "warmup";
+    
+    // Délai pour que l'alerte apparaisse après le changement de vue
+    setTimeout(() => {
+      setPhaseAlert({ 
+        message: firstPhase[0].toUpperCase(), 
+        emoji: alertType === "warmup" ? "🚶‍♀️" : "🔥", 
+        type: alertType 
+      });
+      
+      // Feedback at start
+      if (feedbackMode === FEEDBACK_VIBRATION) {
+        vibrate([300, 100, 300]);
+      } else {
+        playBeep(1000, 300);
+      }
+      
+      // Masquer après 2 secondes
+      setTimeout(() => setPhaseAlert(null), 2000);
+    }, 500);
     
     // Request motion permission for iOS
     if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
