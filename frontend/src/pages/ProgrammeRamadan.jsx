@@ -86,6 +86,7 @@ function ProgrammeRamadan() {
   const [checkingPurchase, setCheckingPurchase] = useState(true);
   const [isBackgroundMode, setIsBackgroundMode] = useState(false);
   const [animationFrame, setAnimationFrame] = useState(0);
+  const [phaseAlert, setPhaseAlert] = useState(null); // Pour afficher "Accélération!", "Récupération!", etc.
 
   const intervalRef = useRef(null);
   const audioContextRef = useRef(null);
