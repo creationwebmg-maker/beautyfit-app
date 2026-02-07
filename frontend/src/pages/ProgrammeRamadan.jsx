@@ -614,9 +614,7 @@ function ProgrammeRamadan() {
                   {(() => {
                     const silhouetteType = getSilhouetteType(currentPhase[0], currentPhase[2]);
                     return (
-                      <div style={{ filter: 'drop-shadow(0 4px 8px rgba(227, 126, 127, 0.3))' }}>
-                        <SilhouetteSVG type={silhouetteType} frame={animationFrame} />
-                      </div>
+                      <SilhouetteSVG type={silhouetteType} frame={animationFrame} />
                     );
                   })()}
                   {currentPhase[2] && !isPaused && (
