@@ -777,6 +777,26 @@ function ProgrammeRamadan() {
               </div>
             </div>
 
+            {/* Phase Change Alert - Alerte visuelle lors du changement de rythme */}
+            {phaseAlert && (
+              <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+                <div 
+                  className={`px-8 py-6 rounded-2xl shadow-2xl transform animate-bounce ${
+                    phaseAlert.type === 'acceleration' ? 'bg-gradient-to-r from-red-500 to-orange-500' :
+                    phaseAlert.type === 'recovery' ? 'bg-gradient-to-r from-green-500 to-teal-500' :
+                    phaseAlert.type === 'cooldown' ? 'bg-gradient-to-r from-blue-400 to-purple-500' :
+                    'bg-gradient-to-r from-pink-400 to-pink-600'
+                  }`}
+                  style={{ animation: 'pulse 0.5s ease-in-out infinite' }}
+                >
+                  <div className="text-center text-white">
+                    <span className="text-5xl block mb-2">{phaseAlert.emoji}</span>
+                    <span className="text-2xl font-bold block">{phaseAlert.message}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="flex flex-col items-center py-4">
               {/* Animated Silhouette */}
               {!sessionComplete && currentPhase && (
