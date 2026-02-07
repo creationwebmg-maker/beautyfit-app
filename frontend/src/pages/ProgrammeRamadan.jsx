@@ -30,321 +30,41 @@ import "./ProgrammeRamadan.css";
 const FEEDBACK_VIBRATION = "vibration";
 const FEEDBACK_SOUND = "sound";
 
-// Silhouette SVG components for different phases - truly transparent
-// Silhouette réaliste de femme en mouvement avec queue de cheval
+// Silhouette images for different phases - vraies silhouettes de femmes
+const SILHOUETTE_IMAGES = {
+  walk: [
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/7f044609d9a8a7a2f43fe92837b9dd113e9b780185d07d0fe45eaad00f9910c1.png",
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/1dedc06607a8236831f448af8f5a7a34807140a646e3e93cf84d1008299caa86.png"
+  ],
+  fast_walk: [
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/4ee17d5f5f531447187eeaeae845fffee277006ecbe414edfc8b129e32cdbe46.png",
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/1221149a6e463f252644fcd445e5022b39b5d49799775edf38f92ac64eb1cde3.png"
+  ],
+  squat: [
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/99aec5c674c4067917baa78ec3019a37da3890bc788979e10967c80f835e83fc.png",
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/2ebf17fc600751ca7bb62e557c8d31eb5a8dbf6e47efb1d8176a2e13c61e4457.png"
+  ],
+  rest: [
+    "https://static.prod-images.emergentagent.com/jobs/aff6c579-c28f-47ab-acc0-f090f9e93a85/images/d1e2226e52f1cee4dda382f1fe49d73f82df3d7221026ba44ed54266f23ec926.png"
+  ]
+};
+
+// Composant pour afficher les silhouettes
 const SilhouetteSVG = ({ type, frame }) => {
-  const color = "#E37E7F";
+  const images = SILHOUETTE_IMAGES[type] || SILHOUETTE_IMAGES.walk;
+  const currentImage = images[frame % images.length];
   
-  // Marche - frame 1
-  const walkFrame1 = (
-    <svg viewBox="0 0 100 150" className="h-44 w-auto">
-      <path d={`
-        M 55 8
-        C 65 8, 68 18, 65 25
-        C 62 32, 55 32, 52 28
-        C 48 24, 48 12, 55 8
-        M 62 12
-        C 70 8, 78 15, 75 28
-        C 73 38, 68 42, 65 38
-        M 54 30
-        L 54 38
-        C 54 40, 52 42, 50 44
-        C 42 48, 38 52, 40 60
-        C 42 68, 48 72, 52 70
-        C 56 68, 58 64, 56 58
-        L 58 52
-        C 60 56, 62 62, 60 70
-        C 58 78, 52 82, 50 88
-        C 48 94, 50 100, 52 98
-        L 56 44
-        C 58 48, 60 54, 58 62
-        C 56 70, 52 76, 54 82
-        L 58 46
-        L 62 52
-        C 68 58, 72 62, 70 68
-        C 68 74, 64 78, 62 82
-        M 48 70
-        C 44 76, 40 84, 38 92
-        C 36 100, 38 110, 42 118
-        C 44 124, 42 132, 38 140
-        L 42 142
-        C 46 142, 48 140, 46 134
-        C 44 128, 46 120, 50 112
-        C 54 104, 56 96, 54 88
-        M 56 72
-        C 60 80, 66 90, 68 100
-        C 70 110, 68 120, 64 130
-        C 62 136, 64 140, 68 142
-        L 72 140
-        C 70 136, 68 130, 70 122
-        C 72 114, 70 104, 66 94
-        M 36 52
-        C 30 56, 26 64, 28 72
-        C 30 78, 34 80, 36 76
-        M 64 50
-        C 72 48, 78 52, 76 60
-        C 74 66, 70 68, 68 64
-      `} fill={color} />
-    </svg>
+  return (
+    <img 
+      src={currentImage} 
+      alt="Exercice"
+      className="h-44 w-auto object-contain"
+      style={{ 
+        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+        maxWidth: '160px'
+      }}
+    />
   );
-  
-  // Marche - frame 2
-  const walkFrame2 = (
-    <svg viewBox="0 0 100 150" className="h-44 w-auto">
-      <path d={`
-        M 55 8
-        C 65 8, 68 18, 65 25
-        C 62 32, 55 32, 52 28
-        C 48 24, 48 12, 55 8
-        M 62 12
-        C 70 8, 78 15, 75 28
-        C 73 38, 68 42, 65 38
-        M 54 30
-        L 54 38
-        C 54 40, 52 42, 50 44
-        C 42 48, 38 52, 40 60
-        C 42 68, 48 72, 52 70
-        C 56 68, 58 64, 56 58
-        L 58 52
-        C 60 56, 62 62, 60 70
-        C 58 78, 52 82, 50 88
-        M 56 72
-        C 52 80, 46 90, 44 100
-        C 42 110, 44 120, 48 130
-        C 50 136, 48 140, 44 142
-        L 40 140
-        C 42 136, 44 130, 42 122
-        C 40 114, 42 104, 46 94
-        M 48 70
-        C 52 78, 58 88, 62 98
-        C 66 108, 64 118, 60 128
-        C 58 134, 60 140, 64 142
-        L 68 140
-        C 66 136, 64 130, 66 122
-        C 68 114, 66 104, 62 94
-        M 64 52
-        C 70 48, 76 52, 74 60
-        C 72 66, 68 68, 66 64
-        M 36 50
-        C 28 52, 24 58, 26 66
-        C 28 72, 32 74, 34 70
-      `} fill={color} />
-    </svg>
-  );
-  
-  // Marche rapide - frame 1 (grande foulée)
-  const fastWalkFrame1 = (
-    <svg viewBox="0 0 120 150" className="h-44 w-auto">
-      <path d={`
-        M 60 6
-        C 70 6, 74 16, 70 24
-        C 66 32, 58 32, 54 26
-        C 50 20, 52 10, 60 6
-        M 68 10
-        C 80 4, 92 12, 88 28
-        C 85 40, 78 48, 72 42
-        M 58 28
-        L 56 36
-        C 54 42, 50 46, 48 52
-        C 44 60, 46 68, 52 72
-        C 58 76, 64 72, 62 64
-        C 60 58, 56 54, 58 48
-        L 62 44
-        C 66 50, 68 58, 64 68
-        C 60 78, 54 84, 56 92
-        M 44 74
-        C 36 82, 28 94, 24 108
-        C 22 118, 26 128, 32 136
-        C 36 142, 32 146, 26 146
-        L 22 144
-        C 26 140, 30 134, 28 126
-        C 26 118, 30 108, 36 98
-        M 62 76
-        C 72 84, 84 94, 92 106
-        C 98 116, 96 126, 90 134
-        C 86 140, 90 144, 96 144
-        L 100 142
-        C 96 138, 92 132, 94 124
-        C 96 116, 92 106, 84 96
-        M 32 48
-        C 22 46, 16 52, 20 62
-        C 24 70, 32 72, 36 66
-        M 72 44
-        C 82 40, 90 46, 86 58
-        C 82 68, 74 72, 70 66
-      `} fill={color} />
-    </svg>
-  );
-  
-  // Marche rapide - frame 2
-  const fastWalkFrame2 = (
-    <svg viewBox="0 0 120 150" className="h-44 w-auto">
-      <path d={`
-        M 60 6
-        C 70 6, 74 16, 70 24
-        C 66 32, 58 32, 54 26
-        C 50 20, 52 10, 60 6
-        M 68 10
-        C 80 4, 92 12, 88 28
-        C 85 40, 78 48, 72 42
-        M 58 28
-        L 56 36
-        C 54 42, 50 46, 48 52
-        C 44 60, 46 68, 52 72
-        C 58 76, 64 72, 62 64
-        C 60 58, 56 54, 58 48
-        L 62 44
-        C 66 50, 68 58, 64 68
-        M 62 74
-        C 70 82, 82 92, 90 104
-        C 96 114, 94 124, 88 132
-        C 84 138, 88 142, 94 142
-        L 98 140
-        C 94 136, 90 130, 92 122
-        C 94 114, 90 104, 82 94
-        M 44 76
-        C 36 84, 24 96, 18 110
-        C 14 122, 18 132, 26 138
-        C 32 142, 28 146, 22 146
-        L 18 144
-        C 22 140, 26 134, 24 126
-        C 22 118, 26 106, 34 96
-        M 72 48
-        C 82 44, 90 50, 86 62
-        C 82 72, 74 74, 70 68
-        M 32 44
-        C 22 46, 16 54, 20 64
-        C 24 72, 32 74, 36 68
-      `} fill={color} />
-    </svg>
-  );
-  
-  // Squat debout
-  const squatUp = (
-    <svg viewBox="0 0 100 150" className="h-44 w-auto">
-      <path d={`
-        M 50 8
-        C 60 8, 64 18, 60 26
-        C 56 34, 48 34, 44 28
-        C 40 22, 42 12, 50 8
-        M 58 12
-        C 68 8, 76 16, 72 30
-        C 69 42, 62 46, 58 40
-        M 48 32
-        L 48 40
-        C 46 46, 42 50, 40 56
-        C 36 64, 38 74, 46 78
-        C 54 82, 62 78, 60 68
-        C 58 60, 52 54, 54 46
-        M 38 80
-        C 36 90, 36 102, 38 114
-        C 40 126, 38 136, 34 144
-        L 40 146
-        C 44 144, 44 136, 42 124
-        C 40 112, 42 100, 44 90
-        M 58 80
-        C 60 90, 60 102, 58 114
-        C 56 126, 58 136, 62 144
-        L 56 146
-        C 52 144, 52 136, 54 124
-        C 56 112, 54 100, 52 90
-        M 28 52
-        C 18 48, 10 56, 16 68
-        C 22 78, 32 78, 34 70
-        M 68 52
-        C 78 48, 86 56, 80 68
-        C 74 78, 64 78, 62 70
-      `} fill={color} />
-    </svg>
-  );
-  
-  // Squat position basse
-  const squatDown = (
-    <svg viewBox="0 0 120 130" className="h-44 w-auto">
-      <path d={`
-        M 60 8
-        C 70 8, 74 18, 70 26
-        C 66 34, 58 34, 54 28
-        C 50 22, 52 12, 60 8
-        M 68 12
-        C 78 8, 86 16, 82 30
-        C 79 42, 72 46, 68 40
-        M 58 32
-        L 56 40
-        C 54 46, 50 50, 48 56
-        C 44 64, 46 72, 52 76
-        C 58 80, 66 78, 66 70
-        C 66 64, 60 58, 60 52
-        M 42 78
-        C 32 82, 22 88, 16 98
-        C 12 106, 16 114, 24 118
-        L 18 122
-        C 12 122, 8 118, 12 110
-        C 16 102, 24 94, 34 88
-        M 72 78
-        C 82 82, 92 88, 98 98
-        C 102 106, 98 114, 90 118
-        L 96 122
-        C 102 122, 106 118, 102 110
-        C 98 102, 90 94, 80 88
-        M 20 54
-        C 6 50, -2 60, 6 72
-        L 28 70
-        M 94 54
-        C 108 50, 116 60, 108 72
-        L 86 70
-      `} fill={color} />
-    </svg>
-  );
-  
-  // Repos - mains sur hanches
-  const restPose = (
-    <svg viewBox="0 0 100 150" className="h-44 w-auto">
-      <path d={`
-        M 50 8
-        C 60 8, 64 18, 60 26
-        C 56 34, 48 34, 44 28
-        C 40 22, 42 12, 50 8
-        M 58 12
-        C 68 8, 76 16, 72 30
-        C 69 42, 62 46, 58 40
-        M 48 32
-        L 48 40
-        C 46 46, 42 50, 40 56
-        C 36 64, 38 74, 46 78
-        C 54 82, 62 78, 60 68
-        C 58 60, 52 54, 54 46
-        M 40 80
-        C 38 92, 40 106, 42 118
-        C 44 130, 42 140, 38 146
-        L 44 148
-        C 48 146, 48 136, 46 124
-        C 44 112, 46 98, 48 88
-        M 56 80
-        C 58 92, 56 106, 54 118
-        C 52 130, 54 140, 58 146
-        L 52 148
-        C 48 146, 48 136, 50 124
-        C 52 112, 50 98, 48 88
-        M 32 56
-        C 28 62, 30 72, 36 76
-        L 40 74
-        M 64 56
-        C 68 62, 66 72, 60 76
-        L 56 74
-      `} fill={color} />
-    </svg>
-  );
-  
-  const frames = {
-    walk: [walkFrame1, walkFrame2],
-    fast_walk: [fastWalkFrame1, fastWalkFrame2],
-    squat: [squatUp, squatDown],
-    rest: [restPose]
-  };
-  
-  const selectedFrames = frames[type] || frames.walk;
-  return selectedFrames[frame % selectedFrames.length];
 };
 
 function ProgrammeRamadan() {
