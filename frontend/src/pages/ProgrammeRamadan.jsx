@@ -429,8 +429,8 @@ function ProgrammeRamadan() {
       const now = Date.now();
       const timeSinceLastStep = now - lastStepTimeRef.current;
       
-      // Minimum 250ms between steps to avoid double counting
-      if (totalDelta > stepThreshold && timeSinceLastStep > 250) {
+      // Minimum interval between steps to avoid double counting
+      if (totalDelta > stepThreshold && timeSinceLastStep > minStepInterval) {
         lastStepTimeRef.current = now;
         setStepCount(prev => prev + 1);
         
@@ -445,6 +445,9 @@ function ProgrammeRamadan() {
         } else {
           playStepSound(isFastPhase);
         }
+        
+        // Log pour debug
+        console.log(`Pas détecté! Total: ${totalDelta.toFixed(2)}, Threshold: ${stepThreshold}`);
       }
     };
 
@@ -453,7 +456,7 @@ function ProgrammeRamadan() {
     return () => {
       window.removeEventListener('devicemotion', handleMotion);
     };
-  }, [isRunning, isPaused, sessionComplete, motionPermission, viewMode, selectedWeekId, selectedSeanceId, currentPhaseIndex, feedbackMode, getPhases, vibrateStep, playStepSound]);
+  }, [isRunning, isPaused, sessionComplete, motionPermission, viewMode, selectedWeekId, selectedSeanceId, currentPhaseIndex, feedbackMode, getPhases, vibrateStep, playStepSound, minStepInterval]);
 
   // Timer logic
   useEffect(function timerEffect() {
