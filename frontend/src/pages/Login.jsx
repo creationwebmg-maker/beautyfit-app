@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { Eye, EyeOff, ArrowLeft, Loader2, User } from "lucide-react";
+import platformService from "@/services/PlatformService";
+import appleSignInService from "@/services/AppleSignInService";
+import { api } from "@/lib/utils";
 
 const Login = () => {
   const navigate = useNavigate();
