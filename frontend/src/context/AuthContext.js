@@ -178,6 +178,8 @@ export const AuthProvider = ({ children }) => {
     loginAsGuest,
     logout,
     updateUser,
+    setToken,
+    setUser,
     isAuthenticated: !!token || isGuest,
   };
 
