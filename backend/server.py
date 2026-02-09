@@ -475,6 +475,111 @@ async def google_auth(request: GoogleAuthRequest):
     
     return TokenResponse(access_token=token, user=user_response)
 
+@api_router.post("/auth/apple", response_model=TokenResponse)
+async def apple_auth(request: AppleAuthRequest):
+    """Handle Sign in with Apple authentication"""
+    import requests
+    from jwt.algorithms import RSAAlgorithm
+    from cryptography.hazmat.primitives import serialization
+    
+    try:
+        # Decode the identity token header to get the key ID
+        unverified_header = jwt.get_unverified_header(request.identity_token)
+        kid = unverified_header.get("kid")
+        
+        if not kid:
+            raise HTTPException(status_code=401, detail="Invalid token: missing key ID")
+        
+        # Fetch Apple's public keys
+        apple_keys_response = requests.get("https://appleid.apple.com/auth/keys")
+        apple_keys = apple_keys_response.json()
+        
+        # Find the correct public key
+        public_key_info = None
+        for key in apple_keys.get("keys", []):
+            if key.get("kid") == kid:
+                public_key_info = key
+                break
+        
+        if not public_key_info:
+            raise HTTPException(status_code=401, detail="Unable to find matching public key")
+        
+        # Convert JWK to PEM format
+        public_key = RSAAlgorithm.from_jwk(json.dumps(public_key_info))
+        public_key_pem = public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        )
+        
+        # Decode and verify the token
+        decoded_token = jwt.decode(
+            request.identity_token,
+            public_key_pem,
+            algorithms=["RS256"],
+            audience="com.beautyfit.amel"
+        )
+        
+        # Extract user info from token
+        apple_user_id = decoded_token.get("sub")
+        user_email = request.email or decoded_token.get("email")
+        
+        if not apple_user_id:
+            raise HTTPException(status_code=400, detail="Invalid token: missing user identifier")
+        
+        # Check if user exists by Apple ID or email
+        existing_user = await db.users.find_one(
+            {"$or": [{"apple_user_id": apple_user_id}, {"email": user_email}]},
+            {"_id": 0}
+        )
+        
+        if existing_user:
+            # Update existing user with Apple info
+            await db.users.update_one(
+                {"id": existing_user["id"]},
+                {"$set": {
+                    "apple_user_id": apple_user_id,
+                    "last_login": datetime.now(timezone.utc).isoformat()
+                }}
+            )
+            user = existing_user
+        else:
+            # Create new user from Apple auth
+            user_id = f"user_{uuid.uuid4().hex[:12]}"
+            first_name = request.given_name or "Utilisateur"
+            
+            user = {
+                "id": user_id,
+                "email": user_email,
+                "first_name": first_name,
+                "apple_user_id": apple_user_id,
+                "auth_provider": "apple",
+                "created_at": datetime.now(timezone.utc).isoformat()
+            }
+            await db.users.insert_one(user)
+            if "_id" in user:
+                del user["_id"]
+        
+        # Create token
+        token = create_token(user["id"], user["email"])
+        
+        user_response = UserResponse(
+            id=user["id"],
+            email=user["email"],
+            first_name=user["first_name"],
+            fitness_goal=user.get("fitness_goal"),
+            created_at=user["created_at"]
+        )
+        
+        return TokenResponse(access_token=token, user=user_response)
+        
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token has expired")
+    except jwt.InvalidTokenError as e:
+        raise HTTPException(status_code=401, detail=f"Invalid token: {str(e)}")
+    except Exception as e:
+        logger.error(f"Apple auth error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Authentication failed: {str(e)}")
+
 @api_router.post("/auth/forgot-password")
 async def forgot_password(request: ForgotPasswordRequest):
     user = await db.users.find_one({"email": request.email})
