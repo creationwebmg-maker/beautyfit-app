@@ -58,6 +58,43 @@ const Login = () => {
     loginWithGoogle();
   };
 
+  const handleAppleLogin = async () => {
+    setAppleLoading(true);
+    try {
+      const result = await appleSignInService.signIn();
+      
+      if (result.success && result.data) {
+        // Send to backend for verification
+        const response = await api.post("/auth/apple", {
+          identity_token: result.data.identityToken,
+          authorization_code: result.data.authorizationCode,
+          email: result.data.email,
+          given_name: result.data.givenName,
+          family_name: result.data.familyName
+        });
+        
+        if (response.access_token) {
+          // Store token and user data
+          localStorage.setItem("token", response.access_token);
+          localStorage.setItem("user", JSON.stringify(response.user));
+          setToken(response.access_token);
+          setUser(response.user);
+          toast.success("Connexion réussie !");
+          navigate("/dashboard");
+        }
+      } else if (result.error === 'cancelled') {
+        // User cancelled, don't show error
+      } else {
+        toast.error(result.error || "Erreur lors de la connexion Apple");
+      }
+    } catch (error) {
+      console.error("Apple login error:", error);
+      toast.error("Erreur lors de la connexion Apple");
+    } finally {
+      setAppleLoading(false);
+    }
+  };
+
   const handleGuestLogin = () => {
     loginAsGuest();
     toast.success("Bienvenue en mode invité !");
