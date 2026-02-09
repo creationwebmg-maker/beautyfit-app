@@ -13,15 +13,27 @@ import { api } from "@/lib/utils";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, loginWithGoogle, loginAsGuest } = useAuth();
+  const { login, loginWithGoogle, loginAsGuest, setToken, setUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [appleLoading, setAppleLoading] = useState(false);
+  const [showAppleSignIn, setShowAppleSignIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  // Check if Apple Sign In should be shown (iOS devices)
+  useEffect(() => {
+    const init = async () => {
+      await platformService.initialize();
+      // Show Apple Sign In on iOS devices
+      setShowAppleSignIn(platformService.isIOS() || platformService.isNativeApp());
+    };
+    init();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
