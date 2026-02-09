@@ -170,65 +170,103 @@ const ProgrammeCheckout = () => {
           </CardContent>
         </Card>
 
-        {/* Payment Methods */}
-        <Card className="border-0 shadow-md" style={{ background: 'white' }}>
-          <CardContent className="p-6">
-            <h3 className="font-semibold mb-4 flex items-center gap-2" style={{ color: '#333' }}>
-              <CreditCard className="w-5 h-5" style={{ color: '#E37E7F' }} />
-              Modes de paiement acceptés
-            </h3>
-            
-            {/* Carte bancaire */}
-            <div className="p-4 rounded-xl border-2 mb-3" style={{ borderColor: '#E37E7F', background: '#FEF7F7' }}>
-              <div className="flex items-center gap-3">
-                <div className="flex gap-2">
-                  <div className="w-10 h-7 rounded bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center">
-                    <span className="text-white text-[10px] font-bold">VISA</span>
+        {/* Payment Methods - Only show Stripe options if not on native iOS */}
+        {paymentMethod !== "apple_iap" && (
+          <Card className="border-0 shadow-md" style={{ background: 'white' }}>
+            <CardContent className="p-6">
+              <h3 className="font-semibold mb-4 flex items-center gap-2" style={{ color: '#333' }}>
+                <CreditCard className="w-5 h-5" style={{ color: '#E37E7F' }} />
+                Modes de paiement acceptés
+              </h3>
+              
+              {/* Carte bancaire */}
+              <div className="p-4 rounded-xl border-2 mb-3" style={{ borderColor: '#E37E7F', background: '#FEF7F7' }}>
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-2">
+                    <div className="w-10 h-7 rounded bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center">
+                      <span className="text-white text-[10px] font-bold">VISA</span>
+                    </div>
+                    <div className="w-10 h-7 rounded bg-gradient-to-r from-red-500 to-yellow-500 flex items-center justify-center">
+                      <span className="text-white text-[10px] font-bold">MC</span>
+                    </div>
                   </div>
-                  <div className="w-10 h-7 rounded bg-gradient-to-r from-red-500 to-yellow-500 flex items-center justify-center">
-                    <span className="text-white text-[10px] font-bold">MC</span>
+                  <div className="flex-1">
+                    <p className="font-medium text-sm" style={{ color: '#333' }}>Carte bancaire</p>
+                    <p className="text-xs" style={{ color: '#666' }}>Visa, Mastercard, CB</p>
                   </div>
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium text-sm" style={{ color: '#333' }}>Carte bancaire</p>
-                  <p className="text-xs" style={{ color: '#666' }}>Visa, Mastercard, CB</p>
-                </div>
-                <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
-                  <Check className="w-3 h-3 text-white" />
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
+                    <Check className="w-3 h-3 text-white" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Apple Pay / Google Pay via Link */}
-            <div className="p-4 rounded-xl border-2 mb-4" style={{ borderColor: '#E5E5E5', background: 'white' }}>
-              <div className="flex items-center gap-3">
-                <div className="flex gap-2">
-                  <div className="w-10 h-7 rounded bg-black flex items-center justify-center">
-                    <span className="text-white text-[10px] font-bold"> Pay</span>
+              {/* Apple Pay / Google Pay via Link */}
+              <div className="p-4 rounded-xl border-2 mb-4" style={{ borderColor: '#E5E5E5', background: 'white' }}>
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-2">
+                    <div className="w-10 h-7 rounded bg-black flex items-center justify-center">
+                      <span className="text-white text-[10px] font-bold"> Pay</span>
+                    </div>
+                    <div className="w-10 h-7 rounded bg-white border flex items-center justify-center">
+                      <span className="text-[10px] font-bold">G Pay</span>
+                    </div>
                   </div>
-                  <div className="w-10 h-7 rounded bg-white border flex items-center justify-center">
-                    <span className="text-[10px] font-bold">G Pay</span>
+                  <div className="flex-1">
+                    <p className="font-medium text-sm" style={{ color: '#333' }}>Apple Pay / Google Pay</p>
+                    <p className="text-xs" style={{ color: '#666' }}>Paiement rapide et sécurisé</p>
                   </div>
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium text-sm" style={{ color: '#333' }}>Apple Pay / Google Pay</p>
-                  <p className="text-xs" style={{ color: '#666' }}>Paiement rapide et sécurisé</p>
-                </div>
-                <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
-                  <Check className="w-3 h-3 text-white" />
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
+                    <Check className="w-3 h-3 text-white" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Security Notice */}
-            <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: '#F0FDF4' }}>
-              <ShieldCheck className="w-5 h-5 text-green-600" />
-              <p className="text-sm text-green-700">
-                Paiement 100% sécurisé par Stripe
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+              {/* Security Notice */}
+              <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: '#F0FDF4' }}>
+                <ShieldCheck className="w-5 h-5 text-green-600" />
+                <p className="text-sm text-green-700">
+                  Paiement 100% sécurisé par Stripe
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Apple In-App Purchase info - shown on native iOS */}
+        {paymentMethod === "apple_iap" && (
+          <Card className="border-0 shadow-md" style={{ background: 'white' }}>
+            <CardContent className="p-6">
+              <h3 className="font-semibold mb-4 flex items-center gap-2" style={{ color: '#333' }}>
+                <Smartphone className="w-5 h-5" style={{ color: '#E37E7F' }} />
+                Achat intégré Apple
+              </h3>
+              
+              <div className="p-4 rounded-xl border-2 mb-4" style={{ borderColor: '#E37E7F', background: '#FEF7F7' }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded bg-black flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium" style={{ color: '#333' }}>Achat via App Store</p>
+                    <p className="text-xs" style={{ color: '#666' }}>Paiement sécurisé par Apple</p>
+                  </div>
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#E37E7F' }}>
+                    <Check className="w-3 h-3 text-white" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: '#F0FDF4' }}>
+                <ShieldCheck className="w-5 h-5 text-green-600" />
+                <p className="text-sm text-green-700">
+                  Paiement 100% sécurisé par Apple
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Not Authenticated Message */}
         {(!isAuthenticated || isGuest) && (
