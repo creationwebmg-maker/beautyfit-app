@@ -181,6 +181,13 @@ class GoogleAuthRequest(BaseModel):
     picture: Optional[str] = None
     session_token: str
 
+class AppleAuthRequest(BaseModel):
+    identity_token: str
+    authorization_code: Optional[str] = None
+    email: Optional[str] = None
+    given_name: Optional[str] = None
+    family_name: Optional[str] = None
+
 # ==================== CALORIE TRACKER MODELS ====================
 
 class CalorieAnalysisRequest(BaseModel):
