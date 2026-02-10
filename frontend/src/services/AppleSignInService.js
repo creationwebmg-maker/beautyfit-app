@@ -3,7 +3,6 @@
  * Handles Sign in with Apple authentication for iOS
  */
 
-import { SignInWithApple } from '@capacitor-community/apple-sign-in';
 import platformService from './PlatformService';
 
 class AppleSignInService {
@@ -15,43 +14,47 @@ class AppleSignInService {
    * Check if Sign in with Apple is available
    */
   isAvailable() {
-    // Sign in with Apple is available on iOS 13+ and web
+    // Sign in with Apple is available on iOS 13+
     return platformService.isIOS() || platformService.isNativeApp();
   }
 
   /**
-   * Perform Sign in with Apple
+   * Perform Sign in with Apple using native API
    * @returns {Promise<{success: boolean, data?: object, error?: string}>}
    */
   async signIn() {
     try {
-      const options = {
-        clientId: 'com.beautyfit.amel',
-        redirectURI: window.location.origin + '/auth/apple/callback',
-        scopes: 'email name',
-        state: this.generateState(),
-        nonce: this.generateNonce()
-      };
-
-      const result = await SignInWithApple.authorize(options);
-      
-      if (result.response) {
-        return {
-          success: true,
-          data: {
-            identityToken: result.response.identityToken,
-            authorizationCode: result.response.authorizationCode,
-            user: result.response.user,
-            email: result.response.email,
-            givenName: result.response.givenName,
-            familyName: result.response.familyName
+      // Check if we're in a Capacitor environment
+      if (window.Capacitor && window.Capacitor.Plugins) {
+        // Use native Sign in with Apple if available
+        const { SignInWithApple } = window.Capacitor.Plugins;
+        
+        if (SignInWithApple) {
+          const result = await SignInWithApple.authorize({
+            clientId: 'com.beautyfit.amel',
+            redirectURI: window.location.origin + '/auth/apple/callback',
+            scopes: 'email name'
+          });
+          
+          if (result.response) {
+            return {
+              success: true,
+              data: {
+                identityToken: result.response.identityToken,
+                authorizationCode: result.response.authorizationCode,
+                user: result.response.user,
+                email: result.response.email,
+                givenName: result.response.givenName,
+                familyName: result.response.familyName
+              }
+            };
           }
-        };
+        }
       }
-
+      
       return {
         success: false,
-        error: 'No response from Apple Sign In'
+        error: 'Sign in with Apple not available'
       };
     } catch (error) {
       console.error('Apple Sign In error:', error);
@@ -69,22 +72,6 @@ class AppleSignInService {
         error: error.message || 'Apple Sign In failed'
       };
     }
-  }
-
-  /**
-   * Generate random state for CSRF protection
-   */
-  generateState() {
-    return Math.random().toString(36).substring(2, 15) + 
-           Math.random().toString(36).substring(2, 15);
-  }
-
-  /**
-   * Generate random nonce for replay protection
-   */
-  generateNonce() {
-    return Math.random().toString(36).substring(2, 15) + 
-           Math.random().toString(36).substring(2, 15);
   }
 }
 
