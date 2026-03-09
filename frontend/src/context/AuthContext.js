@@ -82,55 +82,6 @@ export const AuthProvider = ({ children }) => {
     return response;
   };
 
-  // Login with Google OAuth via Emergent
-  const loginWithGoogle = () => {
-    // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
-    const redirectUrl = window.location.origin + '/auth/callback';
-    window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
-  };
-
-  // Process Google OAuth callback
-  const processGoogleAuth = async (sessionId) => {
-    try {
-      const response = await fetch('https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data', {
-        headers: { 'X-Session-ID': sessionId }
-      });
-      
-      if (!response.ok) throw new Error('Failed to get session data');
-      
-      const data = await response.json();
-      
-      // Save to our backend
-      const backendUrl = process.env.REACT_APP_BACKEND_URL;
-      const saveResponse = await fetch(`${backendUrl}/api/auth/google`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: data.email,
-          name: data.name,
-          picture: data.picture,
-          session_token: data.session_token
-        })
-      });
-      
-      if (!saveResponse.ok) throw new Error('Failed to save user');
-      
-      const userData = await saveResponse.json();
-      
-      setToken(userData.access_token);
-      setUser(userData.user);
-      setIsGuest(false);
-      localStorage.setItem("amel_fit_token", userData.access_token);
-      localStorage.setItem("amel_fit_user", JSON.stringify(userData.user));
-      localStorage.removeItem("amel_fit_guest");
-      
-      return userData;
-    } catch (error) {
-      console.error('Google auth error:', error);
-      throw error;
-    }
-  };
-
   // Guest login
   const loginAsGuest = () => {
     const guestUser = {
@@ -173,8 +124,6 @@ export const AuthProvider = ({ children }) => {
     isGuest,
     login,
     register,
-    loginWithGoogle,
-    processGoogleAuth,
     loginAsGuest,
     logout,
     updateUser,

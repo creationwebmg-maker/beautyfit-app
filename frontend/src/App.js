@@ -41,9 +41,6 @@ import CalorieProfile from "@/pages/CalorieProfile";
 // Programme Checkout
 import ProgrammeCheckout from "@/pages/ProgrammeCheckout";
 
-// Auth Callback
-import AuthCallback from "@/pages/AuthCallback";
-
 // Admin Panel
 import AdminPanel from "@/pages/AdminPanel";
 
@@ -90,9 +87,6 @@ function AppRoutes() {
     <Routes>
       {/* Splash Screen */}
       <Route path="/" element={<SplashScreen />} />
-      
-      {/* Auth Callback for Google OAuth */}
-      <Route path="/auth/callback" element={<AuthCallback />} />
       
       {/* Public Routes */}
       <Route path="/home" element={<Dashboard />} />

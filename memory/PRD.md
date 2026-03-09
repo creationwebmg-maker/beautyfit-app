@@ -10,13 +10,13 @@ Application de sport "Beautyfit By Amel" pour accompagner les utilisateurs dans 
 
 ## ✅ FONCTIONNALITÉS IMPLÉMENTÉES
 
-### Authentification
-- Inscription/Connexion par email
-- Connexion Google (Emergent Auth)
+### Authentification (Mise à jour 09/03/2026)
+- Inscription/Connexion par email uniquement
 - Mode invité
 - Récupération de mot de passe (via Resend)
 - Option "Rester connectée"
 - Messages d'erreur en français
+- **SUPPRIMÉ**: Connexion Google et Apple (à la demande de l'utilisateur)
 
 ### Programme Ramadan Interactif (22€)
 - Programme de 4 semaines de marche
