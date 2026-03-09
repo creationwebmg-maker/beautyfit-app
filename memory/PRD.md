@@ -74,10 +74,20 @@ Application de sport "Beautyfit By Amel" pour accompagner les utilisateurs dans 
 - Logo Beautyfit intégré partout
 - Liens légaux sur pages login/register
 
+### Page Conseils (Mise à jour 09/03/2026) ✅
+- 4 catégories : Ramadan, Entraînement, Nutrition, Bien-être
+- 8 conseils Ramadan spécifiques (timing, hydratation, iftar, suhoor, sommeil, intensité)
+- 6 conseils nutrition détaillés
+- 6 conseils bien-être détaillés  
+- 6 conseils entraînement détaillés
+- Cartes interactives (cliquer pour plus de détails)
+- Motivation du jour aléatoire (10 citations)
+- Les 5 règles d'or en résumé visuel
+
 ## 🔄 BACKLOG
 
 ### P0 - En attente utilisateur
-- ⏳ **Vérification DNS Resend**: Les emails ne sont pas envoyés car le domaine beautyfitbyamel.fr n'est pas encore vérifié sur Resend. L'utilisateur doit attendre la propagation DNS.
+- ⏳ **Vérification DNS Resend**: Les emails ne sont pas envoyés car le domaine beautyfitbyamel.fr n'est pas encore vérifié sur Resend. Guide disponible: `/app/frontend/DNS_RESEND_GUIDE.md`
 
 ### P1 - Validation Apple Server-to-Server
 - L'IAP fonctionne en "trust mode" (suffisant pour TestFlight)
@@ -86,9 +96,6 @@ Application de sport "Beautyfit By Amel" pour accompagner les utilisateurs dans 
 ### P2 - Notifications Push
 - Simulation actuelle via setTimeout
 - À remplacer par Firebase Cloud Messaging
-
-### P2 - Page Conseils
-- Structure créée, contenu à ajouter
 
 ## Architecture Technique
 
